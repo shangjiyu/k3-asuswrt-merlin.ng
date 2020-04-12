@@ -1,0 +1,51 @@
+From 9d0b65acd515f493262583a0fa95271b686c5c04 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Tue, 16 Feb 2021 12:34:23 +0800
+Subject: [PATCH 102/122] iptables: add flag to use fullconenat feature.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/iptables-1.4.x/Makefile.am  | 4 ++++
+ release/src/router/iptables-1.4.x/configure.ac | 4 ++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/release/src/router/iptables-1.4.x/Makefile.am b/release/src/router/iptables-1.4.x/Makefile.am
+index bc7e3eaa98..0315b0efe6 100644
+--- a/release/src/router/iptables-1.4.x/Makefile.am
++++ b/release/src/router/iptables-1.4.x/Makefile.am
+@@ -18,6 +18,10 @@ SUBDIRS         += extensions
+ # Depends on extensions/libext.a:
+ SUBDIRS         += iptables
+ 
++if BCM_KF_NETFILTER
++CFLAGS          += -DBCM_KF_NETFILTER
++endif
++
+ .PHONY: tarball
+ tarball:
+ 	rm -Rf /tmp/${PACKAGE_TARNAME}-${PACKAGE_VERSION};
+diff --git a/release/src/router/iptables-1.4.x/configure.ac b/release/src/router/iptables-1.4.x/configure.ac
+index 5afb39b82d..82e615d7bd 100644
+--- a/release/src/router/iptables-1.4.x/configure.ac
++++ b/release/src/router/iptables-1.4.x/configure.ac
+@@ -76,6 +76,9 @@ fi;
+ if test "$ac_cv_header_linux_ip_vs_h" != "yes"; then
+ 	blacklist_modules="$blacklist_modules ipvs";
+ fi;
++if [[ `grep -c "CONFIG_BCM_KF_NETFILTER=" $LINUXDIR/.config` -ne 0 ]]; then
++	bcm_kf_netfilter="yes";
++fi;
+ 
+ AC_SUBST([blacklist_modules])
+ AC_CHECK_SIZEOF([struct ip6_hdr], [], [#include <netinet/ip6.h>])
+@@ -87,6 +90,7 @@ AM_CONDITIONAL([ENABLE_IPV6], [test "$enable_ipv6" = "yes"])
+ AM_CONDITIONAL([ENABLE_LARGEFILE], [test "$enable_largefile" = "yes"])
+ AM_CONDITIONAL([ENABLE_DEVEL], [test "$enable_devel" = "yes"])
+ AM_CONDITIONAL([ENABLE_LIBIPQ], [test "$enable_libipq" = "yes"])
++AM_CONDITIONAL([BCM_KF_NETFILTER], [test "$bcm_kf_netfilter" = "yes"])
+ 
+ #PKG_CHECK_MODULES([libnfnetlink], [libnfnetlink >= 1.0],
+ #	[nfnetlink=1], [nfnetlink=0])
+-- 
+2.25.1
+

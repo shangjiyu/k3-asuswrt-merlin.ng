@@ -1,0 +1,57 @@
+From 0aca8c822d543c43a3600a53660b11c6ab303243 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Tue, 14 Apr 2020 21:37:24 +0800
+Subject: [PATCH 009/122] =?UTF-8?q?dlna:=E8=BD=AF=E9=93=BE=E6=8E=A5?=
+ =?UTF-8?q?=E7=BC=BA=E5=B0=91=E7=9A=84=E5=9B=BE=E7=89=87=20=20=20symlink?=
+ =?UTF-8?q?=20missing=20picture=20to=20AC3100?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/rom/dlna/icon_lrg.rt-k3.jpg | 1 +
+ release/src/router/rom/dlna/icon_lrg.rt-k3.png | 1 +
+ release/src/router/rom/dlna/icon_sm.rt-k3.jpg  | 1 +
+ release/src/router/rom/dlna/icon_sm.rt-k3.png  | 1 +
+ 4 files changed, 4 insertions(+)
+ create mode 120000 release/src/router/rom/dlna/icon_lrg.rt-k3.jpg
+ create mode 120000 release/src/router/rom/dlna/icon_lrg.rt-k3.png
+ create mode 120000 release/src/router/rom/dlna/icon_sm.rt-k3.jpg
+ create mode 120000 release/src/router/rom/dlna/icon_sm.rt-k3.png
+
+diff --git a/release/src/router/rom/dlna/icon_lrg.rt-k3.jpg b/release/src/router/rom/dlna/icon_lrg.rt-k3.jpg
+new file mode 120000
+index 0000000000..93a5b33b8b
+--- /dev/null
++++ b/release/src/router/rom/dlna/icon_lrg.rt-k3.jpg
+@@ -0,0 +1 @@
++icon_lrg.rt-ac3100.jpg
+\ No newline at end of file
+diff --git a/release/src/router/rom/dlna/icon_lrg.rt-k3.png b/release/src/router/rom/dlna/icon_lrg.rt-k3.png
+new file mode 120000
+index 0000000000..1f638396b5
+--- /dev/null
++++ b/release/src/router/rom/dlna/icon_lrg.rt-k3.png
+@@ -0,0 +1 @@
++icon_lrg.rt-ac3100.png
+\ No newline at end of file
+diff --git a/release/src/router/rom/dlna/icon_sm.rt-k3.jpg b/release/src/router/rom/dlna/icon_sm.rt-k3.jpg
+new file mode 120000
+index 0000000000..a86efa9f66
+--- /dev/null
++++ b/release/src/router/rom/dlna/icon_sm.rt-k3.jpg
+@@ -0,0 +1 @@
++icon_sm.rt-ac3100.jpg
+\ No newline at end of file
+diff --git a/release/src/router/rom/dlna/icon_sm.rt-k3.png b/release/src/router/rom/dlna/icon_sm.rt-k3.png
+new file mode 120000
+index 0000000000..568eec6fd1
+--- /dev/null
++++ b/release/src/router/rom/dlna/icon_sm.rt-k3.png
+@@ -0,0 +1 @@
++icon_sm.rt-ac3100.png
+\ No newline at end of file
+-- 
+2.25.1
+

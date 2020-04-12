@@ -1,0 +1,77 @@
+From cce590b5454923f1b9f2bdf114182ca5ab32e73a Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Tue, 16 Feb 2021 12:38:48 +0800
+Subject: [PATCH 103/122] www: translate nat type in CN,TW.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/www/Advanced_WAN_Content.asp | 6 +++---
+ release/src/router/www/CN.dict                  | 3 +++
+ release/src/router/www/EN.dict                  | 3 +++
+ release/src/router/www/TW.dict                  | 3 +++
+ 4 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/release/src/router/www/Advanced_WAN_Content.asp b/release/src/router/www/Advanced_WAN_Content.asp
+index 6bb20782ea..f99ab097f2 100644
+--- a/release/src/router/www/Advanced_WAN_Content.asp
++++ b/release/src/router/www/Advanced_WAN_Content.asp
+@@ -1561,11 +1561,11 @@ function change_nat(state) {
+ 							</tr>
+ 
+ 							<tr id="nat_type_tr" style="display:none;">
+-								<th>NAT Type</th>
++								<th><#NAT_Type#></th>
+ 								<td>
+ 									<select name="nat_type" class="input_option">
+-										<option value="0" <% nvram_match("nat_type", "0", "selected"); %>>Symmetric</option>
+-										<option value="1" <% nvram_match("nat_type", "1", "selected"); %>>Fullcone</option>
++										<option value="0" <% nvram_match("nat_type", "0", "selected"); %>><#Symmetric#></option>
++										<option value="1" <% nvram_match("nat_type", "1", "selected"); %>><#Fullcone#></option>
+ 									</select>
+ 								</td>
+ 							</tr>
+diff --git a/release/src/router/www/CN.dict b/release/src/router/www/CN.dict
+index 44bb2cedc3..da6a5c2686 100644
+--- a/release/src/router/www/CN.dict
++++ b/release/src/router/www/CN.dict
+@@ -1817,6 +1817,9 @@ Empty=空白
+ enable_dmz=启动 DMZ
+ enable_macmode=启动 MAC 地址过滤
+ Enable_NAT=启动 NAT
++NAT_Type=NAT 类型
++Symmetric=对称型
++Fullcone=全锥型
+ Enable_redirect_notice=开启 WAN 中断的浏览器导页通知
+ Enable_redirect_notice_desc=这个功能允许浏览器在网络断开后，转到一个断线警告页面；如果关闭，页面将不再出现。
+ Enable_reboot_scheduler=启动定时重启
+diff --git a/release/src/router/www/EN.dict b/release/src/router/www/EN.dict
+index c75ddbcc11..551f9c1671 100644
+--- a/release/src/router/www/EN.dict
++++ b/release/src/router/www/EN.dict
+@@ -1817,6 +1817,9 @@ Empty=Empty
+ enable_dmz=Enable DMZ
+ enable_macmode=Enable MAC Filter
+ Enable_NAT=Enable NAT
++NAT_Type=NAT Type
++Symmetric=Symmetric
++Fullcone=Fullcone
+ Enable_redirect_notice=Enable WAN down browser redirect notice
+ Enable_redirect_notice_desc=This feature allows browser to redirect to failed connection warning page when Internet is down, if disabled warning page would not appear.
+ Enable_reboot_scheduler=Enable Reboot Scheduler
+diff --git a/release/src/router/www/TW.dict b/release/src/router/www/TW.dict
+index ba4ae033bc..ad8ad472cf 100644
+--- a/release/src/router/www/TW.dict
++++ b/release/src/router/www/TW.dict
+@@ -1817,6 +1817,9 @@ Empty=空白
+ enable_dmz=啟動 DMZ
+ enable_macmode=啟動 MAC 位址過濾
+ Enable_NAT=啟動 NAT
++NAT_Type=NAT 類型
++Symmetric=對稱型
++Fullcone=全錐型
+ Enable_redirect_notice=開啟 WAN 中斷的瀏覽器導頁通知
+ Enable_redirect_notice_desc=這個功能允許瀏覽器在網路中斷後，轉到一個斷線通知頁面；如果關閉，頁面將不再出現。
+ Enable_reboot_scheduler=啟動定時自動重開機
+-- 
+2.25.1
+

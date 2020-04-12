@@ -1,0 +1,73 @@
+From c8ae99f44744b70df9b03fa7bc3c92fb46c1cf1b Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Tue, 28 Apr 2020 23:03:51 +0800
+Subject: [PATCH 010/122] makefile: add k3screenctrl for K3
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/.gitignore |  4 ++++
+ release/src/router/Makefile   | 22 ++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
+
+diff --git a/release/src/router/.gitignore b/release/src/router/.gitignore
+index f2775e2ec8..a7bbbf69f9 100755
+--- a/release/src/router/.gitignore
++++ b/release/src/router/.gitignore
+@@ -35,3 +35,7 @@ stamp-h1
+ extendno.conf
+ hnd_shared
+ 
++#
++# k3
++#
++k3screenctrl
+diff --git a/release/src/router/Makefile b/release/src/router/Makefile
+index 633b0620d9..ef5462f877 100644
+--- a/release/src/router/Makefile
++++ b/release/src/router/Makefile
+@@ -886,6 +886,9 @@ obj-y += rc
+ obj-y += rom
+ obj-y += others
+ obj-y += libpasswd
++ifeq ($(RTK3),y)
++obj-y += k3screenctrl
++endif
+ obj-y += httpd json-c
+ obj-$(RTCONFIG_VISUALIZATION) += sqlite3 json-c libxml2 visdcoll visdcon
+ obj-y += www
+@@ -2568,6 +2571,9 @@ roldconf: config/conf
+ 	$(MAKE) shared-clean libdisk-clean rc-clean nvram$(BCMEX)$(EX7)-clean httpd-clean prebuilt-clean libbcmcrypto-clean
+ #	@$(MAKE) iptables-clean ebtables-clean pppd-clean zebra-clean openssl-clean mssl-clean pppd-clean
+ 	$(MAKE) dnsmasq-clean iproute2-clean networkmap-clean
++ifeq ($(RTK3),y)
++	$(MAKE) k3screenctrl-clean
++endif
+ ifeq ($(RTCONFIG_BCMARM),y)
+ 	$(MAKE) compressed-clean
+ endif
+@@ -3580,6 +3586,22 @@ iptables-1.4.x-clean:
+ 	[ ! -f iptables-1.4.x/Makefile ] || $(MAKE) -C iptables-1.4.x KERNEL_DIR=$(LINUX_INC_DIR) distclean
+ 	@rm -f iptables-1.4.x/Makefile
+ 
++k3screenctrl/Makefile:
++	cd k3screenctrl && autoreconf -i -f && CC=$(CC) STRIP=$(STRIP) \
++		$(CONFIGURE) --target=arm-linux --host=arm-linux --build=x86_64-linux-gnu --prefix=""
++
++k3screenctrl: k3screenctrl/Makefile
++	$(MAKE) -C $@ && $(MAKE) $@-stage
++
++k3screenctrl-clean:
++	[ ! -f k3screenctrl/Makefile ] || $(MAKE) -C k3screenctrl -f Makefile distclean
++
++k3screenctrl-install: k3screenctrl
++	install -D k3screenctrl/src/k3screenctrl $(INSTALLDIR)/k3screenctrl/usr/sbin/k3screenctrl
++	install -D k3screenctrl/src/k3screenbg $(INSTALLDIR)/k3screenctrl/usr/sbin/k3screenbg
++	$(STRIP) $(INSTALLDIR)/k3screenctrl/usr/sbin/k3screenctrl
++	$(STRIP) $(INSTALLDIR)/k3screenctrl/usr/sbin/k3screenbg
++
+ miniupnpd/config.h: shared/version.h
+ ifeq ($(RTCONFIG_IGD2),y)
+ 	cd miniupnpd && ./configure --vendorcfg --leasefile $(if $(RTCONFIG_IPV6),--ipv6,) --igd2 --portinuse $(if $(RTCONFIG_AURASYNC),--aurasync,) $(if $(RTCONFIG_GEFORCENOW),--nvgfn) --iptablespath=$(TOP)/$(IPTABLES)
+-- 
+2.25.1
+

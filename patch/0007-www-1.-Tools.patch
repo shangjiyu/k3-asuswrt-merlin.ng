@@ -1,0 +1,1129 @@
+From 93b2f945161d13c19715ad985fc40b3d556841ea Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Tue, 14 Apr 2020 21:30:11 +0800
+Subject: [PATCH 007/122] =?UTF-8?q?www:1.=E6=B7=BB=E5=8A=A0Tools=E9=A1=B5?=
+ =?UTF-8?q?=E9=9D=A2=E7=9A=84=E4=B8=AD=E6=96=87=E5=AD=97=E5=85=B8=EF=BC=88?=
+ =?UTF-8?q?=E5=8C=85=E6=8B=AC=E7=B3=BB=E7=BB=9F=E4=BF=A1=E6=81=AF=E5=92=8C?=
+ =?UTF-8?q?=E5=85=B6=E5=AE=83=E8=AE=BE=E7=BD=AE=EF=BC=89=20=20=20=20=20Add?=
+ =?UTF-8?q?=20CN=20&=20TW=20dict=20of=20tools=20tabs=20-=20include=20sysin?=
+ =?UTF-8?q?fo=20and=20other=20settings.=20=20=20=20=202.=E4=BF=AE=E6=AD=A3?=
+ =?UTF-8?q?=E7=B3=BB=E7=BB=9F=E4=BF=A1=E6=81=AF=E9=87=8CK3=E7=9A=84?=
+ =?UTF-8?q?=E7=AB=AF=E5=8F=A3=E4=BF=A1=E6=81=AF=20=20=20=20=20Fix=20K3=20p?=
+ =?UTF-8?q?ort=20in=20System=20infomation.?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/rc/init.c                  |   7 +
+ release/src/router/rc/k3.c                    |   7 +
+ release/src/router/rc/k3.h                    |   1 +
+ release/src/router/www/CN.dict                |  92 +++++++++-
+ release/src/router/www/EN.dict                |  90 ++++++++++
+ release/src/router/www/TW.dict                |  90 ++++++++++
+ .../src/router/www/Tools_OtherSettings.asp    | 106 ++++++------
+ release/src/router/www/Tools_Sysinfo.asp      | 160 ++++++++++--------
+ .../menuTree_bwdpi_traffic_analyzer.js        |   6 +-
+ 9 files changed, 429 insertions(+), 130 deletions(-)
+
+diff --git a/release/src/router/rc/init.c b/release/src/router/rc/init.c
+index dfcbb1dc03..ec3c06c8f7 100644
+--- a/release/src/router/rc/init.c
++++ b/release/src/router/rc/init.c
+@@ -75,6 +75,10 @@
+ #include <sys/statfs.h>
+ #endif
+ 
++#ifdef RTK3
++#include "k3.h"
++#endif
++
+ #define SHELL "/bin/sh"
+ #define LOGIN "/bin/login"
+ 
+@@ -11234,6 +11238,9 @@ int init_nvram(void)
+ #endif
+ 	case MODEL_RTAC88U:
+ 	case MODEL_RTAC3100:
++#ifdef RTK3
++		k3_init();
++#endif
+ 		ldo_patch();
+ 
+ 		set_tcode_misc();
+diff --git a/release/src/router/rc/k3.c b/release/src/router/rc/k3.c
+index e1800d0d16..eaa667f042 100644
+--- a/release/src/router/rc/k3.c
++++ b/release/src/router/rc/k3.c
+@@ -28,6 +28,13 @@
+ #include <auth_common.h>
+ #include "k3.h"
+ 
++void k3_init()
++{
++	if (!nvram_get("modelname"))
++		nvram_set("modelname", "K3");
++	nvram_commit();
++}
++
+ int GetPhyStatusk3(int verbose)
+ {
+ 	int port[] = { 3, 1, 0, 2 };
+diff --git a/release/src/router/rc/k3.h b/release/src/router/rc/k3.h
+index f07c0688d6..e85ec4d091 100644
+--- a/release/src/router/rc/k3.h
++++ b/release/src/router/rc/k3.h
+@@ -17,4 +17,5 @@
+  *
+  */
+ 
++extern void k3_init(void);
+ extern int GetPhyStatusk3(int verbose);
+diff --git a/release/src/router/www/CN.dict b/release/src/router/www/CN.dict
+index 707e2fc406..32a9d899a9 100644
+--- a/release/src/router/www/CN.dict
++++ b/release/src/router/www/CN.dict
+@@ -2630,7 +2630,7 @@ Netstatnat_sort_dst_port=按目的地端口排序
+ Netstatnat_sort_src=按源排序
+ Netstatnat_sort_src_port=按源端口排序
+ Netstatnat_sort_state=按状态排序
+-Network=网路
++Network=网络
+ Network_Analysis=网络诊断
+ Network_Monitoring=网络监控
+ Network_Printer_desc=网络打印机服务器支持两种共享方式：（1）华硕 EZ 打印机共享（2）LPR 共享打印机。
+@@ -3979,3 +3979,93 @@ Elink_Gateway_Sync=与智能网关无线配置同步
+ Instant_Guard_desc=Instant Guard 允许您通过 ASUS Router app 一键创建 VPN 隧道。您可以使用 Instant Guard app 监视谁连接到您的 VPN Server。
+ Powerline=电源线
+ Powerline_Mode=电源线模式
++Tools=工具箱
++Sysinfo=系统信息
++Other_Settings=其它设置
++System_Information=系统信息
++Router=路由器
++Model=型号
++Firmware_Version=固件版本
++Firmware_Build=固件编译日期
++Bootloader_(CFE)=引导加载程序 (CFE)
++Quantenna_Firmware=宽腾达芯片固件
++Driver_version=驱动版本
++Features=功能特性
++Temperatures=温度
++CPU_Model=CPU型号
++CPU_Frequency=CPU频率
++CPU_Load_Average=CPU平均负载(1, 5, 15分钟)
++Memory=内存
++Sysinfo_Total=总量
++Free=空闲
++Buffers=缓冲区
++Cache=缓存
++Swap=交换区
++Internal_Storage=内部存储器
++NVRAM_usage=NVRAM已用
++JFFS=JFFS分区
++HW_acceleration=硬件加速
++(by_user)=(被用户关闭)
++incompatible_with=与以下功能不兼容
++IPTraffic=IP流量统计
++QoS=QoS
++Repeater_mode=中继模式
++USB_modem=USB调制解调器
++Sysinfo_Connections=连接数
++active=活跃
++Ethernet_Ports=以太网端口
++Note_Realtek_ports=注意: Realtek端口不能获取所有信息.
++Wireless_Clients_(2.4GHz)=无线客户端 (2.4 GHz)
++Wireless_clients_(5GHz)=无线客户端 (5 GHz)
++Wireless_Clients_(5GHz-1)=无线客户端 (5 GHz-1)
++Wireless_Clients_(5GHz-2)=无线客户端 (5 GHz-2)
++No_swap_configured=没有配置交换区
++Port=端口
++VLAN=VLAN
++Link_State=链接状态
++Last_Device_Seen=最后发现的设备
++Unplugged=未插入
++Full_Duplex=全双工
++Half_Duplex=半双工
++none=无
++Associated=已关联
++Authorized=已授权
++Authenticated=已认证
++unknown=未知
++HW_Enabled=启用
++HW_Disabled=禁用
++Traffic_Monitoring=网络流量监控
++Traffic_history_location=流量历史存储位置
++rsloc_RAM=内存 (默认)
++rsloc_Custom=自定义位置
++rsloc_NVRAM=NVRAM存储器
++rsloc_invalid=启用IP流量监控后不能使用NVRAM存储器!
++Save_frequency=存储频率
++stime_1h=每 1 小时
++stime_6h=每 6 小时
++stime_12h=每 12 小时
++stime_1d=每 1 天
++stime_3d=每 3 天
++stime_1w=每 1 周
++Save_history_location=历史存储路径
++saveloc_note=目录必须以'/'结尾.
++path_Select=选择
++Create_or_reset_data_files=新建或重置数据文件
++newloc_note=在指定新路径后启用
++Starting_day_of_monthly_cycle=每月周期的开始日期
++Enable_IPTraffic=启用IP流量监控 (每个IP单独监控)
++Create_or_reset_IPTraffic=新建或重置IP流量数据文件
++Monitor_all_IPs=默认监控所有IP
++List_of_IPs_to_monitor=要监控的IP列表 (用逗号分隔)
++List_of_IPs_to_exclude=要排除的IP列表 (用逗号分隔)
++TCP/IP_settings=TCP/IP 设置
++TCP_connections_limit=TCP连接数限制
++note_Default=默认
++TCP_Timeout=TCP超时
++UDP_Timeout=UDP超时
++Advanced_Tweaks_and_Hacks=高级调整设置
++Memory_Management=内存管理: 定期刷新缓存
++Firewall_Drop_broadcasts=防火墙: 丢弃IPv6邻居请求广播
++Wan_Use_local=Wan: 使用本地缓存DNS服务器作为系统解析器
++Disable_Asusnat_tunnel=禁用Asusnat隧道
++dhcpd_send_return=DHCPD: 发送空WPAD并附带回车
+diff --git a/release/src/router/www/EN.dict b/release/src/router/www/EN.dict
+index 13bcc3125a..790697fb84 100644
+--- a/release/src/router/www/EN.dict
++++ b/release/src/router/www/EN.dict
+@@ -3979,3 +3979,93 @@ Elink_Gateway_Sync=Synchronize wireless configuration with smart gateway
+ Instant_Guard_desc=Instant Guard allows you to create a VPN tunnel with just one click via the ASUS Router app. You can monitor who's connected to your VPN Server with Instant Guard app.
+ Powerline=Powerline
+ Powerline_Mode=Powerline Mode
++Tools=Tools
++Sysinfo=Sysinfo
++Other_Settings=Other Settings
++System_Information=System Information
++Router=Router
++Model=Model
++Firmware_Version=Firmware Version
++Firmware_Build=Firmware Build
++Bootloader_(CFE)=Bootloader (CFE)
++Quantenna_Firmware=Quantenna Firmware
++Driver_version=Driver version
++Features=Features
++Temperatures=Temperatures
++CPU_Model=CPU Model
++CPU_Frequency=CPU Frequency
++CPU_Load_Average=CPU Load Average (1, 5, 15 mins)
++Memory=Memory
++Sysinfo_Total=Total
++Free=Free
++Buffers=Buffers
++Cache=Cache
++Swap=Swap
++Internal_Storage=Internal Storage
++NVRAM_usage=NVRAM usage
++JFFS=JFFS
++HW_acceleration=HW acceleration
++(by_user)=(by_user)
++incompatible_with=incompatible_with
++IPTraffic=IPTraffic
++QoS=QoS
++Repeater_mode=Repeater mode
++USB_modem=USB modem
++Sysinfo_Connections=Connections
++active=active
++Ethernet_Ports=Ethernet Ports
++Note_Realtek_ports=Note: not all information can be retrieved for Realtek ports.
++Wireless_Clients_(2.4GHz)=Wireless Clients (2.4 GHz)
++Wireless_clients_(5GHz)=Wireless Clients (5 GHz)
++Wireless_Clients_(5GHz-1)=Wireless Clients (5 GHz-1)
++Wireless_Clients_(5GHz-2)=Wireless Clients (5 GHz-2)
++No_swap_configured=No swap configured
++Port=Port
++VLAN=VLAN
++Link_State=Link State
++Last_Device_Seen=Last Device Seen
++Unplugged=Unplugged
++Full_Duplex=Full Duplex
++Half_Duplex=Half Duplex
++none=none
++Associated=Associated
++Authorized=Authorized
++Authenticated=Authenticated
++unknown=unknown
++HW_Enabled=Enabled
++HW_Disabled=Disabled
++Traffic_Monitoring=Traffic Monitoring
++Traffic_history_location=Traffic history location
++rsloc_RAM=RAM (Default)
++rsloc_Custom=Custom location
++rsloc_NVRAM=NVRAM
++rsloc_invalid=Cannot use NVRAM if IPTraffic is enabled!
++Save_frequency=Save frequency
++stime_1h=Every 1 hour
++stime_6h=Every 6 hours
++stime_12h=Every 12 hours
++stime_1d=Every 1 day
++stime_3d=Every 3 days
++stime_1w=Every 1 week
++Save_history_location=Save history location
++saveloc_note=Directory must end with a '/'.
++path_Select=Select
++Create_or_reset_data_files=Create or reset data files
++newloc_note=Enable if using a new location
++Starting_day_of_monthly_cycle=Starting day of monthly cycle
++Enable_IPTraffic=Enable IPTraffic (per IP monitoring)
++Create_or_reset_IPTraffic=Create or reset IPTraffic data files
++Monitor_all_IPs=Monitor all IPs by default
++List_of_IPs_to_monitor=List of IPs to monitor (comma-separated)
++List_of_IPs_to_exclude=List of IPs to exclude (comma-separated)
++TCP/IP_settings=TCP/IP settings
++TCP_connections_limit=TCP connections limit
++note_Default=Default
++TCP_Timeout=TCP Timeout
++UDP_Timeout=UDP Timeout
++Advanced_Tweaks_and_Hacks=Advanced Tweaks and Hacks
++Memory_Management=Memory Management: Regularly flush caches
++Firewall_Drop_broadcasts=Firewall: Drop IPv6 neighbour solicitation broadcasts
++Wan_Use_local=Wan: Use local caching DNS server as system resolver
++Disable_Asusnat_tunnel=Disable Asusnat tunnel
++dhcpd_send_return=dhcpd: send empty WPAD with a carriage return
+diff --git a/release/src/router/www/TW.dict b/release/src/router/www/TW.dict
+index 1819a8632e..63967e0afe 100644
+--- a/release/src/router/www/TW.dict
++++ b/release/src/router/www/TW.dict
+@@ -3979,3 +3979,93 @@ Elink_Gateway_Sync=與智能網關無線配置同步
+ Instant_Guard_desc=Instant Guard 允許您透過 ASUS Router 應用程式一鍵建立 VPN 通道。您可以使用 Instant Guard 應用程式監控誰連接到您的 VPN 伺服器。
+ Powerline=電力線
+ Powerline_Mode=電力線模式
++Tools=工具箱
++Sysinfo=系統信息
++Other_Settings=其它設置
++System_Information=系統信息
++Router=路由器
++Model=型號
++Firmware_Version=固件版本
++Firmware_Build=固件編譯日期
++Bootloader_(CFE)=引導加載程序 (CFE)
++Quantenna_Firmware=寬騰達芯片固件
++Driver_version=驅動版本
++Features=功能特性
++Temperatures=溫度
++CPU_Model=CPU型號
++CPU_Frequency=CPU頻率
++CPU_Load_Average=CPU平均負載(1, 5, 15分鐘)
++Memory=內存
++Sysinfo_Total=總量
++Free=空閑
++Buffers=緩沖區
++Cache=緩存
++Swap=交換區
++Internal_Storage=內部存儲器
++NVRAM_usage=NVRAM已用
++JFFS=JFFS分區
++HW_acceleration=硬件加速
++(by_user)=(被用戶關閉)
++incompatible_with=與以下功能不兼容
++IPTraffic=IP流量統計
++QoS=QoS
++Repeater_mode=中繼模式
++USB_modem=USB調制解調器
++Sysinfo_Connections=連接數
++active=活躍
++Ethernet_Ports=以太網端口
++Note_Realtek_ports=註意: Realtek端口不能獲取所有信息.
++Wireless_Clients_(2.4GHz)=無線客戶端 (2.4 GHz)
++Wireless_clients_(5GHz)=無線客戶端 (5 GHz)
++Wireless_Clients_(5GHz-1)=無線客戶端 (5 GHz-1)
++Wireless_Clients_(5GHz-2)=無線客戶端 (5 GHz-2)
++No_swap_configured=沒有配置交換區
++Port=端口
++VLAN=VLAN
++Link_State=鏈接狀態
++Last_Device_Seen=最後發現的設備
++Unplugged=未插入
++Full_Duplex=全雙工
++Half_Duplex=半雙工
++none=無
++Associated=已關聯
++Authorized=已授權
++Authenticated=已認證
++unknown=未知
++HW_Enabled=啟用
++HW_Disabled=禁用
++Traffic_Monitoring=網絡流量監控
++Traffic_history_location=流量歷史存儲位置
++rsloc_RAM=內存 (默認)
++rsloc_Custom=自定義位置
++rsloc_NVRAM=NVRAM存儲器
++rsloc_invalid=啟用IP流量監控後不能使用NVRAM存儲器!
++Save_frequency=存儲頻率
++stime_1h=每 1 小時
++stime_6h=每 6 小時
++stime_12h=每 12 小時
++stime_1d=每 1 天
++stime_3d=每 3 天
++stime_1w=每 1 周
++Save_history_location=歷史存儲路徑
++saveloc_note=目錄必須以'/'結尾.
++path_Select=選擇
++Create_or_reset_data_files=新建或重置數據文件
++newloc_note=在指定新路徑後啟用
++Starting_day_of_monthly_cycle=每月周期的開始日期
++Enable_IPTraffic=啟用IP流量監控 (每個IP單獨監控)
++Create_or_reset_IPTraffic=新建或重置IP流量數據文件
++Monitor_all_IPs=默認監控所有IP
++List_of_IPs_to_monitor=要監控的IP列表 (用逗號分隔)
++List_of_IPs_to_exclude=要排除的IP列表 (用逗號分隔)
++TCP/IP_settings=TCP/IP 設置
++TCP_connections_limit=TCP連接數限制
++note_Default=默認
++TCP_Timeout=TCP超時
++UDP_Timeout=UDP超時
++Advanced_Tweaks_and_Hacks=高級調整設置
++Memory_Management=內存管理: 定期刷新緩存
++Firewall_Drop_broadcasts=防火墻: 丟棄IPv6鄰居請求廣播
++Wan_Use_local=Wan: 使用本地緩存DNS服務器作為系統解析器
++Disable_Asusnat_tunnel=禁用Asusnat隧道
++dhcpd_send_return=DHCPD: 發送空WPAD並附帶回車
+diff --git a/release/src/router/www/Tools_OtherSettings.asp b/release/src/router/www/Tools_OtherSettings.asp
+index e7c53a6e2b..889b5f1591 100644
+--- a/release/src/router/www/Tools_OtherSettings.asp
++++ b/release/src/router/www/Tools_OtherSettings.asp
+@@ -8,7 +8,7 @@
+ <meta HTTP-EQUIV="Expires" CONTENT="-1">
+ <link rel="shortcut icon" href="images/favicon.png">
+ <link rel="icon" href="images/favicon.png">
+-<title><#Web_Title#> - Other Settings</title>
++<title><#Web_Title#> - <#Other_Settings#></title>
+ <link rel="stylesheet" type="text/css" href="index_style.css">
+ <link rel="stylesheet" type="text/css" href="form_style.css">
+ 
+@@ -95,7 +95,7 @@ function initial() {
+ 	}
+ 
+ 	if ((machine_name.search("arm") != -1) || hnd_support) {
+-		document.getElementById("ct_established_default").innerHTML = "Default: 2400";
++		document.getElementById("ct_established_default").innerHTML = "<#note_Default#>: 2400";
+ 		if (!hnd_support) showhide("memory_mgmt_tr" ,1);
+ 	}
+ 
+@@ -672,84 +672,84 @@ function done_validating(action){
+                 <tr bgcolor="#4D595D">
+                 <td valign="top">
+ 			<div>&nbsp;</div>
+-			<div class="formfonttitle">Tools - Other Settings</div>
++			<div class="formfonttitle"><#Tools#> - <#Other_Settings#></div>
+ 			<div style="margin:10px 0 10px 5px;" class="splitLine"></div>
+ 				<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+ 					<thead>
+ 						<tr>
+-							<td colspan="2">Traffic Monitoring</td>
++							<td colspan="2"><#Traffic_Monitoring#></td>
+ 						</tr>
+ 					</thead>
+ 					<tr>
+-						<th>Traffic history location</th>
++						<th><#Traffic_history_location#></th>
+ 						<td>
+ 							<select name="rstats_location" class="input_option" onchange="hide_rstats_storage(this.value);">
+-								<option value="0">RAM (Default)</option>
+-								<option value="1">Custom location</option>
+-								<option value="2">NVRAM</option>
++								<option value="0"><#rsloc_RAM#></option>
++								<option value="1"><#rsloc_Custom#></option>
++								<option value="2"><#rsloc_NVRAM#></option>
+ 							</select>
+-							<span id="invalid_location" style="display:none;" class="formfontdesc">Cannot use NVRAM if IPTraffic is enabled!</span>
++							<span id="invalid_location" style="display:none;" class="formfontdesc"><#rsloc_invalid#></span>
+ 						</td>
+ 					</tr>
+ 
+ 					<tr id="rstats_stime_tr">
+-						<th>Save frequency</th>
++						<th><#Save_frequency#></th>
+ 						<td>
+ 							<select name="rstats_stime" class="input_option" >
+-								<option value="1" <% nvram_match("rstats_stime", "1","selected"); %>>Every 1 hour</option>
+-								<option value="6" <% nvram_match("rstats_stime", "6","selected"); %>>Every 6 hours</option>
+-								<option value="12" <% nvram_match("rstats_stime", "12","selected"); %>>Every 12 hours</option>
+-								<option value="24" <% nvram_match("rstats_stime", "24","selected"); %>>Every 1 day</option>
+-								<option value="72" <% nvram_match("rstats_stime", "72","selected"); %>>Every 3 days</option>
+-								<option value="168" <% nvram_match("rstats_stime", "168","selected"); %>>Every 1 week</option>
++								<option value="1" <% nvram_match("rstats_stime", "1","selected"); %>><#stime_1h#></option>
++								<option value="6" <% nvram_match("rstats_stime", "6","selected"); %>><#stime_6h#></option>
++								<option value="12" <% nvram_match("rstats_stime", "12","selected"); %>><#stime_12h#></option>
++								<option value="24" <% nvram_match("rstats_stime", "24","selected"); %>><#stime_1d#></option>
++								<option value="72" <% nvram_match("rstats_stime", "72","selected"); %>><#stime_3d#></option>
++								<option value="168" <% nvram_match("rstats_stime", "168","selected"); %>><#stime_1w#></option>
+ 							</select>
+ 						</td>
+ 					</tr>
+ 					<tr id="rstats_path_tr">
+-						<th>Save history location<br><i>Directory must end with a '/'.</i></th>
++						<th><#Save_history_location#><br><i><#saveloc_note#></i></th>
+ 						<td><input type="text" id="rstats_path" size=32 maxlength=90 name="rstats_path" class="input_32_table" value="<% nvram_get("rstats_path"); %>">
+-						<button id="pathPicker" onclick="get_disk_tree(); return false;">Select...</button></td>
++						<button id="pathPicker" onclick="get_disk_tree(); return false;"><#path_Select#>...</button></td>
+ 					</tr>
+ 					<tr id="rstats_new_tr">
+-						<th>Create or reset data files:<br><i>Enable if using a new location</i></th>
++						<th><#Create_or_reset_data_files#>:<br><i><#newloc_note#></i></th>
+ 						<td>
+ 							<input type="radio" name="rstats_new" class="input" value="1" <% nvram_match_x("", "rstats_new", "1", "checked"); %>><#checkbox_Yes#>
+ 							<input type="radio" name="rstats_new" class="input" value="0" <% nvram_match_x("", "rstats_new", "0", "checked"); %>><#checkbox_No#>
+ 						</td>
+ 					</tr>
+ 					<tr>
+-						<th>Starting day of monthly cycle</th>
++						<th><#Starting_day_of_monthly_cycle#></th>
+ 						<td><input type="text" maxlength="2" class="input_3_table" name="rstats_offset" onKeyPress="return validator.isNumber(this,event);" value="<% nvram_get("rstats_offset"); %>"></td>
+ 					</tr>
+ 					<tr id="cstats_enable_tr">
+-						<th>Enable IPTraffic (per IP monitoring)</i></th>
++						<th><#Enable_IPTraffic#></i></th>
+ 						<td>
+ 							<input type="radio" name="cstats_enable" class="input" value="1" <% nvram_match_x("", "cstats_enable", "1", "checked"); %> onclick="hide_cstats(this.value);"><#checkbox_Yes#>
+ 							<input type="radio" name="cstats_enable" class="input" value="0" <% nvram_match_x("", "cstats_enable", "0", "checked"); %> onclick="hide_cstats(this.value);"><#checkbox_No#>
+ 						</td>
+ 					</tr>
+ 					<tr id="cstats_1_tr">
+-						<th>Create or reset IPTraffic data files</th>
++						<th><#Create_or_reset_IPTraffic#></th>
+ 						<td>
+ 							<input type="radio" name="cstats_new" class="input" value="1" <% nvram_match_x("", "cstats_new", "1", "checked"); %>><#checkbox_Yes#>
+ 							<input type="radio" name="cstats_new" class="input" value="0" <% nvram_match_x("", "cstats_new", "0", "checked"); %>><#checkbox_No#>
+ 						</td>
+ 					</tr>
+ 					<tr id="cstats_2_tr">
+-						<th>Monitor all IPs by default</th>
++						<th><#Monitor_all_IPs#></th>
+ 						<td>
+ 							<input type="radio" name="cstats_all" class="input" value="1" <% nvram_match_x("", "cstats_all", "1", "checked"); %> onclick="hide_cstats_ip(this.value);"><#checkbox_Yes#>
+ 							<input type="radio" name="cstats_all" class="input" value="0" <% nvram_match_x("", "cstats_all", "0", "checked"); %> onclick="hide_cstats_ip(this.value);"><#checkbox_No#>
+ 						</td>
+ 					</tr>
+ 					<tr id="cstats_inc_tr">
+-						<th>List of IPs to monitor (comma-separated):</th>
++						<th><#List_of_IPs_to_monitor#>:</th>
+ 						<td>
+ 							<input type="text" maxlength="512" class="input_32_table" name="cstats_include" onKeyPress="return validator.ipList(this,event);" onchange="update_filter(this,this.value);" value="<% nvram_get("cstats_include"); %>">
+ 						</td>
+ 					</tr>
+ 					<tr id="cstats_exc_tr">
+-						<th>List of IPs to exclude (comma-separated):</th>
++						<th><#List_of_IPs_to_exclude#>:</th>
+ 						<td>
+ 							<input type="text" maxlength="512" class="input_32_table" name="cstats_exclude" onKeyPress="return validator.ipList(this,event);" onchange="update_filter(this,this.value);" value="<% nvram_get("cstats_exclude"); %>">
+ 						</td>
+@@ -760,133 +760,133 @@ function done_validating(action){
+ 				<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+ 					<thead>
+ 						<tr>
+-							<td colspan="2">TCP/IP settings</td>
++							<td colspan="2"><#TCP/IP_settings#></td>
+ 						</tr>
+ 					</thead>
+ 					<tr>
+-						<th>TCP connections limit</th>
++						<th><#TCP_connections_limit#></th>
+ 						<td>
+ 							<input type="text" maxlength="6" class="input_12_table" name="ct_max" onKeyPress="return validator.isNumber(this,event);" value="<% nvram_get("ct_max"); %>">
+ 						</td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>TCP Timeout: Established</th>
++						<th><#TCP_Timeout#>: Established</th>
+ 						<td>
+ 							<input type="text" maxlength="6" class="input_6_table" name="tcp_established" onKeyPress="return validator.isNumber(this,event);" value="">
+-							<span id="ct_established_default">Default: 1200</span>
++							<span id="ct_established_default"><#note_Default#>: 1200</span>
+ 						</td>
+ 
+ 					</tr>
+ 
+ 					<tr>
+-						<th>TCP Timeout: syn_sent</th>
++						<th><#TCP_Timeout#>: syn_sent</th>
+ 						<td>
+ 							<input type="text" maxlength="5" class="input_6_table" name="tcp_syn_sent" onKeyPress="return validator.isNumber(this,event);" value="">
+-							<span>Default: 120</span>
++							<span><#note_Default#>: 120</span>
+ 						</td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>TCP Timeout: syn_recv</th>
++						<th><#TCP_Timeout#>: syn_recv</th>
+ 						<td>
+ 							<input type="text" maxlength="5" class="input_6_table" name="tcp_syn_recv" onKeyPress="return validator.isNumber(this,event);" value="">
+-							<span>Default: 60</span>
++							<span><#note_Default#>: 60</span>
+ 						</td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>TCP Timeout: fin_wait</th>
++						<th><#TCP_Timeout#>: fin_wait</th>
+ 						<td>
+ 							<input type="text" maxlength="5" class="input_6_table" name="tcp_fin_wait" onKeyPress="return validator.isNumber(this,event);" value="">
+-							<span>Default: 120</span>
++							<span><#note_Default#>: 120</span>
+ 						</td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>TCP Timeout: time_wait</th>
++						<th><#TCP_Timeout#>: time_wait</th>
+ 						<td>
+ 							<input type="text" maxlength="5" class="input_6_table" name="tcp_time_wait" onKeyPress="return validator.isNumber(this,event);" value="">
+-							<span>Default: 120</span>
++							<span><#note_Default#>: 120</span>
+ 						</td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>TCP Timeout: close</th>
++						<th><#TCP_Timeout#>: close</th>
+ 						<td>
+ 							<input type="text" maxlength="5" class="input_6_table" name="tcp_close" onKeyPress="return validator.isNumber(this,event);" value="">
+-							<span>Default: 10</span>
++							<span><#note_Default#>: 10</span>
+ 						</td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>TCP Timeout: close_wait</th>
++						<th><#TCP_Timeout#>: close_wait</th>
+ 						<td>
+ 							<input type="text" maxlength="5" class="input_6_table" name="tcp_close_wait" onKeyPress="return validator.isNumber(this,event);" value="">
+-							<span>Default: 60</span>
++							<span><#note_Default#>: 60</span>
+ 						</td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>TCP Timeout: last_ack</th>
++						<th><#TCP_Timeout#>: last_ack</th>
+ 						<td>
+ 							<input type="text" maxlength="5" class="input_6_table" name="tcp_last_ack" onKeyPress="return validator.isNumber(this,event);" value="">
+-							<span>Default: 30</span>
++							<span><#note_Default#>: 30</span>
+ 						</td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>UDP Timeout: Assured</th>
++						<th><#UDP_Timeout#>: Assured</th>
+ 						<td>
+ 							<input type="text" maxlength="5" class="input_6_table" name="udp_assured" onKeyPress="return validator.isNumber(this,event);" value="">
+-							<span>Default: 180</span>
++							<span><#note_Default#>: 180</span>
+ 						</td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>UDP Timeout: Unreplied</th>
++						<th><#UDP_Timeout#>: Unreplied</th>
+ 						<td>
+ 							<input type="text" maxlength="5" class="input_6_table" name="udp_unreplied" onKeyPress="return validator.isNumber(this,event);" value="">
+-							<span>Default: 30</span>
++							<span><#note_Default#>: 30</span>
+ 						</td>
+ 					</tr>
+ 				</table>
+ 				<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+                                         <thead>
+ 						<tr>
+-							<td colspan="2">Advanced Tweaks and Hacks</td>
++							<td colspan="2"><#Advanced_Tweaks_and_Hacks#></td>
+ 						</tr>
+ 					</thead>
+ 					<tr id="memory_mgmt_tr" style="display:none;">
+-						<th><a class="hintstyle" href="javascript:void(0);" onClick="openHint(50,2);">Memory Management: Regularly flush caches (default: Yes)</a></th>
++						<th><a class="hintstyle" href="javascript:void(0);" onClick="openHint(50,2);"><#Memory_Management#> (<#note_Default#>: <#checkbox_Yes#>)</a></th>
+ 						<td>
+ 							<input type="radio" name="drop_caches" class="input" value="1" <% nvram_match_x("", "drop_caches", "1", "checked"); %>><#checkbox_Yes#>
+ 							<input type="radio" name="drop_caches" class="input" value="0" <% nvram_match_x("", "drop_caches", "0", "checked"); %>><#checkbox_No#>
+ 						</td>
+ 					</tr>
+ 					<tr>
+-						<th><a class="hintstyle" href="javascript:void(0);" onClick="openHint(50,4);">Firewall: Drop IPv6 neighbour solicitation broadcasts (default: No)</a></th>
++						<th><a class="hintstyle" href="javascript:void(0);" onClick="openHint(50,4);"><#Firewall_Drop_broadcasts#> (<#note_Default#>: <#checkbox_No#>)</a></th>
+ 						<td>
+ 							<input type="radio" name="ipv6_ns_drop" class="input" value="1" <% nvram_match_x("", "ipv6_ns_drop", "1", "checked"); %>><#checkbox_Yes#>
+ 							<input type="radio" name="ipv6_ns_drop" class="input" value="0" <% nvram_match_x("", "ipv6_ns_drop", "0", "checked"); %>><#checkbox_No#>
+ 						</td>
+ 					</tr>
+ 					<tr>
+-						<th><a class="hintstyle" href="javascript:void(0);" onClick="openHint(50,27);">Wan: Use local caching DNS server as system resolver (default: No)</a></th>
++						<th><a class="hintstyle" href="javascript:void(0);" onClick="openHint(50,27);"><#Wan_Use_local#> (<#note_Default#>: <#checkbox_No#>)</a></th>
+ 						<td>
+ 							<input type="radio" name="dns_local_cache" class="input" value="1" <% nvram_match_x("", "dns_local_cache", "1", "checked"); %>><#checkbox_Yes#>
+ 							<input type="radio" name="dns_local_cache" class="input" value="0" <% nvram_match_x("", "dns_local_cache", "0", "checked"); %>><#checkbox_No#>
+ 						</td>
+ 					</tr>
+ 					<tr>
+-						<th>Disable Asusnat tunnel</th>
++						<th><#Disable_Asusnat_tunnel#></th>
+ 						<td>
+ 							<input type="radio" name="aae_disable_force" class="input" value="1" <% nvram_match_x("", "aae_disable_force", "1", "checked"); %>><#checkbox_Yes#>
+ 							<input type="radio" name="aae_disable_force" class="input" value="0" <% nvram_match_x("", "aae_disable_force", "0", "checked"); %>><#checkbox_No#>
+ 						</td>
+ 					</tr>
+ 					<tr>
+-						<th><a class="hintstyle" href="javascript:void(0);" onClick="openHint(50,21);">dhcpd: send empty WPAD with a carriage return</a></th>
++						<th><a class="hintstyle" href="javascript:void(0);" onClick="openHint(50,21);"><#dhcpd_send_return#></a></th>
+ 						<td>
+ 							<input type="radio" name="dhcpd_send_wpad" class="input" value="1" <% nvram_match_x("", "dhcpd_send_wpad", "1", "checked"); %>><#checkbox_Yes#>
+ 							<input type="radio" name="dhcpd_send_wpad" class="input" value="0" <% nvram_match_x("", "dhcpd_send_wpad", "0", "checked"); %>><#checkbox_No#>
+diff --git a/release/src/router/www/Tools_Sysinfo.asp b/release/src/router/www/Tools_Sysinfo.asp
+index 3ac458be09..1a7252f116 100644
+--- a/release/src/router/www/Tools_Sysinfo.asp
++++ b/release/src/router/www/Tools_Sysinfo.asp
+@@ -8,7 +8,7 @@
+ <meta HTTP-EQUIV="Expires" CONTENT="-1">
+ <link rel="shortcut icon" href="images/favicon.png">
+ <link rel="icon" href="images/favicon.png">
+-<title><#Web_Title#> - System Information</title>
++<title><#Web_Title#> - <#System_Information#></title>
+ <link rel="stylesheet" type="text/css" href="index_style.css">
+ <link rel="stylesheet" type="text/css" href="form_style.css">
+ <link rel="stylesheet" type="text/css" href="/js/table/table.css">
+@@ -48,7 +48,7 @@ var etherstate = "<% sysinfo("ethernet"); %>";
+ var rtkswitch = <% sysinfo("ethernet.rtk"); %>;
+ var odmpid = "<% nvram_get("odmpid");%>";
+ var ctf_fa = "<% nvram_get("ctf_fa_mode"); %>";
+-
++var modelname = "<% nvram_get("modelname"); %>";
+ overlib_str_tmp = "";
+ overlib.isOut = true;
+ 
+@@ -141,24 +141,24 @@ function hwaccel_state(){
+ 		code += "</span>";
+ 	} else {
+ 		if (ctf_dis == "1") {
+-			code = "Disabled";
++			code = "<#HW_Disabled#>";
+ 			if (ctf_dis_force == "1")
+-				code += " <i>(by user)</i>";
++				code += " <i><#(by user)#></i>";
+ 			else {
+-				code += " <i> - incompatible with:<span>  ";	// Two trailing spaces
+-				if ('<% nvram_get("cstats_enable"); %>' == '1') code += 'IPTraffic, ';
+-				if ((qos_enable == '1') && (qos_type == '0')) code += 'QoS, ';
+-				if ('<% nvram_get("sw_mode"); %>' == '2') code += 'Repeater mode, ';
+-				if ('<% nvram_get("ctf_disable_modem"); %>' == '1') code += 'USB modem, ';
++				code += " <i> - <#incompatible_with#>:<span>  ";	// Two trailing spaces
++				if ('<% nvram_get("cstats_enable"); %>' == '1') code += '<#IPTraffic#>, ';
++				if ((qos_enable == '1') && (qos_type == '0')) code += '<#QoS#>, ';
++				if ('<% nvram_get("sw_mode"); %>' == '2') code += '<#Repeater_mode#>, ';
++				if ('<% nvram_get("ctf_disable_modem"); %>' == '1') code += '<#USB_modem#>, ';
+ 
+ 				// We're disabled but we don't know why
+-				if (code.slice(-2) == "  ") code += "&lt;unknown&gt;, ";
++				if (code.slice(-2) == "  ") code += "&lt;<#unknown#>&gt;, ";
+ 
+ 				// Trim two trailing chars, either "  " or ", "
+ 				code = code.slice(0,-2) + "</span>";
+ 			}
+ 		} else if (ctf_dis == "0") {
+-			code = "<span>Enabled";
++			code = "<span><#HW_Enabled#>";
+ 			if (ctf_fa != "") {
+ 				if (ctf_fa != "0")
+ 					code += " (CTF + FA)";
+@@ -174,11 +174,11 @@ function hwaccel_state(){
+ 
+ 
+ function showbootTime(){
+-        Days = Math.floor(boottime / (60*60*24));        
++        Days = Math.floor(boottime / (60*60*24));
+         Hours = Math.floor((boottime / 3600) % 24);
+         Minutes = Math.floor(boottime % 3600 / 60);
+         Seconds = Math.floor(boottime % 60);
+-        
++
+         document.getElementById("boot_days").innerHTML = Days;
+         document.getElementById("boot_hours").innerHTML = Hours;
+         document.getElementById("boot_minutes").innerHTML = Minutes;
+@@ -214,16 +214,16 @@ function show_etherstate(){
+ 
+ 		if (line[0] == "Port") {
+ 			if (line[2] == "DOWN")
+-				state2 = "Unplugged";
++				state2 = "<#Unplugged#>";
+ 			else {
+-				state = line[2].replace("FD"," Full Duplex");
+-				state2 = state.replace("HD"," Half Duplex");
++				state = line[2].replace("FD","Mbps <#Full_Duplex#>");
++				state2 = state.replace("HD","Mbps <#Half_Duplex#>");
+ 			}
+ 
+ 			hostname = "";
+ 
+ 			if (devicemac == "00:00:00:00:00:00") {
+-				devicename = '<span class="ClientName">&lt;none&gt;</span>';
++				devicename = '<span class="ClientName">&lt;<#none#>&gt;</span>';
+ 			} else {
+ 				overlib_str = "<p><#MAC_Address#>:</p>" + devicemac;
+ 
+@@ -233,11 +233,25 @@ function show_etherstate(){
+ 				if ((typeof hostname !== 'undefined') && (hostname != "")) {
+ 					devicename = '<span class="ClientName" onclick="oui_query_full_vendor(\'' + devicemac +'\');;overlib_str_tmp=\''+ overlib_str +'\';return overlib(\''+ overlib_str +'\');" onmouseout="nd();" style="cursor:pointer; text-decoration:underline;">'+ hostname +'</span>';
+ 				} else {
+-					devicename = '<span class="ClientName" onclick="oui_query_full_vendor(\'' + devicemac +'\');;overlib_str_tmp=\''+ overlib_str +'\';return overlib(\''+ overlib_str +'\');" onmouseout="nd();" style="cursor:pointer; text-decoration:underline;">'+ devicemac +'</span>'; 
++					devicename = '<span class="ClientName" onclick="oui_query_full_vendor(\'' + devicemac +'\');;overlib_str_tmp=\''+ overlib_str +'\';return overlib(\''+ overlib_str +'\');" onmouseout="nd();" style="cursor:pointer; text-decoration:underline;">'+ devicemac +'</span>';
+ 				}
+ 			}
+ 			port = line[1].replace(":","");
+-
++			if (modelname == "K3") {
++				if (port > 3) {	//int ports[SWPORT_COUNT] = { 3, 1, 0, 2, 5 };
++					continue;
++				} else if (port == "3") {
++					wan_array = [ "WAN", (line[7] & 0xFFF), state2, devicename];
++					continue;
++				} else {
++					if (port == "0")
++						port_array.unshift(["LAN2 ", (line[7] & 0xFFF), state2, devicename]);
++					else if (port == "1")
++						port_array.unshift(["LAN1 ", (line[7] & 0xFFF), state2, devicename]);
++					else if (port == "2")
++						port_array.push(["LAN3 ", (line[7] & 0xFFF), state2, devicename]);
++				}
++			} else {
+ 			if (port == "8") {		// CPU Port
+ 				continue;
+ 			} else if ((based_modelid == "RT-AC56U") || (based_modelid == "RT-AC56S") || (based_modelid == "RT-AC88U") || (based_modelid == "RT-AC3100")) {
+@@ -248,7 +262,7 @@ function show_etherstate(){
+ 					continue;	// This is the internal LAN port
+ 				if (port == "10") {
+ 					port = "4";	// This is LAN 4 (RTL) from QTN
+-					devicename = '<span class="ClientName">&lt;unknown&gt;</span>';
++					devicename = '<span class="ClientName">&lt;<#unknown#>&gt;</span>';
+ 				}
+ 			}
+ 			if (port == "0") {
+@@ -264,7 +278,7 @@ function show_etherstate(){
+ 				port_array.unshift(["LAN "+ port, (line[7] & 0xFFF), state2, devicename]);
+ 			else
+ 				port_array.push(["LAN " + port, (line[7] & 0xFFF), state2, devicename]);
+-
++			}
+ 		}
+ 	}
+ 
+@@ -275,11 +289,11 @@ function show_etherstate(){
+ 		for (var i = 0; i < rtkswitch.length; i++) {
+ 			line = rtkswitch[i];
+ 			if (line[1] == "0")
+-				state = "Unplugged"
++				state = "<#Unplugged#>"
+ 			else
+ 				state = line[1] + " Mbps";
+ 
+-			port_array.push(['LAN ' +line[0] + ' (RTK)', 'NA', state, '&lt;unknown&gt;']);
++			port_array.push(['LAN ' +line[0] + ' (RTK)', 'NA', state, '&lt;<#unknown#>&gt;']);
+ 		}
+ 
+ 	}
+@@ -292,19 +306,19 @@ function show_etherstate(){
+ 		container: "tableContainer",
+ 		header: [
+ 			{
+-				"title" : "Port",
++				"title" : "<#Port#>",
+ 				"width" : "21%"
+ 			},
+ 			{
+-				"title" : "VLAN",
++				"title" : "<#VLAN#>",
+ 				"width" : "14%"
+ 			},
+ 			{
+-				"title" : "Link State",
++				"title" : "<#Link_State#>",
+ 				"width" : "25%"
+ 			},
+ 			{
+-				"title" : "Last Device Seen",
++				"title" : "<#Last_Device_Seen#>",
+ 				"width" : "40%"
+ 			}
+ 		]
+@@ -326,7 +340,7 @@ function show_etherstate_hnd(){
+ 		speedMapping["Q"] = "2.5 Gbps";
+ 		speedMapping["F"] = "5 Gbps";
+ 		speedMapping["T"] = "10 Gbps";
+-		speedMapping["X"] = "Unplugged";
++		speedMapping["X"] = "<#Unplugged#>";
+ 
+ 		var parseArray = [];
+ 		for (var prop in _array) {
+@@ -345,11 +359,11 @@ function show_etherstate_hnd(){
+ 		container: "tableContainer",
+ 		header: [
+ 			{
+-				"title" : "Port",
++				"title" : "<#Port#>",
+ 				"width" : "50%"
+ 			},
+ 			{
+-				"title" : "Link State",
++				"title" : "<#Link_State#>",
+ 				"width" : "50%"
+ 			},
+ 		]
+@@ -363,26 +377,26 @@ function show_etherstate_hnd(){
+ 
+ 
+ function show_connstate(){
+-	document.getElementById("conn_td").innerHTML = conn_stats_arr[0] + " / <% sysinfo("conn.max"); %>&nbsp;&nbsp;-&nbsp;&nbsp;" + conn_stats_arr[1] + " active";
++	document.getElementById("conn_td").innerHTML = conn_stats_arr[0] + " / <% sysinfo("conn.max"); %>&nbsp;&nbsp;-&nbsp;&nbsp;" + conn_stats_arr[1] + " <b><#active#></b>";
+ 
+-	document.getElementById("wlc_24_td").innerHTML = "Associated: <span>" + wlc_24_arr[0] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
+-	                                                 "Authorized: <span>" + wlc_24_arr[1] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
+-	                                                 "Authenticated: <span>" + wlc_24_arr[2] + "</span>";
++	document.getElementById("wlc_24_td").innerHTML = "<#Associated#>: <span>" + wlc_24_arr[0] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
++	                                                 "<#Authorized#>: <span>" + wlc_24_arr[1] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
++	                                                 "<#Authenticated#>: <span>" + wlc_24_arr[2] + "</span>";
+ 
+ 	if (band5g_support) {
+ 		if (based_modelid == "RT-AC87U") {
+-			document.getElementById("wlc_5qtn_td").innerHTML = "Associated: <span>" +wlc_51_arr[0] + "</span>";
++			document.getElementById("wlc_5qtn_td").innerHTML = "<#Associated#>: <span>" +wlc_51_arr[0] + "</span>";
+ 		} else {
+-			document.getElementById("wlc_51_td").innerHTML = "Associated: <span>" + wlc_51_arr[0] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
+-			                                                 "Authorized: <span>" + wlc_51_arr[1] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
+-			                                                 "Authenticated: <span>" + wlc_51_arr[2] + "</span>";
++			document.getElementById("wlc_51_td").innerHTML = "<#Associated#>: <span>" + wlc_51_arr[0] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
++			                                                 "<#Authorized#>: <span>" + wlc_51_arr[1] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
++			                                                 "<#Authenticated#>: <span>" + wlc_51_arr[2] + "</span>";
+ 		}
+ 	}
+ 
+ 	if (wl_info.band5g_2_support) {
+-		document.getElementById("wlc_52_td").innerHTML = "Associated: <span>" + wlc_52_arr[0] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
+-		                                                 "Authorized: <span>" + wlc_52_arr[1] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
+-		                                                 "Authenticated: <span>" + wlc_52_arr[2] + "</span>";
++		document.getElementById("wlc_52_td").innerHTML = "<#Associated#>: <span>" + wlc_52_arr[0] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
++		                                                 "<#Authorized#>: <span>" + wlc_52_arr[1] + "</span>&nbsp;&nbsp;-&nbsp;&nbsp;" +
++		                                                 "<#Authenticated#>: <span>" + wlc_52_arr[2] + "</span>";
+ 	}
+ 
+ }
+@@ -395,7 +409,7 @@ function show_memcpu(){
+ 	document.getElementById("mem_buffer_td").innerHTML = mem_stats_arr[2] + " MB";
+ 	document.getElementById("mem_cache_td").innerHTML = mem_stats_arr[3] + " MB";
+ 	if (parseInt(mem_stats_arr[5]) == 0)
+-		document.getElementById("mem_swap_td").innerHTML = "<span>No swap configured</span>";
++		document.getElementById("mem_swap_td").innerHTML = "<span><#No_swap_configured#></span>";
+ 	else
+ 		document.getElementById("mem_swap_td").innerHTML = mem_stats_arr[4] + " / " + mem_stats_arr[5] + " MB";
+ 	document.getElementById("nvram_td").innerHTML = mem_stats_arr[6] + " / " + <% sysinfo("nvram.total"); %> + " bytes";
+@@ -476,42 +490,42 @@ function update_sysinfo(e){
+                 <tr bgcolor="#4D595D">
+                 <td valign="top">
+                 <div>&nbsp;</div>
+-                <div class="formfonttitle">Tools - System Information</div>
++                <div class="formfonttitle"><#Tools#> - <#System_Information#></div>
+ 		<div style="margin:10px 0 10px 5px;" class="splitLine"></div>
+ 
+ 				<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+ 					<thead>
+ 						<tr>
+-							<td colspan="2">Router</td>
++							<td colspan="2"><#Router#></td>
+ 						</tr>
+ 					</thead>
+ 					<tr>
+-						<th>Model</th>
++						<th><#Model#></th>
+ 							<td id="model_id"><% nvram_get("productid"); %></td>
+ 					</tr>
+ 					<tr>
+-						<th>Firmware Version</th>
++						<th><#Firmware_Version#></th>
+ 						<td id="fwver"></td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>Firmware Build</th>
++						<th><#Firmware_Build#></th>
+ 						<td><% nvram_get("buildinfo"); %></td>
+ 					</tr>
+ 					<tr>
+-						<th>Bootloader (CFE)</th>
++						<th><#Bootloader_(CFE)#></th>
+ 						<td><% sysinfo("cfe_version"); %></td>
+ 					</tr>
+ 					<tr>
+-						<th>Driver version</th>
++						<th><#Driver_version#></th>
+ 						<td><% sysinfo("driver_version"); %></td>
+ 					</tr>
+ 					<tr id="qtn_version" style="display:none;">
+-						<th>Quantenna Firmware</th>
++						<th><#Quantenna_Firmware#></th>
+ 						<td><% sysinfo("qtn_version"); %></td>
+ 					</tr>
+ 					<tr>
+-						<th>Features</th>
++						<th><#Features#></th>
+ 						<td id="rc_td"></td>
+ 					</tr>
+ 					<tr>
+@@ -520,7 +534,7 @@ function update_sysinfo(e){
+ 					</tr>
+ 
+ 					<tr>
+-						<th>Temperatures</th>
++						<th><#Temperatures#></th>
+ 						<td id="temp_td"></td>
+ 					</tr>
+ 				</table>
+@@ -533,15 +547,15 @@ function update_sysinfo(e){
+ 					</thead>
+ 
+ 					<tr>
+-						<th>CPU Model</th>
++						<th><#CPU_Model#></th>
+ 						<td><% sysinfo("cpu.model"); %>	</td>
+ 					</tr>
+ 					<tr>
+-						<th>CPU Frequency</th>
++						<th><#CPU_Frequency#></th>
+ 						<td><% sysinfo("cpu.freq"); %> MHz</td>
+ 					</tr>
+ 					<tr>
+-						<th>CPU Load Average (1, 5, 15 mins)</th>
++						<th><#CPU_Load_Average#></th>
+ 						<td id="cpu_stats_td"></td>
+ 					</tr>
+ 
+@@ -550,31 +564,31 @@ function update_sysinfo(e){
+ 				<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+ 					<thead>
+ 						<tr>
+-							<td colspan="2">Memory</td>
++							<td colspan="2"><#Memory#></td>
+ 						</tr>
+ 					</thead>
+ 					<tr>
+-						<th>Total</th>
++						<th><#Sysinfo_Total#></th>
+ 						<td id="mem_total_td"></td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>Free</th>
++						<th><#Free#></th>
+ 						<td id="mem_free_td"></td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>Buffers</th>
++						<th><#Buffers#></th>
+ 						<td id="mem_buffer_td"></td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>Cache</th>
++						<th><#Cache#></th>
+ 						<td id="mem_cache_td"></td>
+ 					</tr>
+ 
+ 					<tr>
+-						<th>Swap</th>
++						<th><#Swap#></th>
+ 						<td id="mem_swap_td"></td>
+ 					</tr>
+ 				</table>
+@@ -582,15 +596,15 @@ function update_sysinfo(e){
+ 				<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+ 					<thead>
+ 						<tr>
+-							<td colspan="2">Internal Storage</td>
++							<td colspan="2"><#Internal_Storage#></td>
+ 						</tr>
+ 					</thead>
+ 					<tr>
+-						<th>NVRAM usage</th>
++						<th><#NVRAM_usage#></th>
+ 						<td id="nvram_td"></td>
+ 					</tr>
+ 					<tr>
+-						<th>JFFS</th>
++						<th><#JFFS#></th>
+ 						<td id="jffs_td"></td>
+ 					</tr>
+ 				</table>
+@@ -598,38 +612,38 @@ function update_sysinfo(e){
+ 				<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
+ 					<thead>
+ 						<tr>
+-							<td colspan="2">Network</td>
++							<td colspan="2"><#Network#></td>
+ 						</tr>
+ 					</thead>
+ 					<tr>
+-						<th>HW acceleration</th>
++						<th><#HW_acceleration#></th>
+ 						<td id="hwaccel"></td>
+ 					</tr>
+ 					<tr>
+-						<th>Connections</th>
++						<th><#Sysinfo_Connections#></th>
+ 						<td id="conn_td"></td>
+ 					</tr>
+ 					<tr>
+-						<th>Ethernet Ports</th>
++						<th><#Ethernet_Ports#></th>
+ 						<td>
+-							<span id="rtk_warning" style="display:none;">Note: not all information can be retrieved for Realtek ports.</span>
++							<span id="rtk_warning" style="display:none;"><#Note_Realtek_ports#></span>
+ 							<div id="tableContainer" style="margin-top:-10px;"></div>
+ 						</td>
+ 					</tr>
+ 					<tr>
+-						<th>Wireless Clients (2.4 GHz)</th>
++						<th><#Wireless_Clients_(2.4GHz)#></th>
+ 						<td id="wlc_24_td"></td>
+ 					</tr>
+ 					<tr id="wifi5_clients_tr" style="display:none;">
+-						<th id="wifi51_clients_th">Wireless Clients (5 GHz)</th>
++						<th id="wifi51_clients_th"><#Wireless_clients_(5GHz)#></th>
+ 						<td id="wlc_51_td"></td>
+ 					</tr>
+ 					<tr id="wifi5_2_clients_tr" style="display:none;">
+-						<th>Wireless Clients (5 GHz-2)</th>
++						<th><#Wireless_Clients_(5GHz-2)#></th>
+ 						<td id="wlc_52_td"></td>
+ 					</tr>
+ 					<tr id="wifi5_clients_tr_qtn" style="display:none;">
+-						<th>Wireless Clients (5 GHz)</th>
++						<th><#Wireless_Clients_(5GHz)#></th>
+ 						<td id="wlc_5qtn_td"></td>
+ 					</tr>
+ 				</table>
+diff --git a/release/src/router/www/require/menuTrees/menuTree_bwdpi_traffic_analyzer.js b/release/src/router/www/require/menuTrees/menuTree_bwdpi_traffic_analyzer.js
+index 5b8a3ecb68..134543b5af 100644
+--- a/release/src/router/www/require/menuTrees/menuTree_bwdpi_traffic_analyzer.js
++++ b/release/src/router/www/require/menuTrees/menuTree_bwdpi_traffic_analyzer.js
+@@ -197,11 +197,11 @@ define(function(){
+ 				] 
+ 			},
+ 			{
+-				menuName: "Tools",
++				menuName: "<#Tools#>",
+ 				index: "menu_Tools",
+ 				tab: [
+-					{url: "Tools_Sysinfo.asp", tabName: "Sysinfo"},
+-					{url: "Tools_OtherSettings.asp", tabName: "Other Settings"},
++					{url: "Tools_Sysinfo.asp", tabName: "<#Sysinfo#>"},
++					{url: "Tools_OtherSettings.asp", tabName: "<#Other_Settings#>"},
+ 					{url: "NULL", tabName: "__INHERIT__"}
+ 				] 
+ 			},
+-- 
+2.25.1
+

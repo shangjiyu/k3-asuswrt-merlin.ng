@@ -1,0 +1,33 @@
+From a77b94c54de8800c976edee65f154c244dfa364c Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Sun, 24 Jan 2021 22:26:15 +0800
+Subject: [PATCH 095/122] www: translate Game Boost for all devices.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ .../www/require/menuTrees/menuTree_bwdpi_traffic_analyzer.js  | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/release/src/router/www/require/menuTrees/menuTree_bwdpi_traffic_analyzer.js b/release/src/router/www/require/menuTrees/menuTree_bwdpi_traffic_analyzer.js
+index ad181e5cc0..6cbfec8529 100644
+--- a/release/src/router/www/require/menuTrees/menuTree_bwdpi_traffic_analyzer.js
++++ b/release/src/router/www/require/menuTrees/menuTree_bwdpi_traffic_analyzer.js
+@@ -445,13 +445,13 @@ define(function(){
+ 					retArray.push("menu_OpenNAT");
+ 				}
+ 
+-				if(!rog_support && !tuf_support){
++				/*if(!rog_support && !tuf_support){
+ 					for(i=0; i<menuTree.list.length; i++){
+ 						if(menuTree.list[i].menuName == '<#Game_Boost#>'){
+ 							menuTree.list[i].menuName = 'Game';
+ 						}
+ 					}
+-				}
++				}*/
+ 
+ 				if(!rrsut_support)
+ 					retArray.push("cloud_router_sync.asp");
+-- 
+2.25.1
+

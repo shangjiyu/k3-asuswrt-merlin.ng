@@ -1,0 +1,23 @@
+From 2dc47723569dde3463eaa26cf1b89836eab38102 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Sun, 7 Jun 2020 23:00:58 +0800
+Subject: [PATCH 045/122] cfe: remove screen_timeout of nvram that cause unable
+ to change.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ .../src/cfe/build/broadcom/bcm947xx/compressed/rt-k3_nvram.txt   | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/release/src-rt-7.14.114.x/src/cfe/build/broadcom/bcm947xx/compressed/rt-k3_nvram.txt b/release/src-rt-7.14.114.x/src/cfe/build/broadcom/bcm947xx/compressed/rt-k3_nvram.txt
+index 9aebc9f3f7..475236aa67 100644
+--- a/release/src-rt-7.14.114.x/src/cfe/build/broadcom/bcm947xx/compressed/rt-k3_nvram.txt
++++ b/release/src-rt-7.14.114.x/src/cfe/build/broadcom/bcm947xx/compressed/rt-k3_nvram.txt
+@@ -803,4 +803,3 @@ ATEMODE=0
+ 
+ # Customize
+ modelname=K3
+-screen_timeout=30
+-- 
+2.25.1
+

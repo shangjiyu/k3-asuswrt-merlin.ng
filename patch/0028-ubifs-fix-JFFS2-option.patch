@@ -1,0 +1,63 @@
+From 3d75a606bd91001bc83f54a820734dfe7f82fcfd Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Fri, 8 May 2020 19:58:51 +0800
+Subject: [PATCH 028/122] ubifs: fix JFFS2 option
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/rc/ubifs.c        | 8 +++++++-
+ release/src/router/shared/defaults.c | 4 ++--
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/release/src/router/rc/ubifs.c b/release/src/router/rc/ubifs.c
+index c1bef6b336..9b91a0138c 100644
+--- a/release/src/router/rc/ubifs.c
++++ b/release/src/router/rc/ubifs.c
+@@ -122,6 +122,11 @@ static inline int ubifs_erase(int dev, int part)
+ 
+ void start_ubifs(void)
+ {
++	if (!nvram_match("jffs2_enable", "1")) {
++		notice_set("jffs", "");
++		return;
++	}
++
+ 	int format = 0;
+ 	char s[256];
+ 	int dev, part, size;
+@@ -207,8 +212,9 @@ void start_ubifs(void)
+ 		return;
+ 
+ 	_dprintf("*** ubifs: %s %d, %d, %d\n", UBIFS_VOL_NAME, dev, part, size);
+-	if (nvram_match("ubifs_format", "1")) {
++	if (nvram_match("ubifs_format", "1") || nvram_match("jffs2_format", "1")) {
+ 		nvram_set("ubifs_format", "0");
++		nvram_set("jffs2_format", "0");
+ 
+ 		if (ubifs_erase(dev, part)) {
+ 			error("formatting");
+diff --git a/release/src/router/shared/defaults.c b/release/src/router/shared/defaults.c
+index f06f74fac6..7225b9e08c 100644
+--- a/release/src/router/shared/defaults.c
++++ b/release/src/router/shared/defaults.c
+@@ -2479,7 +2479,7 @@ struct nvram_tuple router_defaults[] = {
+ 	{ "log_level", "7", CKN_STR_DEFAULT, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },	/* < LOG_INFO */
+ 	{ "console_loglevel", "5", CKN_STR_DEFAULT, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },	/* < KERN_NOTICE */
+ 
+-#if defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2)
++#if defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2) || defined(RTCONFIG_UBIFS)
+ 	{ "jffs2_on", "1", CKN_STR_DEFAULT, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
+ #endif
+ 
+@@ -3914,7 +3914,7 @@ struct nvram_tuple router_defaults[] = {
+ 	{ "nfsd_exportlist", "", CKN_STR2048, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
+ #endif
+ 
+-#if defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2)
++#if defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2) || defined(RTCONFIG_UBIFS)
+ 	{ "jffs2_scripts", "0", CKN_STR1, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
+ 	{ "jffs2_format", "0", CKN_STR1, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
+ #endif
+-- 
+2.25.1
+

@@ -1,0 +1,27 @@
+From 5bf92a72ab1dc4a3886a2ab6864fe6a0b94b6600 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Wed, 15 Jul 2020 01:56:57 +0800
+Subject: [PATCH 069/122] boardapi: skip leds control because K3 have no leds.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/shared/boardapi.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/release/src/router/shared/boardapi.c b/release/src/router/shared/boardapi.c
+index ff6ce00f29..e979a130f4 100644
+--- a/release/src/router/shared/boardapi.c
++++ b/release/src/router/shared/boardapi.c
+@@ -811,6 +811,9 @@ int led_control(int which, int mode)
+ int do_led_control(int which, int mode)
+ #endif
+ {
++#ifdef RTK3
++	return 0; //K3 have no leds
++#endif
+ 	int use_gpio, gpio_nr;
+ 	int v = (mode == LED_OFF)? 0:1;
+ 
+-- 
+2.25.1
+

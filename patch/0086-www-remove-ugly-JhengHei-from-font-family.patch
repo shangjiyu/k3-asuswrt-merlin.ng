@@ -1,0 +1,747 @@
+From 950f96bc6c98078ee1893d44fde80744a6af2ee1 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Sun, 24 Jan 2021 21:47:16 +0800
+Subject: [PATCH 086/122] www: remove ugly JhengHei from font family.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ .../src/router/www/Advanced_AiDisk_NFS.asp    |  2 +-
+ .../www/aimesh/aimesh_system_settings.css     |  2 +-
+ .../src/router/www/aimesh/aimesh_topology.css | 58 +++++++++---------
+ release/src/router/www/css/networkMap.css     |  8 +--
+ .../router/www/device-map/router_status.asp   |  2 +-
+ .../www/js/weekSchedule/weekSchedule.css      | 20 +++----
+ .../ROG_UI/aimesh/aimesh_system_settings.css  |  2 +-
+ .../ROG_UI/aimesh/aimesh_topology.css         | 60 +++++++++----------
+ .../FUNCTION/ROG_UI/css/adaptive_mobile.css   |  2 +-
+ 9 files changed, 78 insertions(+), 78 deletions(-)
+
+diff --git a/release/src/router/www/Advanced_AiDisk_NFS.asp b/release/src/router/www/Advanced_AiDisk_NFS.asp
+index ed8cf75463..7053d3260c 100644
+--- a/release/src/router/www/Advanced_AiDisk_NFS.asp
++++ b/release/src/router/www/Advanced_AiDisk_NFS.asp
+@@ -574,7 +574,7 @@ function check_dir_path(){
+ <div id="DM_mask" class="mask_bg"></div>
+ <div id="folderTree_panel" class="panel_folder" >
+ 		<table><tr><td>
+-			<div class="machineName" style="width:200px;font-family:Microsoft JhengHei;font-size:12pt;font-weight:bolder; margin-top:15px;margin-left:30px;"><#Web_Title2#></div>
++			<div class="machineName" style="width:200px;font-size:12pt;font-weight:bolder; margin-top:15px;margin-left:30px;"><#Web_Title2#></div>
+ 		</td>
+ 		<td>
+ 			<div style="width:240px;margin-top:17px;margin-left:125px;">
+diff --git a/release/src/router/www/aimesh/aimesh_system_settings.css b/release/src/router/www/aimesh/aimesh_system_settings.css
+index a3e8b0c77b..051ca252b4 100644
+--- a/release/src/router/www/aimesh/aimesh_system_settings.css
++++ b/release/src/router/www/aimesh/aimesh_system_settings.css
+@@ -159,7 +159,7 @@
+ 	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20), 0 1px 4px 0 rgba(60,60,60,0.30);
+ 	border-radius: 4px;
+ 	padding: 18px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 16px;
+ 	color: #FFFFFF;
+ 	z-index: 500;
+diff --git a/release/src/router/www/aimesh/aimesh_topology.css b/release/src/router/www/aimesh/aimesh_topology.css
+index 64260fe627..a387ad5d6c 100644
+--- a/release/src/router/www/aimesh/aimesh_topology.css
++++ b/release/src/router/www/aimesh/aimesh_topology.css
+@@ -99,7 +99,7 @@
+ 	float: right;
+ 	padding: 2% 1% 2% 1%;
+ 	background-color: #424E55;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ }
+ .card_block_bg{
+ 	width: 100%;
+@@ -375,7 +375,7 @@
+ 	z-index: 20;
+ 	color: #ffffff;
+ 	font-size: 14px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	background: transparent;
+ }
+ .location_info_bg span.location_hint{
+@@ -392,7 +392,7 @@
+ 	background-color: rgba(33,44,49,0.7);
+ 	border-radius: 4px 4px 0px 0px;
+ 	font-size: 14px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	height: 21px;
+ }
+ /*style the arrow inside the select element:*/
+@@ -480,7 +480,7 @@
+ 	height: 185px;
+ 	overflow-y: scroll;
+ 	border-radius: 0px 0px 4px 4px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ }
+ .custom_select_items div:hover{
+ 	background-color: #3C474B;
+@@ -554,7 +554,7 @@
+ .signal_text_bg.signal{
+ 	font-size: 30px;
+ 	margin-left: 18px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	height: 30px;
+ 	overflow: hidden;
+ 	text-overflow: ellipsis;
+@@ -588,7 +588,7 @@
+ }
+ .signal_hint_text{
+ 	margin-left: 18px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 12px;
+ 	color: #7F8FA4;
+ }
+@@ -613,7 +613,7 @@
+ .fw_version_text{
+ 	color: #FFFFFF;
+ 	font-size: 14px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	text-decoration: underline;
+ 	position: relative;
+ }
+@@ -708,7 +708,7 @@
+ }
+ .connect_type_status_bg .uplink_type_title{
+ 	line-height: 36px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 24px;
+ 	margin-left: 22px;
+ }
+@@ -725,7 +725,7 @@
+ 	color: #627681;
+ }
+ .connect_type_status_bg .uplink_type_ip, .connect_type_status_bg .uplink_type_mode_title{
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 14px;
+ 	color: #CDEBFF;
+ 	position: absolute;
+@@ -833,7 +833,7 @@
+ .card_block_bg span.connect_title{
+ 	top: 24px;
+ 	line-height: initial;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ }
+ .card_block_bg span.connect_title.vertical{
+ 	top: 18px;
+@@ -911,7 +911,7 @@
+ }
+ .wan_status_bg span.connect_status{
+ 	font-size: 20px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ }
+ .wan_status_bg span.connect_status.connected{
+ 	color: #00FCFF;
+@@ -1017,7 +1017,7 @@
+ 	margin: 7px 0px 0px 22px;
+ }
+ .common_content_text{
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ 	letter-spacing: 3px;
+@@ -1070,7 +1070,7 @@
+ }
+ .common_separate_bg span{
+ 	position: absolute;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 12px;
+ 	color: #A4B7C3;
+ }
+@@ -1079,7 +1079,7 @@
+ 	top: -4px;
+ }
+ .common_separate_bg span.transmit_value{
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 20px;
+ 	color: #00FCFF;
+ 	bottom: 6px;
+@@ -1092,7 +1092,7 @@
+ .common_separate_bg span.transmit_unit{
+ 	bottom: 3px;
+ 	left: 120px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ }
+ .common_separate_bg.horizontal_line:before,
+ .item_bg.signal:before,.item_bg.location:before,
+@@ -1177,7 +1177,7 @@
+ 	height: 56px !important
+ }
+ .manage_common_title{
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ }
+@@ -1214,7 +1214,7 @@
+ 	border: 1px solid #4C5B65;
+ 	border-radius: 4px;
+ 	color: #FFFFFF;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ 	line-height: 36px;
+@@ -1403,7 +1403,7 @@
+ 	right: 6px;
+ }
+ .client_num_bg{
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ 	margin: 24px 22px 18px 22px;
+@@ -1411,7 +1411,7 @@
+ .client_num_bg div.left{
+ 	float: left;
+ 	position: relative;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 16px;
+ }
+ .client_num_bg div.left span:before{
+@@ -1541,7 +1541,7 @@
+ 	position: relative;
+ }
+ .client_list_bg .client_content_bg > .client_content_name{
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 16px;
+ 	color: #FFFFFF;
+ 	height: 60%;
+@@ -1623,7 +1623,7 @@
+ 	border-radius: 4px;
+ 	position: absolute;
+ 	padding: 18px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 16px;
+ 	left: 12%;
+ 	z-index: 500;
+@@ -1738,7 +1738,7 @@
+ 	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20), 0 1px 4px 0 rgba(60,60,60,0.30);
+ 	border-radius: 4px;
+ 	padding: 18px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 16px;
+ 	color: #FFFFFF;
+ 	z-index: 500;
+@@ -2164,7 +2164,7 @@
+ 	line-height: initial;
+ 	margin-left: 0px;
+ 	width: 160px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ }
+ .topology_node_info > div{
+ 	line-height: 180%;
+@@ -2209,7 +2209,7 @@
+ 	height: 24%;
+ }
+ .topology_node_info > div:nth-child(3) > span:nth-child(2){
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 16px;
+ 	color: #33ACFF;
+ 	margin-left: 6px;
+@@ -2252,7 +2252,7 @@
+ 	border: 1px solid #425057;
+ 	box-shadow: 0 1px 2px 0 rgba(0,0,0,0.30);
+ 	border-radius: 4px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ 	display: inline-block;
+@@ -2311,7 +2311,7 @@
+ 	top: 36px;
+ }
+ .aimesh_intro_text > div:nth-child(1){
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 24px;
+ }
+ .aimesh_intro_text > div:nth-child(2):before{
+@@ -2327,7 +2327,7 @@
+ 	height: 1px;
+ }
+ .aimesh_intro_text > div:nth-child(2){
+-	font-family: Roboto-light, "Microsoft JhengHei";
++	font-family: Roboto-light;
+ 	font-size: 12px;
+ 	position: relative;
+ 	margin-top: 18px;
+@@ -2385,7 +2385,7 @@
+ 	border-width: 1px;
+ 	border-style: solid;
+ 	position: relative;
+-} 
++}
+ .connect_line_info_bg .connect_line:before{
+ 	content: "";
+ 	position: absolute;
+@@ -2433,7 +2433,7 @@
+ 	margin-top: 12px !important;
+ }
+ .aimesh_tab{
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 16px;
+ 	color: #FFFFFF;
+ 	height: 24px;
+diff --git a/release/src/router/www/css/networkMap.css b/release/src/router/www/css/networkMap.css
+index f10d426ab7..7817544cc2 100644
+--- a/release/src/router/www/css/networkMap.css
++++ b/release/src/router/www/css/networkMap.css
+@@ -5,10 +5,10 @@
+ }
+ body{
+ 	margin: 0;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;​
+ 	font-size: 13px;
+ 	/*
+-	font-family: Roboto, Microsoft JhengHei, Helvetica, Arial, sans-serif;
++	font-family: Roboto, Helvetica, Arial, sans-serif;
+ 	font-size: 14px;
+ 	*/
+ 	color: #FFFFFF;
+@@ -80,10 +80,10 @@ body{
+ 	color: #FC0;
+ 	font-size: 13px;
+ }
+-.button, .table-body, .table-header{
++.button, .table-body, .table-header, .ram-content{
+ 	text-align: center;
+ }
+-.button-right, .bar-text-percent, .ram-content{
++.button-right, .bar-text-percent{
+ 	text-align: right;
+ }
+ .button, .button-right{
+diff --git a/release/src/router/www/device-map/router_status.asp b/release/src/router/www/device-map/router_status.asp
+index 9af7e4ea45..ff06f3ef0e 100755
+--- a/release/src/router/www/device-map/router_status.asp
++++ b/release/src/router/www/device-map/router_status.asp
+@@ -555,7 +555,7 @@ function genRAMElement(){
+ }
+ 
+ function genNETelement() {
+-	var code = '<div class="division-block">Internet Traffic</div>';
++	var code = '<div class="division-block"><#Status_Traffic#></div>';
+ 	code += '<div>';
+ 	code += '<div>';
+ 	code += '<div class="display-flex flex-a-center info-block">';
+diff --git a/release/src/router/www/js/weekSchedule/weekSchedule.css b/release/src/router/www/js/weekSchedule/weekSchedule.css
+index 1117eebdba..4e40083fd2 100644
+--- a/release/src/router/www/js/weekSchedule/weekSchedule.css
++++ b/release/src/router/www/js/weekSchedule/weekSchedule.css
+@@ -1,5 +1,5 @@
+ ﻿.current_time_text, .offtime_schedule_text{
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, Microsoft JhengHei, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ 	margin-left: 18px;
+@@ -79,7 +79,7 @@
+ .overview_time_title_bg{
+ 	height: 32px;
+ 	line-height: 32px;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, Microsoft JhengHei, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ }
+@@ -111,7 +111,7 @@
+ 	border-radius: 4px;
+ 	position: absolute;
+ 	padding: 18px;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, Microsoft JhengHei, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	font-size: 16px;
+ 	left: 12%;
+ 	z-index: 100;
+@@ -128,7 +128,7 @@
+ 	cursor: pointer;
+ }
+ .popup_edit_weekSchedule .edit_offtime_title{
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, Microsoft JhengHei, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ }
+@@ -188,7 +188,7 @@
+ 	outline: none;
+ 	color: #ffffff;
+ 	font-size: 14px;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, Microsoft JhengHei, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	background: transparent;
+ }
+ .popup_edit_weekSchedule .custom_select_input_bg .custom_select{
+@@ -198,7 +198,7 @@
+ 	background-color: #43494B;
+ 	border-radius: 2px;
+ 	font-size: 14px;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, Microsoft JhengHei, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	color: #ffffff;
+ 	padding: 2px;
+ 	border: 1px solid #979797;
+@@ -246,7 +246,7 @@
+ 	max-height: 175px;
+ 	overflow-y: scroll;
+ 	border-radius: 0px 0px 2px 2px;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, Microsoft JhengHei, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ }
+ .popup_edit_weekSchedule .custom_select_input_bg .custom_select_option{
+ 	color: #ffffff;
+@@ -346,7 +346,7 @@
+ 	font-size: 12px;
+ 	text-align: center;
+ 	line-height: 35px;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, Microsoft JhengHei, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	margin-right: 25px;
+ 	cursor: pointer;
+ 	position: relative;
+@@ -589,7 +589,7 @@
+ 	position: absolute;
+ }
+ .PC_SCHED .offtime_schedule_header .title{
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, Microsoft JhengHei, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	font-size: 14px;
+ 	color: #FFF;
+ 	margin-left: 10px;
+@@ -662,7 +662,7 @@
+ 	font-size: 14px;
+ }
+ .PC_SCHED .grid_period_title{
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, Microsoft JhengHei, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	font-size: 20px;
+ 	margin-left: 10px;
+ 	margin-top: 10px;
+diff --git a/release/src/router/www/sysdep/FUNCTION/ROG_UI/aimesh/aimesh_system_settings.css b/release/src/router/www/sysdep/FUNCTION/ROG_UI/aimesh/aimesh_system_settings.css
+index e3b3e58f7b..8f7ca2cd00 100644
+--- a/release/src/router/www/sysdep/FUNCTION/ROG_UI/aimesh/aimesh_system_settings.css
++++ b/release/src/router/www/sysdep/FUNCTION/ROG_UI/aimesh/aimesh_system_settings.css
+@@ -166,7 +166,7 @@
+ 	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20), 0 1px 4px 0 rgba(60,60,60,0.30);
+ 	border-radius: 4px;
+ 	padding: 18px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 16px;
+ 	color: #FFFFFF;
+ 	z-index: 500;
+diff --git a/release/src/router/www/sysdep/FUNCTION/ROG_UI/aimesh/aimesh_topology.css b/release/src/router/www/sysdep/FUNCTION/ROG_UI/aimesh/aimesh_topology.css
+index f24dc3cd81..59a568cedf 100644
+--- a/release/src/router/www/sysdep/FUNCTION/ROG_UI/aimesh/aimesh_topology.css
++++ b/release/src/router/www/sysdep/FUNCTION/ROG_UI/aimesh/aimesh_topology.css
+@@ -99,7 +99,7 @@
+ 	float: right;
+ 	padding: 2% 1% 2% 1%;
+ 	background-color: #300202;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ }
+ .card_block_bg{
+ 	width: 100%;
+@@ -375,7 +375,7 @@
+ 	z-index: 20;
+ 	color: #ffffff;
+ 	font-size: 14px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	background: transparent;
+ }
+ .location_info_bg span.location_hint{
+@@ -392,7 +392,7 @@
+ 	background-color: rgba(25, 3, 3, 0.7);
+ 	border-radius: 4px 4px 0px 0px;
+ 	font-size: 14px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	height: 21px;
+ }
+ /*style the arrow inside the select element:*/
+@@ -480,7 +480,7 @@
+ 	height: 185px;
+ 	overflow-y: scroll;
+ 	border-radius: 0px 0px 4px 4px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ }
+ .custom_select_items div:hover{
+ 	background-color: #740F0F;
+@@ -554,7 +554,7 @@
+ .signal_text_bg.signal{
+ 	font-size: 30px;
+ 	margin-left: 18px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	height: 30px;
+ 	overflow: hidden;
+ 	text-overflow: ellipsis;
+@@ -580,7 +580,7 @@
+ 	cursor: pointer;
+ }
+ .bubble_icon.hide{
+-	background: none !important; 
++	background: none !important;
+ }
+ .bubble_icon.info{
+ 	background-position: -99px -76px;
+@@ -588,7 +588,7 @@
+ }
+ .signal_hint_text{
+ 	margin-left: 18px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 12px;
+ 	color: #7F8FA4;
+ }
+@@ -613,7 +613,7 @@
+ .fw_version_text{
+ 	color: #FFFFFF;
+ 	font-size: 14px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	text-decoration: underline;
+ 	position: relative;
+ }
+@@ -705,7 +705,7 @@
+ }
+ .connect_type_status_bg .uplink_type_title{
+ 	line-height: 36px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 24px;
+ 	margin-left: 22px;
+ }
+@@ -722,7 +722,7 @@
+ 	color: #627681;
+ }
+ .connect_type_status_bg .uplink_type_ip, .connect_type_status_bg .uplink_type_mode_title{
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 14px;
+ 	color: #CDEBFF;
+ 	position: absolute;
+@@ -821,7 +821,7 @@
+ .card_block_bg span.connect_title{
+ 	top: 24px;
+ 	line-height: initial;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ }
+ .card_block_bg span.connect_title.vertical{
+ 	top: 18px;
+@@ -911,7 +911,7 @@
+ }
+ .wan_status_bg span.connect_status{
+ 	font-size: 20px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ }
+ .wan_status_bg span.connect_status.connected{
+ 	color: #00FCFF;
+@@ -1018,7 +1018,7 @@
+ 	border: 1px solid #300202;
+ }
+ .common_content_text{
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ 	letter-spacing: 3px;
+@@ -1072,7 +1072,7 @@
+ }
+ .common_separate_bg span{
+ 	position: absolute;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 12px;
+ 	color: #A4B7C3;
+ }
+@@ -1081,7 +1081,7 @@
+ 	top: -4px;
+ }
+ .common_separate_bg span.transmit_value{
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 20px;
+ 	color: #00FCFF;
+ 	bottom: 6px;
+@@ -1094,7 +1094,7 @@
+ .common_separate_bg span.transmit_unit{
+ 	bottom: 3px;
+ 	left: 120px;
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ }
+ .common_separate_bg.horizontal_line:before,
+ .item_bg.signal:before,.item_bg.location:before,
+@@ -1179,7 +1179,7 @@
+ 	height: 56px !important
+ }
+ .manage_common_title{
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ }
+@@ -1216,7 +1216,7 @@
+ 	border: 1px solid #740f0f;
+ 	border-radius: 4px;
+ 	color: #FFFFFF;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 14px;
+ 	line-height: 36px;
+ 	height: 36px;
+@@ -1383,7 +1383,7 @@
+ 	cursor: pointer;
+ }
+ .client_num_bg{
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ 	margin: 24px 22px 18px 22px;
+@@ -1391,7 +1391,7 @@
+ .client_num_bg div.left{
+ 	float: left;
+ 	position: relative;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 16px;
+ }
+ .client_num_bg div.left span:before{
+@@ -1528,7 +1528,7 @@
+ 	position: relative;
+ }
+ .client_list_bg .client_content_bg > .client_content_name{
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 16px;
+ 	color: #FFFFFF;
+ 	height: 60%;
+@@ -1598,7 +1598,7 @@
+ 	border-radius: 4px;
+ 	position: absolute;
+ 	padding: 18px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 16px;
+ 	left: 12%;
+ 	z-index: 500;
+@@ -1713,7 +1713,7 @@
+ 	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20), 0 1px 4px 0 rgba(60,60,60,0.30);
+ 	border-radius: 4px;
+ 	padding: 18px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 16px;
+ 	color: #FFFFFF;
+ 	z-index: 500;
+@@ -2146,7 +2146,7 @@
+ 	line-height: initial;
+ 	margin-left: 0px;
+ 	width: 160px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ }
+ .topology_node_info > div{
+ 	line-height: 180%;
+@@ -2191,7 +2191,7 @@
+ 	height: 24%;
+ }
+ .topology_node_info > div:nth-child(3) > span:nth-child(2){
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 16px;
+ 	color: #00FCFF;
+ 	margin-left: 6px;
+@@ -2234,7 +2234,7 @@
+ 	border: 1px solid #740F0F;
+ 	box-shadow: 0 1px 2px 0 rgba(0,0,0,0.30);
+ 	border-radius: 4px;
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 14px;
+ 	color: #FFFFFF;
+ 	display: inline-block;
+@@ -2293,7 +2293,7 @@
+ 	top: 36px;
+ }
+ .aimesh_intro_text > div:nth-child(1){
+-	font-family: Roboto-Light, "Microsoft JhengHei";
++	font-family: Roboto-Light;
+ 	font-size: 24px;
+ }
+ .aimesh_intro_text > div:nth-child(2):before{
+@@ -2309,7 +2309,7 @@
+ 	height: 1px;
+ }
+ .aimesh_intro_text > div:nth-child(2){
+-	font-family: Roboto-light, "Microsoft JhengHei";
++	font-family: Roboto-light;
+ 	font-size: 12px;
+ 	position: relative;
+ 	margin-top: 18px;
+@@ -2367,7 +2367,7 @@
+ 	border-width: 1px;
+ 	border-style: solid;
+ 	position: relative;
+-} 
++}
+ .connect_line_info_bg .connect_line:before{
+ 	content: "";
+ 	position: absolute;
+@@ -2415,7 +2415,7 @@
+ 	margin-top: 12px !important;
+ }
+ .aimesh_tab{
+-	font-family: Roboto-Regular, "Microsoft JhengHei";
++	font-family: Roboto-Regular;
+ 	font-size: 16px;
+ 	color: #FFFFFF;
+ 	height: 24px;
+diff --git a/release/src/router/www/sysdep/FUNCTION/ROG_UI/css/adaptive_mobile.css b/release/src/router/www/sysdep/FUNCTION/ROG_UI/css/adaptive_mobile.css
+index 9c772efd09..de126d81b7 100644
+--- a/release/src/router/www/sysdep/FUNCTION/ROG_UI/css/adaptive_mobile.css
++++ b/release/src/router/www/sysdep/FUNCTION/ROG_UI/css/adaptive_mobile.css
+@@ -6,7 +6,7 @@
+ body{
+     margin: 0;
+     background-color: transparent;
+-    font-family: Roboto, Segoe UI, Microsoft JhengHei;
++    font-family: Roboto, Segoe UI;
+ }
+ 
+ .flexbox{
+-- 
+2.25.1
+

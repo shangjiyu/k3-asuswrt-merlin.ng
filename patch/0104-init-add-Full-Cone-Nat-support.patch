@@ -1,0 +1,41 @@
+From 141fc000a1489352bc86fd647f950758f81ac369 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Wed, 17 Feb 2021 14:49:19 +0800
+Subject: [PATCH 104/122] init: add Full Cone Nat support.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/rc/init.c         | 3 +++
+ release/src/router/shared/defaults.c | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/release/src/router/rc/init.c b/release/src/router/rc/init.c
+index 3b8ef589f0..4124402827 100644
+--- a/release/src/router/rc/init.c
++++ b/release/src/router/rc/init.c
+@@ -11469,6 +11469,9 @@ int init_nvram(void)
+ #ifdef RTCONFIG_TCPLUGIN
+ 		add_rc_support("tencent_qmacc");
+ #endif
++#ifdef BCM_KF_NETFILTER
++		add_rc_support("bcm_kf_netfilter");
++#endif
+ #ifdef RTCONFIG_MERLINUPDATE
+ 		add_rc_support("update");
+ #else
+diff --git a/release/src/router/shared/defaults.c b/release/src/router/shared/defaults.c
+index 48b9aed481..cd12752cd5 100644
+--- a/release/src/router/shared/defaults.c
++++ b/release/src/router/shared/defaults.c
+@@ -3851,7 +3851,7 @@ struct nvram_tuple router_defaults[] = {
+ 	{ "message_loglevel", "5", CKN_STR1, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },	// KERN_INFO
+ 	{ "http_dut_redir", "0", CKN_STR1, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },      // 1: redir lan_ip to router.asus.com
+ 	{ "led_disable", "0", CKN_STR1, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
+-#ifdef HND_ROUTER
++#ifdef BCM_KF_NETFILTER
+ 	{ "nat_type", "0", CKN_STR1, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },		//0: Symmetric  1: Full cone
+ #endif
+ 	{ "dns_norebind", "0", CKN_STR1, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },		// dnsmasq DNS rebind protection
+-- 
+2.25.1
+

@@ -1,0 +1,26 @@
+From 46ffc8b9737ca64c5b464d29477d76c250110a09 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Sun, 9 Aug 2020 18:02:44 +0800
+Subject: [PATCH 070/122] httpd: fix error of reading path of USB disk.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/httpd/sysinfo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/release/src/router/httpd/sysinfo.c b/release/src/router/httpd/sysinfo.c
+index 0d06433806..8a7f3aebde 100644
+--- a/release/src/router/httpd/sysinfo.c
++++ b/release/src/router/httpd/sysinfo.c
+@@ -516,7 +516,7 @@ int ej_show_sysinfo(int eid, webs_t wp, int argc, char_t ** argv)
+ 			fp = fopen("/proc/mounts", "r");
+ 			if (fp) {
+ 				while(!feof(fp))  {
+-					fscanf(fp, "%s %s", device, path);
++					fscanf(fp, "%30s %30s", device, path);
+ 					if (strcmp(path, "/jffs") == 0 && strstr(device, "/dev/s")) {
+ 						sprintf(result, "%d", 1);
+ 						break;
+-- 
+2.25.1
+

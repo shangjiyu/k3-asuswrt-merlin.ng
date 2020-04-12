@@ -1,0 +1,80 @@
+From d0b2cdbddd16462368608d5de2b3f63c94ba806c Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Sun, 9 Aug 2020 18:59:06 +0800
+Subject: [PATCH 079/122] www: remove LAN4 port in web pages for K3.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/www/Advanced_IPTV_Content.asp    | 9 +++++++--
+ release/src/router/www/Advanced_WANPort_Content.asp | 7 +++++--
+ 2 files changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/release/src/router/www/Advanced_IPTV_Content.asp b/release/src/router/www/Advanced_IPTV_Content.asp
+index 6103d6dd71..c65a807be4 100644
+--- a/release/src/router/www/Advanced_IPTV_Content.asp
++++ b/release/src/router/www/Advanced_IPTV_Content.asp
+@@ -61,6 +61,7 @@ var orig_ttl_inc_enable = '<% nvram_get("ttl_inc_enable"); %>';
+ var iptv_profiles = [<% get_iptvSettings();%>][0];
+ var isp_profiles = iptv_profiles.isp_profiles;
+ var orig_wnaports_bond = '<% nvram_get("wanports_bond"); %>';
++var modelname = '<% nvram_get("modelname"); %>';
+ 
+ if(wan_bonding_support)
+ 	var orig_bond_wan = httpApi.nvramGet(["bond_wan"], true).bond_wan;
+@@ -146,7 +147,9 @@ function create_stb_select(switch_stb_x){
+ 				selected = true;
+ 
+ 			var option = new Option(text, option_list[i].value, false, selected);
+-			select.options.add(option);
++			if(!(modelname == "K3" && text.indexOf("LAN4") != -1)){
++				select.options.add(option);
++			}
+ 		}
+ 	}
+ 
+@@ -221,7 +224,9 @@ function set_manual_items(){
+ 			port_name = "LAN Port " + manual_settings.iptv_port.substr(3);
+ 		else
+ 			port_name = manual_settings.iptv_port;
+-		document.getElementById("wan_iptv_port4_x").style.display = "";
++		if(modelname != "K3"){
++			document.getElementById("wan_iptv_port4_x").style.display = "";
++		}
+ 		document.getElementById("iptv_port4").innerHTML = port_name;
+ 	}
+ 
+diff --git a/release/src/router/www/Advanced_WANPort_Content.asp b/release/src/router/www/Advanced_WANPort_Content.asp
+index 23ff3769e2..2d8f0353a5 100644
+--- a/release/src/router/www/Advanced_WANPort_Content.asp
++++ b/release/src/router/www/Advanced_WANPort_Content.asp
+@@ -117,7 +117,7 @@ var wans_lanport_orig = '<% nvram_get("wans_lanport"); %>';
+ var wanports_bond = '<% nvram_get("wanports_bond"); %>';
+ if(wan_bonding_support)
+ 	var orig_bond_wan = httpApi.nvramGet(["bond_wan"], true).bond_wan;
+-
++var modelname = '<% nvram_get("modelname"); %>';
+ 
+ function initial(){
+ 	show_menu();
+@@ -135,7 +135,7 @@ function initial(){
+ 	}
+ 	wans_caps_primary = wans_caps;
+ 	wans_caps_secondary = wans_caps;
+-	
++
+ 	addWANOption(document.form.wans_primary, wans_caps_primary.split(" "));
+ 	addWANOption(document.form.wans_second, wans_caps_secondary.split(" "));
+ 
+@@ -177,6 +177,9 @@ function initial(){
+ 	}else if(based_modelid == "RT-AC95U" || based_modelid == "RT-AX95Q" || based_modelid == "RT-AXE95Q" || based_modelid == "RT-AX82_XD6"){
+ 		document.form.wans_lanport1.remove(3);
+ 		document.form.wans_lanport2.remove(3);
++	}else if(modelname == "K3"){
++		document.form.wans_lanport1.remove(3);
++		document.form.wans_lanport2.remove(3);
+ 	}
+ 
+ 	if(based_modelid == "GT-AC5300"){ //MODELDEP: GT-AC5300 : TRUNK PORT
+-- 
+2.25.1
+

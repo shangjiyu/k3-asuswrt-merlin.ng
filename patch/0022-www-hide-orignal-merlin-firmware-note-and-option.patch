@@ -1,0 +1,43 @@
+From 269263000aa84e281573d3e7cd6661f40687330a Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Tue, 5 May 2020 15:24:23 +0800
+Subject: [PATCH 022/122] www: hide orignal merlin firmware note and option.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/www/Advanced_FirmwareUpgrade_Content.asp | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/release/src/router/www/Advanced_FirmwareUpgrade_Content.asp b/release/src/router/www/Advanced_FirmwareUpgrade_Content.asp
+index 78b0697aef..21c1146334 100644
+--- a/release/src/router/www/Advanced_FirmwareUpgrade_Content.asp
++++ b/release/src/router/www/Advanced_FirmwareUpgrade_Content.asp
+@@ -1261,7 +1261,9 @@ function toggle_fw_check(state) {
+ 					<li><#FW_n0#></li>
+ 					<li><#FW_n1#></li>
+ 					<li id="fw_note2"><#FW_n2#></li>
++					<!--
+ 					<li id="fw_note3">Get the latest firmware version from the download site at <a style="font-weight: bolder;text-decoration: underline;color:#FFFFFF;" href="https://www.asuswrt-merlin.net/download/" target="_blank">https://www.asuswrt-merlin.net/download/</a></li>
++					-->
+ 				</ol>
+ 		  </div>
+ 		  <br>
+@@ -1306,13 +1308,13 @@ function toggle_fw_check(state) {
+ 					</div>
+ 				</td>
+ 			</tr>
+-			<tr id="fwcheck_tr">
++			<!--<tr id="fwcheck_tr">
+ 				<th><a class="hintstyle" href="javascript:void(0);" onClick="openHint(50,15);">Scheduled check for new firmware availability</a></th>
+ 				<td>
+ 					<input type="radio" onclick="toggle_fw_check(1);" name="firmware_check_enable" class="input" value="1" <% nvram_match("firmware_check_enable", "1", "checked"); %>><#checkbox_Yes#>
+ 					<input type="radio" onclick="toggle_fw_check(0);" name="firmware_check_enable" class="input" value="0" <% nvram_match("firmware_check_enable", "0", "checked"); %>><#checkbox_No#>
+ 				</td>
+-			</tr>
++			</tr>-->
+ 			<tr id="fw_version_tr">
+ 				<th><#FW_item2#></th>
+ 				<td>
+-- 
+2.25.1
+

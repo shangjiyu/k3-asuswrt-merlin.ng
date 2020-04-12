@@ -1,0 +1,190 @@
+From 34e22c08921e1ed7edbb9ec223c290ee0e0a3c1f Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Wed, 15 Jul 2020 01:45:55 +0800
+Subject: [PATCH 062/122] rc: add wdg_monitor for K3 to fix watchdog shutdown
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/rc/Makefile   |  2 +-
+ release/src/router/rc/rc.c       |  4 ++--
+ release/src/router/rc/rc.h       |  2 +-
+ release/src/router/rc/services.c |  8 ++++----
+ release/src/router/rc/watchdog.c | 18 +++++++++---------
+ 5 files changed, 17 insertions(+), 17 deletions(-)
+
+diff --git a/release/src/router/rc/Makefile b/release/src/router/rc/Makefile
+index 168ddf904e..d33e55b5d8 100644
+--- a/release/src/router/rc/Makefile
++++ b/release/src/router/rc/Makefile
+@@ -973,7 +973,7 @@ endif
+ ifneq (,$(filter y,$(RTCONFIG_WLAN_LED) $(RTN18U) $(RTCONFIG_FAKE_ETLAN_LED) $(SW_USBLED) $(RTCONFIG_MMC_LED) $(RTCONFIG_BRCM_USBAP) $(RTAC66U) $(BCM4352) $(SW_DSLWANLED) $(RTCONFIG_SW_DEVLED)))
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc sw_devled
+ endif
+-ifeq ($(RTAC1200G),y)
++ifeq ($(or $(RTAC1200G),$(RTK3)),y)
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc wdg_monitor
+ endif
+ ifeq ($(and $(CONFIG_BCMWL5),$(RTCONFIG_FANCTRL)),y)
+diff --git a/release/src/router/rc/rc.c b/release/src/router/rc/rc.c
+index 500c2b8d96..dd9095e0fd 100644
+--- a/release/src/router/rc/rc.c
++++ b/release/src/router/rc/rc.c
+@@ -503,7 +503,7 @@ static int rctest_main(int argc, char *argv[])
+ 			else stop_sw_devled();
+ 		}
+ #endif
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ 		else if (strcmp(argv[1], "wdg_monitor") == 0) {
+ 			if (on) start_wdg_monitor();
+ 			else stop_wdg_monitor();
+@@ -1279,7 +1279,7 @@ static const applets_t applets[] = {
+ #ifdef SW_DEVLED
+ 	{ "sw_devled",			sw_devled_main			},
+ #endif
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ 	{ "wdg_monitor",		wdg_monitor_main		},
+ #endif
+ #if defined(CONFIG_BCMWL5) && defined(RTCONFIG_FANCTRL)
+diff --git a/release/src/router/rc/rc.h b/release/src/router/rc/rc.h
+index e3a8149fd9..7565976dd2 100644
+--- a/release/src/router/rc/rc.h
++++ b/release/src/router/rc/rc.h
+@@ -2172,7 +2172,7 @@ extern int start_watchdog02(void);
+ extern int start_sw_devled(void);
+ extern void stop_sw_devled(void);
+ #endif
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ extern void stop_wdg_monitor(void);
+ extern int start_wdg_monitor(void);
+ #endif
+diff --git a/release/src/router/rc/services.c b/release/src/router/rc/services.c
+index fc44e8e49a..6a21da0126 100644
+--- a/release/src/router/rc/services.c
++++ b/release/src/router/rc/services.c
+@@ -4976,7 +4976,7 @@ stop_misc(void)
+ 	if (pids("sw_devled"))
+ 		killall_tk("sw_devled");
+ #endif
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ 	if (pids("wdg_monitor"))
+ 		killall_tk("wdg_monitor");
+ #endif
+@@ -9521,7 +9521,7 @@ start_services(void)
+ #ifdef SW_DEVLED
+ 	start_sw_devled();
+ #endif
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ 	start_wdg_monitor();
+ #endif
+ #if defined(CONFIG_BCMWL5) && !defined(HND_ROUTER) && defined(RTCONFIG_DUALWAN)
+@@ -10432,7 +10432,7 @@ stop_sw_devled(void)
+ }
+ #endif
+ 
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ void
+ stop_wdg_monitor(void)
+ {
+@@ -10521,7 +10521,7 @@ start_sw_devled(void)
+ }
+ #endif
+ 
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ int
+ start_wdg_monitor(void)
+ {
+diff --git a/release/src/router/rc/watchdog.c b/release/src/router/rc/watchdog.c
+index 0b09dd50f2..fb932d8af7 100644
+--- a/release/src/router/rc/watchdog.c
++++ b/release/src/router/rc/watchdog.c
+@@ -301,7 +301,7 @@ static int no_assoc_check = 0;
+ 
+ void led_table_ctrl(int on_off);
+ 
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ #define WDG_MONITOR_PERIOD 60 /* second */
+ static int wdg_timer_alive = 1;
+ #endif
+@@ -4861,7 +4861,7 @@ static void catch_sig(int sig)
+ 
+ 		wsc_timeout = WPS_TIMEOUT_COUNT;
+ 	}
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ 	else if (sig == SIGHUP)
+ 	{
+ 		dbG("[watchdog] Reset alarm timer...\n");
+@@ -5950,7 +5950,7 @@ void init_sig()
+ 		|| sig == SIGUSR2
+ 		|| sig == SIGTSTP
+ 		|| sig == SIGALRM
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ 		|| sig == SIGHUP
+ #endif
+ #ifdef RTCONFIG_RALINK
+@@ -5969,7 +5969,7 @@ void init_sig()
+ #if defined(RTCONFIG_QCA)
+ 	g_t1 = uptime();
+ #endif
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ 	fn_acts[SIGHUP]  = catch_sig;
+ #endif
+ #ifdef RTCONFIG_RALINK
+@@ -5982,7 +5982,7 @@ void init_sig()
+ 	sigaddset(&sigs_to_catch, SIGUSR2);
+ 	sigaddset(&sigs_to_catch, SIGTSTP);
+ 	sigaddset(&sigs_to_catch, SIGALRM);
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ 	sigaddset(&sigs_to_catch, SIGHUP);
+ #endif
+ #ifdef RTCONFIG_RALINK
+@@ -5991,7 +5991,7 @@ void init_sig()
+ }
+ 
+ #ifdef SW_DEVLED
+-void init_sig_swled() 
++void init_sig_swled()
+ {
+ 	int sig;
+         for (sig = 0; sig < (_NSIG - 1); sig++) {
+@@ -6013,7 +6013,7 @@ void init_sig_swled()
+ }
+ #endif
+ 
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ void wdg_heartbeat(int sig)
+ {
+ 	if(factory_debug())
+@@ -9012,7 +9012,7 @@ wdp:
+ 	ntevent_disk_usage_check();
+ #endif
+ 
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ 	if (pids("wdg_monitor"))
+ 		kill_pidfile_s("/var/run/wdg_monitor.pid", SIGUSR1);
+ #endif
+@@ -9236,7 +9236,7 @@ int sw_devled_main(int argc, char *argv[])
+ }
+ #endif
+ 
+-#if defined(RTAC1200G) || defined(RTAC1200GP)
++#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
+ /* workaroud of watchdog timer shutdown */
+ int wdg_monitor_main(int argc, char *argv[])
+ {
+-- 
+2.25.1
+

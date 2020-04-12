@@ -1,0 +1,105 @@
+From 31303a18f0de6ee34936ab053ebd0c6114c8da93 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Sun, 24 Jan 2021 21:53:55 +0800
+Subject: [PATCH 090/122] www: add more translate items in CN.dict
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/www/CN.dict | 36 +++++++++++++++++-----------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
+
+diff --git a/release/src/router/www/CN.dict b/release/src/router/www/CN.dict
+index dc938556ac..44bb2cedc3 100644
+--- a/release/src/router/www/CN.dict
++++ b/release/src/router/www/CN.dict
+@@ -343,7 +343,7 @@ Modem_connect_waiting_1m=过程大约需要一分钟...
+ MSubnet_desc=设置子网。
+ MSubnet_ConfigTable_Title=子网设置
+ MSubnet_Warning=该子网正在被 VLAN 使用，无法删除！
+-NAT_passthrough_itemname=NAT Passthrough
++NAT_passthrough_itemname=NAT穿透
+ Network_key=无线密码
+ newFW_cancel=新固件不会自动安装。请进入「系统管理」 >「 固件升级」来下载最新的固件并进行更新。
+ not_support_script=很抱歉，您的浏览器不支持 Java Script。<p>请选择支持 JavaScript 的浏览器或开启 JavaScript 功能，以体验 ASUS ZVMODELVZ 各种软件功能。
+@@ -2101,10 +2101,10 @@ Game_Profile_desc3=此页面所有游戏商标、服务标志、商号、产品
+ Game_Profile_desc4=Portforwarding.org 技术支持
+ Game_Server_acceleration=游戏服务器加速
+ Game_WTFast_desc=WTFast 通过更短的路由通道，实现更短的延迟和 Ping 时间，将您的家庭网络连接至游戏服务器。
+-Gear_Accelerator=Gear Accelerator
+-Gear_Accelerator_desc=Game Device Prioritizing
+-Gear_Accelerator_desc1=Prioritizing your game devices for the best gaming experience.
+-Gear_Accelerator_List=Game Device List
++Gear_Accelerator=游戏主机加速器
++Gear_Accelerator_desc=游戏设备优先级
++Gear_Accelerator_desc1=优先考虑游戏设备以获得最佳游戏体验。
++Gear_Accelerator_List=游戏设备列表
+ OpenNAT_desc=OpenNAT 可让您轻松创建在线游戏端口转发规则，并优化游戏机至路由器的路由封包，以获得上佳游戏体验。
+ GB_account_type0=路由器免费基本帐户
+ GB_account_type1=基本账户
+@@ -2117,15 +2117,15 @@ GB_management_note2=如产品页免责声明所述，WTFast 仍在致力于游
+ GB_management_note3=GPN 性能可能会因 ISP 或地点不同而不同，请确认您的固件始终为最新版本。
+ GB_management_note4=如何选择 GPN 服务器? <span><a id="link" href="javascript:open_link('gpn1')" style="text-decoration:underline;color:#008DE5;">点击这里</a></span> 如何获得最佳游戏体验? <span><a id="link" href="javascript:open_link('gpn2')" style="text-decoration:underline;color:#008DE5;">点击这里</a></span>
+ GB_management_note5=如何在华硕路由器上使用 WTFast？<span><a id="link" href="javascript:open_link('howto')" style="text-decoration:underline;color:#008DE5;">点击这里</a></span>
+-GB_mobile=Mobile Game Mode
+-GB_mobile_desc=Boost your Mobile Game Play
+-GB_mobile_desc1=Download and install ASUS Router App. Enable mobile game mode in app to ensure the best mobile gaming experiences.
+-GB_OpenNAT_desc=3-steps Port Forwarding Setup
+-GB_OpenNAT_desc1=Open NAT offers a hassle-free way to create port forwarding rules for online games and optimizes the routing packets from your game console to the modem with an optimized gaming experience.
++GB_mobile=手机游戏模式
++GB_mobile_desc=提升您的手机游戏速度
++GB_mobile_desc1=下载并安装ASUS Router App。在应用中启用手机游戏模式，以确保最佳的手机游戏体验。
++GB_OpenNAT_desc=3步端口转发设置
++GB_OpenNAT_desc1=Open NAT提供了一种轻松的方法来为在线游戏创建端口转发规则，并优化从游戏机到调制解调器的路由数据包，从而优化游戏体验。
+ GB_rulelist=游戏加速规则列表
+ GB_rulelist_addmax=启用的规则数量达到帐户的限制。添加的规则将默认为禁用。
+ GB_rulelist_enablemax=启用的规则数量达到帐户的限制。您必须先禁用一个现有的已启用规则，然后才能启用该规则。
+-GeForce_NOW_itemname=Enable GeForce NOW QoS UPnP control
++GeForce_NOW_itemname=启用GeForce NOW QoS UPnP控制
+ General_x_SystemUpTime_itemdesc=系统开机至目前所耗费时间
+ General_x_SystemUpTime_itemname=已开机时间
+ GeneralLog_title=此页显示具体系统活动。
+@@ -2258,7 +2258,7 @@ IPConnection_autofwOutPort_itemname=触发程序通信端口
+ IPConnection_BattleNet_itemdesc=选择「是」，允许同时间在LAN中可有多位玩家一起参与Starcraft的在线游戏。
+ IPConnection_BattleNet_itemname=Starcraft (Battle.Net)
+ IPConnection_BattleNet_sectiondesc=某些应用程序需要特殊的处理程序来穿越IP共享器。默认是关闭。
+-IPConnection_BattleNet_sectiondesc2=Please <span style="text-decoration:underline;cursor:pointer" id="addVtsRule_ftp">add a rule</span> to port forwarding list for USB Disk access properly on FTP service.
++IPConnection_BattleNet_sectiondesc2=请在端口转发列表中<span style="text-decoration:underline;cursor:pointer" id="addVtsRule_ftp">添加规则</span>，以便正确访问FTP服务上的USB硬盘。
+ IPConnection_BattleNet_sectionname=特殊应用程序
+ IPConnection_ExposedIP_itemname=公开显露访问点的 IP 地址
+ IPConnection_ExposedIP_sectiondesc=虚拟非军事区（Virtual DMZ）让您得以将一部计算机公开显露在互联网上，使所有上传的封包全数转向您指定的计算机。这对您在运行一些使用非特定内传通信端口（incoming port）的应用程序时会相当有用。请谨慎使用。
+@@ -2613,9 +2613,9 @@ NAT_Acceleration_ctf_fa_mode2=CTF (Cut Through Forwarding) 及 FA (Flow Accelera
+ NAT_Acceleration_disabled=由于启用了来宾网络的带宽限制器，NAT 加速器被关闭。
+ NAT_Acceleration_enable=NAT 加速器已开启。
+ nat_enable=启动 NAT Accelerator
+-NAT_H323_Passthrough=H.323 Passthrough
+-NAT_IPSec_Passthrough=IPSec Passthrough
+-NAT_L2TP_Passthrough=L2TP Passthrough
++NAT_H323_Passthrough=H.323 穿透
++NAT_IPSec_Passthrough=IPSec 穿透
++NAT_L2TP_Passthrough=L2TP 穿透
+ NAT_lacp=绑定/链路聚合
+ NAT_lacpDesc=此项目有多个名称：端口聚合/绑定/成组/链路聚合/ 802.3ad
+ NAT_lacp_disable_note=Change IPTV/ VOIP port settings to LAN5/ LAN6 will disable Bonding/ Link aggregation function. Are you sure to do it?
+@@ -2780,7 +2780,7 @@ PPPConnection_x_PPPoEMRU_itemname=最大接收单位（MRU）
+ PPPConnection_x_PPPoEMTU_itemdesc=PPPoE 数据包的最大传送单位。默认值为 1492。仅当您的 ISP 需要时更变此设置值。
+ PPPConnection_x_PPPoEMTU_itemname=最大传输单位（MTU）
+ PPPConnection_x_PPPoERelay_itemdesc=开启 PPPoE 中继允许 LAN 中的装置建立一个可穿过 NAT 的独立 PPPoE 连接。
+-PPPConnection_x_PPPoERelay_itemname=PPPoE Relay
++PPPConnection_x_PPPoERelay_itemname=PPPoE 中继
+ PPPConnection_x_PPTPOptions_itemdesc=本项或许某些 ISP 运营商能够指定。请向您的 ISP 运营商确认并于需要时将它们填入。
+ PPPConnection_x_PPTPOptions_itemname=PPTP 选项
+ PPPConnection_x_ServiceName_itemdesc=本栏为选填，某些网络联机需要您填入网络服务名称。请向您的网络服务供货商（ISP）确认并于需要时将它们填入。
+@@ -3574,8 +3574,8 @@ WLANConfig11b_EChannel_band3=频道自动选择包括 band 3 频道
+ WLANConfig11b_EChannel_dfs=频道自动选择包括 DFS 频道
+ WLANConfig11b_EChannel_itemdesc=扩展频道与频道结合使带宽扩大为 40MHz。
+ WLANConfig11b_EChannel_itemname=扩展频道
+-WLANConfig11b_EChannelAbove=Above
+-WLANConfig11b_EChannelBelow=Below
++WLANConfig11b_EChannelAbove=向上
++WLANConfig11b_EChannelBelow=向下
+ WLANConfig11b_HE_Frame_Mode_itemname=802.11ax / Wi-Fi 6 模式
+ WLANConfig11b_HE_Frame_Mode_faq=If compatibility issue occurs when enabling 802.11ax / Wi-Fi 6 mode, please check: <a id="he_mode_faq_link">FAQ</a>
+ WLANConfig11b_MultiRateAll_itemdesc=选择组播传输速率。
+-- 
+2.25.1
+
