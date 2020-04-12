@@ -1,0 +1,26 @@
+From c527dc852b7b70b9a677b245136098706529983f Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Thu, 4 Jun 2020 21:51:45 +0800
+Subject: [PATCH 041/122] busybox: compile base64 needed by fancyss.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/busybox/config_base | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/release/src/router/busybox/config_base b/release/src/router/busybox/config_base
+index 6b75658e91..6733e25c8b 100644
+--- a/release/src/router/busybox/config_base
++++ b/release/src/router/busybox/config_base
+@@ -211,7 +211,7 @@ CONFIG_TR=y
+ # CONFIG_FEATURE_TR_EQUIV is not set
+ # CONFIG_TRUNCATE is not set
+ # CONFIG_UNLINK is not set
+-# CONFIG_BASE64 is not set
++CONFIG_BASE64=y
+ # CONFIG_WHO is not set
+ # CONFIG_USERS is not set
+ # CONFIG_CAL is not set
+-- 
+2.25.1
+

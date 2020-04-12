@@ -1,0 +1,44 @@
+From 026619cff68c9c7ac82bde62429d1e9d5f2b4168 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Wed, 15 Jul 2020 01:51:24 +0800
+Subject: [PATCH 066/122] httpd: remove downgrade limit
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/httpd/web.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/release/src/router/httpd/web.c b/release/src/router/httpd/web.c
+index d10c841c48..927acfc06d 100644
+--- a/release/src/router/httpd/web.c
++++ b/release/src/router/httpd/web.c
+@@ -13387,6 +13387,8 @@ do_upgrade_post(char *url, FILE *stream, int len, char *boundary)
+ 
+ 	upgrade_err = check_imagefile(upload_fifo);
+ 
++	if (upgrade_err == 2)
++		nvram_set_int("reboot_time", nvram_get_int("reboot_time")+30);
+ 	if (upgrade_err) /* 0: legal image, 1: illegal image 2: new trx format validation failure */
+ 		goto err;
+ 
+@@ -13411,7 +13413,7 @@ do_upgrade_cgi(char *url, FILE *stream)
+ 	char *autoreboot = safe_get_cgi_json("autoreboot",NULL);
+ 	char *reset = safe_get_cgi_json("reset",NULL);
+ 
+-	if (upgrade_err == 0)
++	if (upgrade_err == 0 || upgrade_err == 2)
+ 	{
+ #if defined(RTCONFIG_DSL) && defined(RTCONFIG_RALINK)
+ 		int ret_val_comp;
+@@ -13450,6 +13452,8 @@ do_upgrade_cgi(char *url, FILE *stream)
+ 			upgrade_rc("stop", autoreboot, reset, 10);
+ 			stop_upgrade_once = 1;
+ 		}
++		if (upgrade_err == 2 && !err)
++			system("nvram erase");
+ 	}
+ 	else
+ 	{
+-- 
+2.25.1
+

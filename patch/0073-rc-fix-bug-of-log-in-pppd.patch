@@ -1,0 +1,26 @@
+From 2afcaf5565950a132355349179c1baa335353aa5 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Sun, 9 Aug 2020 18:14:57 +0800
+Subject: [PATCH 073/122] rc: fix bug of log in pppd.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/rc/pppd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/release/src/router/rc/pppd.c b/release/src/router/rc/pppd.c
+index 7d496b009f..dc31864b43 100644
+--- a/release/src/router/rc/pppd.c
++++ b/release/src/router/rc/pppd.c
+@@ -16,7 +16,7 @@
+  *
+  * Copyright 2004, ASUSTeK Inc.
+  * All Rights Reserved.
+- * 
++ *
+  * THIS SOFTWARE IS OFFERED "AS IS", AND ASUS GRANTS NO WARRANTIES OF ANY
+  * KIND, EXPRESS OR IMPLIED, BY STATUTE, COMMUNICATION OR OTHERWISE. BROADCOM
+  * SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS
+-- 
+2.25.1
+

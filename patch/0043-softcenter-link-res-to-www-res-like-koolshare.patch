@@ -1,0 +1,53 @@
+From f425714724fbb0980124f2d73e16d0bcf9a9f0b6 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Sun, 7 Jun 2020 12:30:33 +0800
+Subject: [PATCH 043/122] softcenter: link /res to /www/res (like koolshare)
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/softcenter/Makefile | 19 ++-----------------
+ 1 file changed, 2 insertions(+), 17 deletions(-)
+
+diff --git a/release/src/router/softcenter/Makefile b/release/src/router/softcenter/Makefile
+index dfb7ff929c..4be19a0412 100755
+--- a/release/src/router/softcenter/Makefile
++++ b/release/src/router/softcenter/Makefile
+@@ -1,21 +1,6 @@
+ include ../common.mak
+ 
+-#export SC_BUILD=y
+-ifeq ($(SC_BUILD), y)
+-all: versioncmp base64_encode resolveip
+-
+-versioncmp:
+-	$(CC) -static versioncmp.c -o versioncmp
+-	$(STRIP) versioncmp
+-base64_encode:
+-	$(CC) -static base64.c -o base64_encode
+-	$(STRIP) base64_encode
+-resolveip:
+-	$(CC) -static resolveip.c -o resolveip
+-	$(STRIP) resolveip
+-else
+ all:
+-endif
+ 
+ install:
+ 	install -d $(INSTALLDIR)/sbin
+@@ -28,11 +13,11 @@ install:
+ ifeq ($(HND_ROUTER), y)
+ 	install -d $(INSTALLDIR)/www/www
+ 	install -d $(INSTALLDIR)/www/www/js
+-	install -d $(INSTALLDIR)/www/www/res
++	ln -snrf $(INSTALLDIR)/jffs/.koolshare/res $(INSTALLDIR)/www/www/res
+ else
+ 	install -d $(INSTALLDIR)/www
+ 	install -d $(INSTALLDIR)/www/js
+-	install -d $(INSTALLDIR)/www/res
++	ln -snrf $(INSTALLDIR)/jffs/.koolshare/res $(INSTALLDIR)/www/res
+ endif
+ ifeq ($(BUILD_NAME), $(filter $(BUILD_NAME), GT-AC2900 GT-AC5300))
+ 	install -d $(INSTALLDIR)/rom/etc/koolshare/ROG/res
+-- 
+2.25.1
+

@@ -1,0 +1,36 @@
+From 1ff953294362496898f9415a3a90d90469294e75 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Fri, 8 May 2020 19:54:25 +0800
+Subject: [PATCH 026/122] cfe: nvram add bootloader version
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ .../build/broadcom/bcm947xx/compressed/rt-k3_nvram.txt | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/release/src-rt-7.14.114.x/src/cfe/build/broadcom/bcm947xx/compressed/rt-k3_nvram.txt b/release/src-rt-7.14.114.x/src/cfe/build/broadcom/bcm947xx/compressed/rt-k3_nvram.txt
+index 2332843f4b..9aebc9f3f7 100644
+--- a/release/src-rt-7.14.114.x/src/cfe/build/broadcom/bcm947xx/compressed/rt-k3_nvram.txt
++++ b/release/src-rt-7.14.114.x/src/cfe/build/broadcom/bcm947xx/compressed/rt-k3_nvram.txt
+@@ -790,10 +790,16 @@ devpath2=pcie/2/1/
+ bootflags=1
+ 
+ # ODM Product ID
+-odmpid=ASUS
++odmpid=RT-AC3100
+ 
+ # Model Name
+-#model=RT-K3
++model=RT-AC3100
++
++# Bootloader Version
++bl_version=1.0.37
++
++# ATEMODE
++ATEMODE=0
+ 
+ # Customize
+ modelname=K3
+-- 
+2.25.1
+

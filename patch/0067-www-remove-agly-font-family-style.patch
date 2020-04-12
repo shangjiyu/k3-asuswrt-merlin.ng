@@ -1,0 +1,710 @@
+From 626567d34722eb61e948a711dd929248e0aa91ad Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Wed, 15 Jul 2020 01:53:18 +0800
+Subject: [PATCH 067/122] www: remove agly font family style.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/www/Main_Login.asp         |  2 +-
+ release/src/router/www/NM_style.css           | 16 +++---
+ release/src/router/www/PrinterServer.asp      |  2 +-
+ release/src/router/www/css/asus_eula.css      |  4 +-
+ .../router/www/device-map/disk_utility.asp    |  2 +-
+ release/src/router/www/form_style.css         | 50 +++++++++----------
+ release/src/router/www/index_style.css        | 38 +++++++-------
+ release/src/router/www/qis/QIS_finish.htm     |  2 +-
+ release/src/router/www/qis/qis_style.css      | 22 ++++----
+ release/src/router/www/tmmenu.css             | 12 ++---
+ 10 files changed, 75 insertions(+), 75 deletions(-)
+
+diff --git a/release/src/router/www/Main_Login.asp b/release/src/router/www/Main_Login.asp
+index f989c14493..3d6355a623 100644
+--- a/release/src/router/www/Main_Login.asp
++++ b/release/src/router/www/Main_Login.asp
+@@ -11,7 +11,7 @@
+ <title>ASUS Login</title>
+ <style>
+ body{
+-	font-family: Arial, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, sans-serif;
+ }
+ .wrapper{
+ 	background:url(images/New_ui/login_bg.png) #283437 no-repeat;
+diff --git a/release/src/router/www/NM_style.css b/release/src/router/www/NM_style.css
+index a3f2dc70b5..38cc2a182e 100644
+--- a/release/src/router/www/NM_style.css
++++ b/release/src/router/www/NM_style.css
+@@ -4,7 +4,7 @@
+ 	background-color:#2A3539;
+ }
+ .statusTitle{	
+-	font-family: "Times New Roman", Times, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, serif;
++	font-family: "Times New Roman", Times, serif;
+ 	background: #A5A5A5; /* Old browsers */
+ 	background: -moz-linear-gradient(top, #A5A5A5  0%, #434343 100%); /* FF3.6+ */
+ 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#A5A5A5 ), color-stop(100%,#434343)); /* Chrome,Safari4+ */
+@@ -31,7 +31,7 @@
+ .input{color:#3b5f71;border:1px solid #7398ac;background-color:#cae9f3;font-family :Verdana;font-size : 11px;padding-left:5px;}
+ 
+ .NMdesp{
+-	font-family: Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, Arial, Helvetica, sans-serif;
+ 	font-size:11px;
+ 	line-height:180%;
+ 	text-align:left;
+@@ -107,8 +107,8 @@
+ }
+ 
+ .table1px tbody td div#wl_nmode_x_hint{color:#FC0;margin-top:3px;line-height:120%;}
+-.table1px tbody td{font-size:11px; font-family:Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;}
+-.table1px th{font-size:11px; font-family:Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;color:#FFFFFF;  background-color:#4d595d; text-align:left;}
++.table1px tbody td{font-size:11px; font-family:Verdana, Arial, Helvetica, sans-serif;}
++.table1px th{font-size:11px; font-family:Verdana, Arial, Helvetica, sans-serif;color:#FFFFFF;  background-color:#4d595d; text-align:left;}
+ 
+ .Tablehead {font-family :Verdana;font-size : 11px;text-align:center;color:#000000; font-weight:bold;  line-height:190%; background-color:#6692B0;}
+ .Tabletitle td{font-family :Verdana;font-size : 11px;text-align:center; color:#000000;line-height:190%;  background-color:#7aa3bd; }
+@@ -117,14 +117,14 @@
+ .top-message2 {font-family :Verdana;font-size : 11px;text-align:left;color:#23344d;font-weight:normal;background:#a7d2e2;}
+ 
+ .clients{
+-	font-family:Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Verdana, Arial, Helvetica, sans-serif;
+ 	font-size:13px;
+ 	line-height:150%;
+ 	margin-top:10px;
+ }
+ 
+ .clients span{
+-	font-family:Arial Black, Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial Black, Verdana, Arial, Helvetica, sans-serif;
+ 	color:#569AC7;
+ 	font-size:15px;
+ }
+@@ -171,7 +171,7 @@
+ 	overflow:hidden;
+ 	font-size:12px;
+ 	color:#FFF;
+-	font-family:Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Verdana, Arial, Helvetica, sans-serif;
+ 	line-height:20px;
+ 	padding:2px;
+ }
+@@ -185,7 +185,7 @@
+ 	z-index:100;
+ 	font-size:11px;	
+ 	line-height:16px;
+-	font-family:Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Verdana, Arial, Helvetica, sans-serif;
+ 	color:#000;	
+ }
+ .hardware_title{
+diff --git a/release/src/router/www/PrinterServer.asp b/release/src/router/www/PrinterServer.asp
+index 200769c469..31dbc44895 100644
+--- a/release/src/router/www/PrinterServer.asp
++++ b/release/src/router/www/PrinterServer.asp
+@@ -14,7 +14,7 @@
+ <style type="text/css"> 
+ 	div.wrapper { margin: 0 auto; width: 730px;}
+ 	td.sidenav { width:200px;}
+-	body {font-family: Verdana, Tohoma, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;padding:0;margin:0;}
++	body {font-family: Verdana, Tohoma, Arial, Helvetica, sans-serif;padding:0;margin:0;}
+ 	.wrapperDesc { margin: 0 auto; width: 570px;}
+ </style> 
+ <script type="text/javascript" src="/state.js"></script>
+diff --git a/release/src/router/www/css/asus_eula.css b/release/src/router/www/css/asus_eula.css
+index 488e8daa26..778a85b6e5 100644
+--- a/release/src/router/www/css/asus_eula.css
++++ b/release/src/router/www/css/asus_eula.css
+@@ -6,7 +6,7 @@
+ .alert_ASUS_EULA{
+ 	line-height: 160%;
+ 	font-size: 14px;
+-	font-family: Arial, Verdana, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Verdana, Helvetica, sans-serif;
+ 	height:auto;
+ 	position:absolute;
+ 	background: rgba(0,0,0,0.9);
+@@ -90,4 +90,4 @@
+ }
+ .eula-content-padding{
+ 	margin-top: 18px;
+-}
++}
+\ No newline at end of file
+diff --git a/release/src/router/www/device-map/disk_utility.asp b/release/src/router/www/device-map/disk_utility.asp
+index db3547f842..3a24f6c9a9 100644
+--- a/release/src/router/www/device-map/disk_utility.asp
++++ b/release/src/router/www/device-map/disk_utility.asp
+@@ -35,7 +35,7 @@ a:active {
+ 	border-bottom: 1px solid #929eA1;
+ }
+ .font_style{
+-	font-family: Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, Arial, Helvetica, sans-serif;
+ }
+ </style>
+ <script type="text/javascript" src="/require/require.min.js"></script>
+diff --git a/release/src/router/www/form_style.css b/release/src/router/www/form_style.css
+index 4798937efa..2ab808e660 100644
+--- a/release/src/router/www/form_style.css
++++ b/release/src/router/www/form_style.css
+@@ -60,7 +60,7 @@
+ .FormTitle{
+ 	line-height:160%;
+ 	font-size:12px;
+-	font-family:Arial, Verdana, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Verdana, Helvetica, sans-serif;
+ 	border:1px solid #4D595D;
+ 	color:white;
+ 	position:relative;
+@@ -82,12 +82,12 @@
+ }
+ .FormTable{
+ 	font-size:12px;
+-	font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Helvetica, sans-serif;
+ 	border: 1px solid #000000;
+ 	border-collapse: collapse;
+ }
+ .FormTable th{
+-	font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Helvetica, sans-serif;
+ 	background-color:#1F2D35;
+ 	color:#FFFFFF	;	/*Viz add*/
+ 	font-weight:normal;
+@@ -145,12 +145,12 @@
+ .FormTable_table{
+ 	margin-top:10px;
+ 	font-size:12px;
+-	font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Helvetica, sans-serif;
+ 	border: 1px solid #222;
+ 	border-collapse: collapse;
+ }
+ .FormTable_table th{
+-	font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Helvetica, sans-serif;
+ 	background-color:#1f2d35;
+ 	font-weight:normal;
+ 	text-align:center;
+@@ -214,12 +214,12 @@
+ .FormTable_NWM{
+ 	/*margin-top:10px;*/
+ 	font-size:12px;
+-	font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Helvetica, sans-serif;
+ 	border: 1px solid #222;
+ 	border-collapse: collapse;
+ }
+ .FormTable_NWM th{
+-	font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Helvetica, sans-serif;
+ 	background-color:#1f2d35;
+ 	font-weight:normal;
+ 	text-align:center;
+@@ -283,13 +283,13 @@
+ 
+  .table_text{
+  	color:#FFFFFF;
+-	font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Helvetica, sans-serif;
+ 	text-decoration:none;
+  }
+ /* for Table */
+ .input{
+ 	color:#FFFFFF;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	font-size:12px;
+ 	padding-left:2px;
+ }
+@@ -481,7 +481,7 @@
+ 	border:0;
+ 	color: #FFFFFF;
+ 	height:33px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size:12px;
+ 	padding:0 .70em 0 .70em;
+ 	width: auto;
+@@ -511,7 +511,7 @@
+   border:0;
+   color: #333333;
+ 	height:33px;
+-	font-family: Verdana, Bold, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, Bold, sans-serif;
+ 	font-size:12px;
+   padding:0 .70em 0 .70em;
+     width: auto;
+@@ -621,7 +621,7 @@ form{
+ }
+ .popTable tbody td{
+ 	color: #666666;
+-	font-family: Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, Arial, Helvetica, sans-serif;
+ 	font-size:10pt;
+ 	padding:4px;
+ }
+@@ -674,7 +674,7 @@ form{
+ 	background-color:#EFEFEF;
+ 	color:#FFF;
+ 	font-size:12px;
+-	font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Helvetica, sans-serif;
+ }
+ #QoSList_Block div:hover {
+ 	background-color:#3366FF;
+@@ -895,7 +895,7 @@ form{
+ /* CSS Document */
+ body{
+ color:#FFFFFF;
+-font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++font-family:Arial, Helvetica, sans-serif;
+ font-size:13px;
+ color:#FFFFFF;
+ }
+@@ -1008,7 +1008,7 @@ color:#FFFFFF;
+ 	display: block;
+ 	padding: 5px 5px 0 12px;
+ 	line-height: 20px;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	font-size: 13px;
+ 	background: #333E42;
+ 	border-radius: 5px 5px 0 0;
+@@ -1022,7 +1022,7 @@ color:#FFFFFF;
+ 
+ .tabclick_NW {
+ 	font-weight: bolder;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+     color: White;
+     display: block;
+     float: left;
+@@ -1040,7 +1040,7 @@ color:#FFFFFF;
+ 	font-weight: bolder;
+ 	white-space:nowrap;
+ 	font-weight: bolder;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+     display: block;
+     padding: 5px 5px 0 12px;
+     line-height: 20px;
+@@ -1095,7 +1095,7 @@ color:#FFFFFF;
+ }
+ 
+ .formfont{
+-font:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++font:Arial, Helvetica, sans-serif;
+ font-size:16px;
+ color:#FFFFFF;
+ padding-left:10px;
+@@ -1105,7 +1105,7 @@ margin-top:5px;
+ 
+ .formfonttitle{
+ text-shadow: 1px 1px 0px black;
+-font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++font-family:Arial, Helvetica, sans-serif;
+ font-size:16px;
+ color:#FFFFFF;
+ margin-left:5px;
+@@ -1113,7 +1113,7 @@ margin-bottom:10px;
+ font-weight: bolder;
+ }
+ .formfonttitle_nwm{
+-font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++font-family:Arial, Helvetica, sans-serif;
+ font-size:12px;
+ color:#FFFFFF;
+ margin-left:5px;
+@@ -1122,14 +1122,14 @@ font-weight: bolder;
+ }
+ 
+ .formfontcontent{
+-font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++font-family:Arial, Helvetica, sans-serif;
+ font-size:12px;
+ color:#FFFFFF;
+ padding-top:1px;
+ }
+ 
+ .formfontdesc{
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	font-size:13px;
+ 	color:#FFFFFF;
+ 	margin-left:5px;
+@@ -1137,7 +1137,7 @@ padding-top:1px;
+ }
+ 
+ .formlinkfont{
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	font-size:13px;
+ 	color:#FFFFFF;
+ 	text-decoration:underline;
+@@ -1704,7 +1704,7 @@ padding-top:1px;
+ }
+ 
+ .panel_folder{
+-	font-family: Courier, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Courier, sans-serif;
+ 	width:500px;
+ 	position:absolute;
+ 	z-index:2000;
+@@ -2232,4 +2232,4 @@ padding-top:1px;
+ 	height: 16px;
+ 	width: 14px;
+ 	display: none;
+-}
++}
+\ No newline at end of file
+diff --git a/release/src/router/www/index_style.css b/release/src/router/www/index_style.css
+index 1f2707636a..6445ff733c 100644
+--- a/release/src/router/www/index_style.css
++++ b/release/src/router/www/index_style.css
+@@ -55,7 +55,7 @@ body {
+ 	text-shadow: 1px 1px 0px black;	
+ 	width:185px;
+ 	height:48px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size:12px;
+ 	text-align:left;
+ 	position:relative;
+@@ -69,7 +69,7 @@ body {
+ 	text-shadow: 1px 1px 0px black;	
+ 	width:185px;
+ 	height:48px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size:12px;
+ 	text-align:left;
+ 	position:relative;
+@@ -95,7 +95,7 @@ body {
+ .menu_QIS_title {
+ 	width:185px;
+ 	height: 53px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size: 12px;
+ 	color:#ffffff;
+ 	padding-left:0px;
+@@ -136,7 +136,7 @@ body {
+ 	margin-top: -1px; 
+ 	width:185px;
+ 	height: 47px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size : 12px;
+ 	color:#ffffff;
+ 	font-weight:bold;
+@@ -184,7 +184,7 @@ body {
+ 	}	
+ }
+ 
+-.submenu {width:187px; font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif; font-size:11px; line-height:20px;}
++.submenu {width:187px; font-family: Verdana, sans-serif; font-size:11px; line-height:20px;}
+ .submenu a {height:26px; text-decoration:none; }
+ .submenu a:link, .submenu a:visited {
+ 	color: #94ccf2;	display: block;
+@@ -241,7 +241,7 @@ body {
+ 
+ /*==========================Level 3 Tab Class=================================*/
+ .Help thead{
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size:12px;
+ 	line-height:19px;
+ 	font-weight:bold;
+@@ -249,7 +249,7 @@ body {
+ 	background-image:url(images/title-bg-2.gif);
+ 	}
+ .Help tbody{
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size:12px;
+ 	background-color: #FFFFCC;
+ 	text-align:left;
+@@ -257,7 +257,7 @@ body {
+ }
+ 
+ .AiHintTitle{
+-	font-family : Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family : Verdana, sans-serif;
+ 	font-size:11px; 
+ 	font-weight:bold;
+ 	color:#000;
+@@ -298,7 +298,7 @@ body {
+ 
+ /**********AiHelp add by Lock*************/
+ #helpicon{
+-	font-family: Arial black, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial black, Arial, Helvetica, sans-serif;
+ 	font-size:12px;
+ 	color: #FF6600;
+ 	display:block;
+@@ -364,7 +364,7 @@ body {
+ /**************Add by kcol***************/
+ 
+ .bottom-image {margin:0 auto; width:998px; background:url(images/New_ui/bottom_bg.png) no-repeat; height:30px; }
+-.copyright {font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;font-size : 11px;text-align:right;color:#FFFFFF;padding-right:10px; margin:0 auto; width:983px;}
++.copyright {font-family: Verdana, sans-serif;font-size : 11px;text-align:right;color:#FFFFFF;padding-right:10px; margin:0 auto; width:983px;}
+ 
+ .popup_bg{
+ 	position:absolute;	
+@@ -433,7 +433,7 @@ body {
+ 	font-size:20px;
+ 	color:#FFFFFF;
+ 	background-color:#000000;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	position:absolute;
+ 	margin:5px 35% 5px;
+ }
+@@ -446,7 +446,7 @@ body {
+ 	border: 0px;
+ 	width:450px;
+ 	font-size:12px;
+-	font-family: Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, Arial, Helvetica, sans-serif;
+ 	color:#FFFFFF;
+ 	background-color:#000000;
+ 	position:absolute;
+@@ -485,7 +485,7 @@ body {
+ 	margin-top:0px;
+ 	margin-left:-148px;
+ 	background-color:#FFFFFF;
+-	font-family: Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, Arial, Helvetica, sans-serif;
+ 	font-size:11px;
+ 	width:120px;
+ 	border:1px solid #999;
+@@ -657,7 +657,7 @@ width:122px;
+ 	background-position: -0px -0px; width: 19px; height: 19px;
+ }
+ #bottom_help_title{
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	font-weight:bolder;
+ 	color: #569AC7;
+ }
+@@ -772,7 +772,7 @@ width:122px;
+ 	margin-top: 10px;
+ 	border: 1px solid #6B7071;
+ 	text-align: center;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	border-radius: 5px 5px 0px 0px;
+ 	font-weight: bold;
+ 	text-shadow: 1px 1px 0px black;
+@@ -924,7 +924,7 @@ width:122px;
+ 	margin-right: 2px;
+ 	text-align:center;
+ 	text-decoration: none;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size: 12px;
+ 	border-radius: 5px;
+ }
+@@ -940,7 +940,7 @@ width:122px;
+ 	margin-right: 2px;
+ 	text-align:center;
+ 	text-decoration: none;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size: 12px;
+ 	border-radius: 5px;
+ }
+@@ -952,7 +952,7 @@ width:122px;
+ .m_qis_r {
+ 	width:185px;
+ 	height: 53px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size: 12px;
+ 	color:#ffffff;
+ 	padding-left:0px;
+@@ -993,7 +993,7 @@ width:122px;
+ .m_qis_r_blocked {
+ 	width:185px;
+ 	height: 53px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size: 12px;
+ 	color:#ffffff;
+ 	padding-left:0px;
+diff --git a/release/src/router/www/qis/QIS_finish.htm b/release/src/router/www/qis/QIS_finish.htm
+index 9c2e44b95c..4e5ed8909c 100644
+--- a/release/src/router/www/qis/QIS_finish.htm
++++ b/release/src/router/www/qis/QIS_finish.htm
+@@ -10,7 +10,7 @@ span{
+ 	border:0px solid #FFFFFF;
+ 	color:#FFFFFF;
+ 	font-size:12px;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ 	/*width:27px;*/
+ 	text-align:right;
+ 	margin:0px auto;
+diff --git a/release/src/router/www/qis/qis_style.css b/release/src/router/www/qis/qis_style.css
+index a7ab25233f..a6964c0317 100644
+--- a/release/src/router/www/qis/qis_style.css
++++ b/release/src/router/www/qis/qis_style.css
+@@ -40,7 +40,7 @@ legend {
+ 	height:19px;
+ 	float:left;
+ 	text-align:left;
+-	font-family: Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, Arial, Helvetica, sans-serif;
+ 	font-size: 14px;
+ 	font-weight: bold;
+ 	border-bottom:1px solid #CCC;
+@@ -157,7 +157,7 @@ legend {
+ }
+ 
+ .QISalert{	
+-	font-family: Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, Arial, Helvetica, sans-serif;
+ 	font-size:12px;
+ }
+ 
+@@ -168,7 +168,7 @@ legend {
+ 	font-weight:bold;
+ 	line-height:140%;	
+ 	color:#FFFFFF;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ }
+ 
+ .hackiframe{	/* iframe for Hack IE 6.0 to avoid select menu over DIV layer. */
+@@ -199,7 +199,7 @@ legend {
+ .mode_desc{
+ 	font-size:8pt;
+ 	color:#333;
+-	font-family: Verdana, Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, Arial, Helvetica, sans-serif;
+ 	line-height:130%;
+ 	padding:2px;
+ }
+@@ -208,7 +208,7 @@ legend {
+ 	margin-top:12px;
+ 	width:185px;
+ 	text-align:center;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	color:#ffffff;
+ 	font-weight:bold;
+ 	padding-top:0px;
+@@ -224,7 +224,7 @@ legend {
+ 	margin-top: -2px;
+ 	width:185px;
+ 	height: 50px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size : 12px;
+ 	color:#ffffff;
+ 	font-weight:bold;
+@@ -245,7 +245,7 @@ legend {
+ .lefttabmid {
+ 	width:185px;
+ 	height:50px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size:12px;
+ 	text-align:left;
+ 	position:relative;
+@@ -282,7 +282,7 @@ legend {
+ 	background-repeat: repeat;
+ 	visibility:hidden;
+ 	overflow:hidden;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ }
+ .loadingBlock{
+ 	filter:alpha(opacity=90);
+@@ -299,7 +299,7 @@ legend {
+ 	color:#FFFFFF;
+ 	font-weight:bolder;
+ 	background-color:#000000;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ }
+ 
+ .dr_sweet_advise{
+@@ -316,7 +316,7 @@ legend {
+ 	font-size:20px;
+ 	color:#FFFFFF;
+ 	background-color:#000000;
+-	font-family: Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Arial, Helvetica, sans-serif;
+ }
+ 
+ .IPaddr_qis{
+@@ -410,7 +410,7 @@ legend {
+ 	text-align:left;
+ 	color:#FFFFFF;
+ 	height:30px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size:12px;
+ 	/*background-color:#1f2d35;*/
+ 	background-color:#2B373B;
+diff --git a/release/src/router/www/tmmenu.css b/release/src/router/www/tmmenu.css
+index 52958804d6..9781a7054f 100644
+--- a/release/src/router/www/tmmenu.css
++++ b/release/src/router/www/tmmenu.css
+@@ -138,7 +138,7 @@ select {
+ 	padding-bottom: 10px;
+ 	padding-left: 10px;
+ 	padding-right: 10px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size: 12px;
+ 	font-weight: bold;
+ 	display: block;
+@@ -385,7 +385,7 @@ table.fields {
+ }
+ .bwmg th{
+ 	padding: 4px;
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	background-color:#1F2D35;
+ 	font-weight:normal;
+ 	line-height:30px;
+@@ -443,7 +443,7 @@ table.fields {
+ }
+ 
+ #bwm-input {
+-	font-family: Verdana, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family: Verdana, sans-serif;
+ 	font-size:11px;
+ 	color:#000000;
+ 	line-height:200%;
+@@ -454,7 +454,7 @@ table.fields {
+ .FormTitle{
+ 	line-height:160%;
+ 	font-size:12px;
+-	font-family:Arial, Verdana, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Verdana, Helvetica, sans-serif;
+ 	color:white;
+ 	position:relative
+ }
+@@ -467,12 +467,12 @@ table.fields {
+ /*Viz Add  20120709   --- start */
+ .DescTable{
+ 	font-size:12px;
+-	font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Helvetica, sans-serif;
+ 	border: 1px solid #000000;
+ 	border-collapse: collapse;
+ }
+ .DescTable th{
+-	font-family:Arial, Helvetica, MS UI Gothic, MS P Gothic, Microsoft Yahei UI, sans-serif;
++	font-family:Arial, Helvetica, sans-serif;
+ 	color:#FFFFFF	;
+ 	font-weight:normal;
+ 	line-height:15px;
+-- 
+2.25.1
+

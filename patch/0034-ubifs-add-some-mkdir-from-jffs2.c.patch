@@ -1,0 +1,30 @@
+From 70e0644a8ca11c3fc757d8a728b16169345fcceb Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Tue, 26 May 2020 00:42:19 +0800
+Subject: [PATCH 034/122] ubifs: add some mkdir from jffs2.c
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/rc/ubifs.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/release/src/router/rc/ubifs.c b/release/src/router/rc/ubifs.c
+index 9b91a0138c..9fad75fcd2 100644
+--- a/release/src/router/rc/ubifs.c
++++ b/release/src/router/rc/ubifs.c
+@@ -306,6 +306,12 @@ void start_ubifs(void)
+ 		_dprintf("%s: bind mount " UBIFS_MNT_DIR "/firmware fail! (r = %d)\n", __func__, r);
+ #endif
+ 
++	if (!check_if_dir_exist("/jffs/scripts/")) mkdir("/jffs/scripts/", 0755);
++	if (!check_if_dir_exist("/jffs/configs/")) mkdir("/jffs/configs/", 0755);
++	if (!check_if_dir_exist("/jffs/addons/")) mkdir("/jffs/addons/", 0755);
++	if (!check_if_dir_exist(UPLOAD_CERT_FOLDER)) mkdir(UPLOAD_CERT_FOLDER, 0600);
++
++	adjust_jffs_content();
+ }
+ 
+ void stop_ubifs(int stop)
+-- 
+2.25.1
+

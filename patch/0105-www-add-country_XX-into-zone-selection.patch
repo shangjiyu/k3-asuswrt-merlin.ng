@@ -1,0 +1,97 @@
+From ed0b3213f0adb31bee8f25855332daa1d58ae791 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Tue, 16 Feb 2021 12:46:40 +0800
+Subject: [PATCH 105/122] www: add country_XX into zone selection.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/www/Advanced_WAdvanced_Content.asp         | 4 ++--
+ release/src/router/www/CN.dict                                | 1 +
+ release/src/router/www/EN.dict                                | 1 +
+ release/src/router/www/TW.dict                                | 1 +
+ .../FUNCTION/WL_SCHED_V2/Advanced_WAdvanced_Content.asp       | 4 ++--
+ 5 files changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/release/src/router/www/Advanced_WAdvanced_Content.asp b/release/src/router/www/Advanced_WAdvanced_Content.asp
+index a6cec36b9d..f4dc2babcb 100644
+--- a/release/src/router/www/Advanced_WAdvanced_Content.asp
++++ b/release/src/router/www/Advanced_WAdvanced_Content.asp
+@@ -189,7 +189,7 @@ var EG_mode = ('<% nvram_get("EG_mode"); %>' == 1);
+ if(country_array == undefined)
+ 	country_array = [];
+ 
+-var country_selection_list = [["AA", "<#country_AA#>"], ["CN", "<#country_CN#>"], ["SG", "<#country_SG#>"], ["EU", "<#country_EU#>"], ["KR", "<#country_KR#>"], ["RU", "<#country_RU#>"], ["US", "<#country_US#>"], ["AU", "<#country_AU#>"], ["XX", "<#country_AU#>"]];
++var country_selection_list = [["AA", "<#country_AA#>"], ["CN", "<#country_CN#>"], ["SG", "<#country_SG#>"], ["EU", "<#country_EU#>"], ["KR", "<#country_KR#>"], ["RU", "<#country_RU#>"], ["US", "<#country_US#>"], ["AU", "<#country_AU#>"], ["XX", "<#country_XX#>"]];
+ var country_selection_array = new Array();
+ var _AU1_support = false;
+ var _AU2_support = false;
+@@ -237,7 +237,7 @@ if(country_array.indexOf("XX") != -1){
+ }
+ 
+ if(_AU1_support && _AU2_support){
+-	country_array.splice(_AU1_index, 1);
++	//country_array.splice(_AU1_index, 1);
+ }
+ 
+ for(i=0;i<country_selection_list.length;i++){
+diff --git a/release/src/router/www/CN.dict b/release/src/router/www/CN.dict
+index da6a5c2686..0bd78b35ea 100644
+--- a/release/src/router/www/CN.dict
++++ b/release/src/router/www/CN.dict
+@@ -1582,6 +1582,7 @@ Connections=连接
+ ConnectionStatus=互联网状态
+ country_AA=亚洲
+ country_AU=澳大利亚
++country_XX=澳大利亚XX
+ country_CN=中国
+ country_EU=欧洲
+ country_KR=韩国
+diff --git a/release/src/router/www/EN.dict b/release/src/router/www/EN.dict
+index 551f9c1671..0bbb189bf2 100644
+--- a/release/src/router/www/EN.dict
++++ b/release/src/router/www/EN.dict
+@@ -1582,6 +1582,7 @@ Connections=Connections
+ ConnectionStatus=Connection status
+ country_AA=Asia
+ country_AU=Australia
++country_XX=AustraliaXX
+ country_CN=China
+ country_EU=Europe
+ country_KR=Korea
+diff --git a/release/src/router/www/TW.dict b/release/src/router/www/TW.dict
+index ad8ad472cf..e8a9b222b9 100644
+--- a/release/src/router/www/TW.dict
++++ b/release/src/router/www/TW.dict
+@@ -1582,6 +1582,7 @@ Connections=連接
+ ConnectionStatus=網際網路狀態
+ country_AA=亞洲
+ country_AU=澳大利亞
++country_XX=澳大利亞XX
+ country_CN=中國
+ country_EU=歐洲
+ country_KR=南韓
+diff --git a/release/src/router/www/sysdep/FUNCTION/WL_SCHED_V2/Advanced_WAdvanced_Content.asp b/release/src/router/www/sysdep/FUNCTION/WL_SCHED_V2/Advanced_WAdvanced_Content.asp
+index 155bffe0ac..ac5b874d20 100644
+--- a/release/src/router/www/sysdep/FUNCTION/WL_SCHED_V2/Advanced_WAdvanced_Content.asp
++++ b/release/src/router/www/sysdep/FUNCTION/WL_SCHED_V2/Advanced_WAdvanced_Content.asp
+@@ -156,7 +156,7 @@ var EG_mode = ('<% nvram_get("EG_mode"); %>' == 1);
+ if(country_array == undefined)
+ 	country_array = [];
+ 
+-var country_selection_list = [["AA", "<#country_AA#>"], ["CN", "<#country_CN#>"], ["SG", "<#country_SG#>"], ["EU", "<#country_EU#>"], ["KR", "<#country_KR#>"], ["RU", "<#country_RU#>"], ["US", "<#country_US#>"], ["AU", "<#country_AU#>"], ["XX", "<#country_AU#>"]];
++var country_selection_list = [["AA", "<#country_AA#>"], ["CN", "<#country_CN#>"], ["SG", "<#country_SG#>"], ["EU", "<#country_EU#>"], ["KR", "<#country_KR#>"], ["RU", "<#country_RU#>"], ["US", "<#country_US#>"], ["AU", "<#country_AU#>"], ["XX", "<#country_XX#>"]];
+ var country_selection_array = new Array();
+ var _AU1_support = false;
+ var _AU2_support = false;
+@@ -204,7 +204,7 @@ if(country_array.indexOf("XX") != -1){
+ }
+ 
+ if(_AU1_support && _AU2_support){
+-	country_array.splice(_AU1_index, 1);
++	//country_array.splice(_AU1_index, 1);
+ }
+ 
+ for(i=0;i<country_selection_list.length;i++){
+-- 
+2.25.1
+

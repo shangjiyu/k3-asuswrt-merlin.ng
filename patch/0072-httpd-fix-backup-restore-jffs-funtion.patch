@@ -1,0 +1,44 @@
+From c7928571f1c1d6802d59054c3e866c2eeb9254a5 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Sun, 9 Aug 2020 18:09:20 +0800
+Subject: [PATCH 072/122] httpd: fix backup & restore jffs funtion.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/httpd/web.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/release/src/router/httpd/web.c b/release/src/router/httpd/web.c
+index 927acfc06d..2e04d4ff8a 100644
+--- a/release/src/router/httpd/web.c
++++ b/release/src/router/httpd/web.c
+@@ -20013,7 +20013,7 @@ struct mime_handler mime_handlers[] = {
+ 	{ "change_lang.cgi*", "text/html", no_cache_IE7, do_lang_post, do_lang_cgi, do_auth },
+ 	{ "change_location.cgi*", "text/html", no_cache_IE7, do_html_post_and_get, do_change_location_cgi, do_auth },
+ #endif //TRANSLATE_ON_FLY
+-#if (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2))
++#if (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2) || defined(RTCONFIG_UBIFS))
+ 	{ "backup_jffs.tar", "application/force-download", NULL, NULL, do_jffs_file, do_auth },
+ 	{ "jffsupload.cgi*", "text/html", no_cache_IE7, do_jffsupload_post, do_jffsupload_cgi, do_auth },
+ #endif
+@@ -29950,7 +29950,7 @@ void write_encoded_crt(char *name, char *value){
+ }
+ 
+ 
+-#if (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2))
++#if (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2) || defined(RTCONFIG_UBIFS))
+ 
+ #define JFFS_BACKUP_FILE "/tmp/backup_jffs.tar"
+ 
+@@ -30065,7 +30065,7 @@ err:
+ 
+ 	fcntl(fileno(stream), F_SETOWN, -ret);
+ }
+-#endif // (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2)
++#endif // (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2 || defined(RTCONFIG_UBIFS))
+ 
+ #ifdef RTCONFIG_DNSPRIVACY
+ int
+-- 
+2.25.1
+

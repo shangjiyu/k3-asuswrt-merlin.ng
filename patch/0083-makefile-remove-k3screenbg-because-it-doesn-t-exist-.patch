@@ -1,0 +1,28 @@
+From 39662e4a0d59d170132d728ffb5ffd2b0b76301d Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Thu, 27 Aug 2020 20:00:19 +0800
+Subject: [PATCH 083/122] makefile: remove k3screenbg because it doesn't exist
+ anymore.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/Makefile | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/release/src/router/Makefile b/release/src/router/Makefile
+index a2db26cd93..72dcb7f9e8 100644
+--- a/release/src/router/Makefile
++++ b/release/src/router/Makefile
+@@ -3625,9 +3625,7 @@ k3screenctrl-clean:
+ 
+ k3screenctrl-install: k3screenctrl
+ 	install -D k3screenctrl/src/k3screenctrl $(INSTALLDIR)/k3screenctrl/usr/sbin/k3screenctrl
+-	install -D k3screenctrl/src/k3screenbg $(INSTALLDIR)/k3screenctrl/usr/sbin/k3screenbg
+ 	$(STRIP) $(INSTALLDIR)/k3screenctrl/usr/sbin/k3screenctrl
+-	$(STRIP) $(INSTALLDIR)/k3screenctrl/usr/sbin/k3screenbg
+ 
+ libev-4.22/configure:
+ 	cd libev-4.22 && ./autogen.sh
+-- 
+2.25.1
+

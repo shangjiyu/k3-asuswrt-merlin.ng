@@ -1,0 +1,26 @@
+From 6315f4eed3078233e49b9c0b76c90211877b2938 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Wed, 17 Feb 2021 16:11:03 +0800
+Subject: [PATCH 111/122] rc: replace jffs2_enable with jffs2_on after 386.1_2
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/rc/ubifs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/release/src/router/rc/ubifs.c b/release/src/router/rc/ubifs.c
+index 668b961d3d..629fb6122c 100644
+--- a/release/src/router/rc/ubifs.c
++++ b/release/src/router/rc/ubifs.c
+@@ -122,7 +122,7 @@ static inline int ubifs_erase(int dev, int part)
+ 
+ void start_ubifs(void)
+ {
+-	if (!nvram_match("jffs2_enable", "1")) {
++	if (!nvram_match("jffs2_on", "1")) {
+ 		notice_set("jffs", "");
+ 		return;
+ 	}
+-- 
+2.25.1
+

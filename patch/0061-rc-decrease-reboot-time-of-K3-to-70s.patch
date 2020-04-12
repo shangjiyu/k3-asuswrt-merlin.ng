@@ -1,0 +1,29 @@
+From 5c106fb37c986acdd857bad14f32a10cc4392f3e Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Wed, 15 Jul 2020 01:42:15 +0800
+Subject: [PATCH 061/122] rc: decrease reboot time of K3 to 70s
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/rc/init.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/release/src/router/rc/init.c b/release/src/router/rc/init.c
+index d4642fea22..d6ad4abc55 100644
+--- a/release/src/router/rc/init.c
++++ b/release/src/router/rc/init.c
+@@ -1537,7 +1537,11 @@ misc_defaults(int restore_defaults)
+ 		case MODEL_RTAC5300:
+ 		case MODEL_RTAC88U:
+ 		case MODEL_RTAC3100:
++#ifdef RTK3
++			nvram_set("reboot_time", "70");
++#else
+ 			nvram_set("reboot_time", "140");
++#endif
+ 			break;
+ 		case MODEL_RTAC3200:
+ 		case MODEL_RTAC1200G:
+-- 
+2.25.1
+

@@ -1,0 +1,183 @@
+From 81856a90aa29bf78cd38077bd23d9e4fc32ee6d3 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Wed, 6 May 2020 05:02:26 +0800
+Subject: [PATCH 013/122] rc: init k3screenctrl when start up watchdog:
+ monitoring k3screenctrl & k3screenbg
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/rc/Makefile   |  3 +++
+ release/src/router/rc/init.c     |  3 +++
+ release/src/router/rc/k3.c       | 29 ++++++++++++++++++++++++--
+ release/src/router/rc/k3.h       |  4 ++--
+ release/src/router/rc/rc.c       |  6 ++++++
+ release/src/router/rc/watchdog.c | 35 ++++++++++++++++++++++++++++++++
+ 6 files changed, 76 insertions(+), 4 deletions(-)
+
+diff --git a/release/src/router/rc/Makefile b/release/src/router/rc/Makefile
+index 4321cd5942..168ddf904e 100644
+--- a/release/src/router/rc/Makefile
++++ b/release/src/router/rc/Makefile
+@@ -929,6 +929,9 @@ endif
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc reboot
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc halt
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc netool
++ifeq ($(RTK3),y)
++	@cd $(INSTALLDIR)/sbin && ln -sf rc k3screen
++endif
+ ifeq ($(HND_ROUTER),y)
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc hnd-write
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc hnd-erase
+diff --git a/release/src/router/rc/init.c b/release/src/router/rc/init.c
+index ec3c06c8f7..d4642fea22 100644
+--- a/release/src/router/rc/init.c
++++ b/release/src/router/rc/init.c
+@@ -15875,6 +15875,9 @@ _dprintf("%s %d turnning on power on ethernet here\n", __func__, __LINE__);
+ #ifndef RTCONFIG_LANTIQ
+ 			nvram_set("success_start_service", "1");
+ 			force_free_caches();
++#ifdef RTK3
++			k3_init_done();
++#endif
+ #endif
+ 
+ 			extern int start_misc_services(void);
+diff --git a/release/src/router/rc/k3.c b/release/src/router/rc/k3.c
+index eaa667f042..faf8077d6a 100644
+--- a/release/src/router/rc/k3.c
++++ b/release/src/router/rc/k3.c
+@@ -13,8 +13,6 @@
+  * along with this program; if not, write to the Free Software
+  * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+  * MA 02111-1307 USA
+- *
+- *
+  */
+ #include <stdio.h>
+ #include <stdlib.h>
+@@ -32,9 +30,36 @@ void k3_init()
+ {
+ 	if (!nvram_get("modelname"))
+ 		nvram_set("modelname", "K3");
++	if (!nvram_get("screen_timeout"))
++		nvram_set("screen_timeout", "30");
+ 	nvram_commit();
+ }
+ 
++void k3_init_done()
++{
++	start_k3screen();
++}
++
++void start_k3screen(void)
++{
++	char timeout[6];
++	int time = nvram_get_int("screen_timeout");
++	snprintf(timeout, sizeof(timeout), "-m%d", time);
++	char *k3screenctrl_argv[] = {"k3screenctrl", timeout, NULL}; //screen timeout 30sec
++	char *k3screenbg_argv[] = {"k3screenbg", NULL};
++	pid_t pid1, pid2;
++
++	doSystem("killall -q -9 k3screenctrl k3screenbg 2>/dev/null");
++
++	logmessage("K3INIT", "屏幕控制程序开始启动");
++	_dprintf("**** k3screen: start\n");
++	doSystem("mkdir -p /tmp/k3screenctrl");
++	doSystem("ln -snf /lib/k3screenctrl/* /tmp/k3screenctrl");
++	_eval(k3screenctrl_argv, NULL, 0, &pid1);
++	_eval(k3screenbg_argv, NULL, 0, &pid2);
++	_dprintf("**** k3screen: ok\n");
++}
++
+ int GetPhyStatusk3(int verbose)
+ {
+ 	int port[] = { 3, 1, 0, 2 };
+diff --git a/release/src/router/rc/k3.h b/release/src/router/rc/k3.h
+index e85ec4d091..6fd8790b30 100644
+--- a/release/src/router/rc/k3.h
++++ b/release/src/router/rc/k3.h
+@@ -13,9 +13,9 @@
+  * along with this program; if not, write to the Free Software
+  * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+  * MA 02111-1307 USA
+- *
+- *
+  */
+ 
+ extern void k3_init(void);
++extern void k3_init_done(void);
++extern void start_k3screen(void);
+ extern int GetPhyStatusk3(int verbose);
+diff --git a/release/src/router/rc/rc.c b/release/src/router/rc/rc.c
+index c2f950dc74..500c2b8d96 100644
+--- a/release/src/router/rc/rc.c
++++ b/release/src/router/rc/rc.c
+@@ -2264,6 +2264,12 @@ int main(int argc, char **argv)
+ 		_start_telnetd(1);
+ 		return 0;
+ 	}
++#ifdef RTK3
++	else if(!strcmp(base, "k3screen")) {
++		start_k3screen();
++		return 0;
++	}
++#endif
+ #ifdef RTCONFIG_SSH
+ 	else if (!strcmp(base, "run_sshd")) {
+ 		start_sshd();
+diff --git a/release/src/router/rc/watchdog.c b/release/src/router/rc/watchdog.c
+index 4afb77b150..0b09dd50f2 100644
+--- a/release/src/router/rc/watchdog.c
++++ b/release/src/router/rc/watchdog.c
+@@ -6554,6 +6554,38 @@ void dnsmasq_check()
+ #endif
+ }
+ 
++#ifdef RTK3
++void k3screen_check()
++{
++	if ((strcmp(nvram_get("k3screen"), "A")==0) || (strcmp(nvram_get("k3screen"), "a")==0))
++	{
++		if (!pids("phi_speed"))
++			doSystem("phi_speed &");
++		if (!pids("wl_cr"))
++			doSystem("wl_cr &");
++		if (!pids("uhmi"))
++			doSystem("uhmi &");
++	} else {
++		if (!pids("k3screenbg"))
++		{
++			char *k3screend_argv[] = { "k3screenbg", NULL };
++			pid_t pid;
++			_eval(k3screend_argv, NULL, 0, &pid);
++			logmessage("watchdog", "restart k3screenbg");
++		}
++		if (!pids("k3screenctrl")){
++			char timeout[6];
++			int time = nvram_get_int("screen_timeout");
++			snprintf(timeout, sizeof(timeout), "-m%d", time);
++			char *k3screenctrl_argv[] = { "k3screenctrl", timeout, NULL };
++			pid_t pid;
++			_eval(k3screenctrl_argv, NULL, 0, &pid);
++			logmessage("watchdog", "restart k3screenctrl");
++		}
++	}
++}
++#endif
++
+ #ifdef RPAX56
+ void amas_linkctrl()
+ {
+@@ -8915,6 +8947,9 @@ wdp:
+ #ifdef RTCONFIG_NEW_USER_LOW_RSSI
+ 	roamast_check();
+ #endif
++#ifdef RTK3
++	k3screen_check();
++#endif
+ #ifdef RPAX56
+ 	amas_linkctrl();
+ #endif
+-- 
+2.25.1
+

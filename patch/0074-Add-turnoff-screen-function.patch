@@ -1,0 +1,131 @@
+From c11554793caeee8aeeea52e9dd968d6a110f4372 Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Sun, 9 Aug 2020 18:23:14 +0800
+Subject: [PATCH 074/122] Add turnoff screen function.
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/rc/watchdog.c          |  4 ++++
+ release/src/router/shared/defaults.c      |  1 +
+ release/src/router/www/CN.dict            |  1 +
+ release/src/router/www/EN.dict            |  1 +
+ release/src/router/www/TW.dict            |  1 +
+ release/src/router/www/Tools_K3Screen.asp | 25 +++++++++++++++++++++++
+ 6 files changed, 33 insertions(+)
+
+diff --git a/release/src/router/rc/watchdog.c b/release/src/router/rc/watchdog.c
+index da1246797f..6a5ac5b90f 100644
+--- a/release/src/router/rc/watchdog.c
++++ b/release/src/router/rc/watchdog.c
+@@ -6557,6 +6557,10 @@ void dnsmasq_check()
+ #ifdef RTK3
+ void k3screen_check()
+ {
++	if (nvram_match("screen_enable", "0"))
++	{
++		return;
++	}
+ 	if (!pids("k3screenbg"))
+ 	{
+ 		char *k3screend_argv[] = { "k3screenbg", NULL };
+diff --git a/release/src/router/shared/defaults.c b/release/src/router/shared/defaults.c
+index 4b87e85b8e..48b9aed481 100644
+--- a/release/src/router/shared/defaults.c
++++ b/release/src/router/shared/defaults.c
+@@ -4259,6 +4259,7 @@ struct nvram_tuple router_defaults[] = {
+ 
+ /* K3-specific settings */
+ #ifdef RTK3
++	{ "screen_enable", "1", CKN_STR1, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
+ 	{ "weather_key", "", CKN_STR32, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
+ 	{ "weather_city", "", CKN_STR20, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
+ 	{ "weather_interval", "14400", CKN_STR5, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
+diff --git a/release/src/router/www/CN.dict b/release/src/router/www/CN.dict
+index 9ae7d598e3..dc938556ac 100644
+--- a/release/src/router/www/CN.dict
++++ b/release/src/router/www/CN.dict
+@@ -4077,6 +4077,7 @@ tools_screen_desc=设置路由器的屏幕。
+ screen_info=屏幕信息
+ mcu_version=MCU固件版本
+ screen_settings=屏幕设置
++screen_switch=启用屏幕
+ weather_key=天气API密钥
+ weather_key_hint=免费在<a style="text-decoration: underline;color:#FC0;" href="https://www.seniverse.com" target="_blank">www.seniverse.com</a>注册心知天气帐号，获取API私钥。
+ weather_city=城市
+diff --git a/release/src/router/www/EN.dict b/release/src/router/www/EN.dict
+index b0eaac339d..c75ddbcc11 100644
+--- a/release/src/router/www/EN.dict
++++ b/release/src/router/www/EN.dict
+@@ -4077,6 +4077,7 @@ tools_screen_desc=Configures the screen of router.
+ screen_info=Screen Infomation
+ mcu_version=MCU Version
+ screen_settings=Screen Settings
++screen_switch=Enable Screen
+ weather_key=Weather API key
+ weather_key_hint=Free signup and get API private key from <a style="text-decoration: underline;color:#FC0;" href="https://www.seniverse.com" target="_blank">www.seniverse.com</a>
+ weather_city=City
+diff --git a/release/src/router/www/TW.dict b/release/src/router/www/TW.dict
+index 2751db9690..ba4ae033bc 100644
+--- a/release/src/router/www/TW.dict
++++ b/release/src/router/www/TW.dict
+@@ -4077,6 +4077,7 @@ tools_screen_desc=設置路由器的屏幕。
+ screen_info=屏幕信息
+ mcu_version=MCU固件版本
+ screen_settings=屏幕設置
++screen_switch=啟用屏幕
+ weather_key=天氣API密鑰
+ weather_key_hint=免費在<a style="text-decoration: underline;color:#FC0;" href="https://www.seniverse.com" target="_blank">www.seniverse.com</a>註冊心知天氣帳號，獲取API私鑰。
+ weather_city=城市
+diff --git a/release/src/router/www/Tools_K3Screen.asp b/release/src/router/www/Tools_K3Screen.asp
+index 70bcf92243..50bf4ddd28 100644
+--- a/release/src/router/www/Tools_K3Screen.asp
++++ b/release/src/router/www/Tools_K3Screen.asp
+@@ -16,6 +16,9 @@
+ <script language="JavaScript" type="text/javascript" src="/validator.js"></script>
+ <script language="JavaScript" type="text/javascript" src="/popup.js"></script>
+ <script language="JavaScript" type="text/javascript" src="/help.js"></script>
++<script language="JavaScript" type="text/javascript" src="/js/jquery.js"></script>
++<script language="JavaScript" type="text/javascript" src="/switcherplugin/jquery.iphone-switch.js"></script>
++<script language="JavaScript" type="text/javascript" src="/js/table/table.js"></script>
+ <script>
+ 
+ function applyRule(){
+@@ -54,6 +57,7 @@ function initial(){
+ <input type="hidden" name="first_time" value="">
+ <input type="hidden" name="preferred_lang" id="preferred_lang" value="<% nvram_get("preferred_lang"); %>">
+ <input type="hidden" name="firmver" value="<% nvram_get("firmver"); %>">
++<input type="hidden" name="screen_enable" value="<% nvram_get("screen_enable"); %>">
+ 
+ <table class="content" align="center" cellpadding="0" cellspacing="0">
+ 	<tr>
+@@ -94,6 +98,27 @@ function initial(){
+ 			<td colspan="2"><#screen_settings#></td>
+ 		</tr>
+ 	</thead>
++        <tr>
++          <th><#screen_switch#></th>
++			<td>
++				<div align="center" class="left" style="width:94px; float:left; cursor:pointer;" id="screen_enable"></div>
++				<div class="iphone_switch_container" style="height:32px; width:74px; position: relative; overflow: hidden">
++					<script type="text/javascript">
++						$('#screen_enable').iphoneSwitch('<% nvram_get("screen_enable"); %>',
++							function(){
++								document.form.screen_enable.value = 1;
++								applyRule();
++							},
++							function(){
++								document.form.screen_enable.value = 0;
++								applyRule();
++							}
++						);
++					</script>
++				</div>
++			</td>
++        </tr>
++
+         <tr>
+           <th><#weather_key#></th>
+           <td>
+-- 
+2.25.1
+

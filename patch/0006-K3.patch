@@ -1,0 +1,282 @@
+From 3726429c62209b887e65fa2d35f780ef00b698bd Mon Sep 17 00:00:00 2001
+From: Rokis <ghost1988102@gmail.com>
+Date: Mon, 13 Apr 2020 21:40:35 +0800
+Subject: [PATCH 006/122] =?UTF-8?q?=E4=BF=AE=E6=AD=A3K3=E7=9A=84=E7=AB=AF?=
+ =?UTF-8?q?=E5=8F=A3=E4=BF=A1=E6=81=AF=E5=8F=8A=E9=A1=BA=E5=BA=8F=20Fix=20?=
+ =?UTF-8?q?port=20info=20for=20K3?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Rokis <ghost1988102@gmail.com>
+---
+ release/src/router/httpd/web.c                |  4 ++
+ release/src/router/rc/Makefile                |  7 ++
+ release/src/router/rc/ate.c                   |  7 ++
+ release/src/router/rc/k3.c                    | 71 +++++++++++++++++++
+ release/src/router/rc/k3.h                    | 20 ++++++
+ release/src/router/rc/rc.c                    | 16 +++++
+ release/src/router/rc/sysdeps/init-broadcom.c |  4 ++
+ release/src/router/rc/watchdog.c              |  8 +++
+ 8 files changed, 137 insertions(+)
+ create mode 100644 release/src/router/rc/k3.c
+ create mode 100644 release/src/router/rc/k3.h
+
+diff --git a/release/src/router/httpd/web.c b/release/src/router/httpd/web.c
+index 3cd2e42b7a..6e03d0b44b 100644
+--- a/release/src/router/httpd/web.c
++++ b/release/src/router/httpd/web.c
+@@ -28348,7 +28348,11 @@ ej_get_wan_lan_status(int eid, webs_t wp, int argc, char **argv)
+ 	struct json_object *wanLanLinkSpeed = NULL;
+ 	struct json_object *wanLanCount = NULL;
+ 
++#ifdef RTK3
++	fp = popen("rc Get_PhyStatus", "r");
++#else
+ 	fp = popen("ATE Get_WanLanStatus", "r");
++#endif
+ 	if (fp == NULL)
+ 		goto error;
+ 
+diff --git a/release/src/router/rc/Makefile b/release/src/router/rc/Makefile
+index 094638da64..4321cd5942 100644
+--- a/release/src/router/rc/Makefile
++++ b/release/src/router/rc/Makefile
+@@ -294,6 +294,10 @@ OBJS += netool.o linklist.o
+ LDFLAGS += -lpthread
+ endif
+ 
++ifeq ($(RTK3),y)
++OBJS += k3.o
++endif
++
+ ifeq ($(RTAC1200G),y)
+ OBJS += mtd_sflash.o
+ else
+@@ -1198,6 +1202,9 @@ endif
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc get_phy_status
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc get_phy_speed
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc GetPhyStatus
++ifeq ($(RTK3),y)
++	@cd $(INSTALLDIR)/sbin && ln -sf rc Get_PhyStatus
++endif
+ ifeq ($(HND_ROUTER),y)
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc set_ex53134_ctrl
+ 	@cd $(INSTALLDIR)/sbin && ln -sf rc set_phy_ctrl
+diff --git a/release/src/router/rc/ate.c b/release/src/router/rc/ate.c
+index 3a40d9befb..9fa057e07f 100644
+--- a/release/src/router/rc/ate.c
++++ b/release/src/router/rc/ate.c
+@@ -18,6 +18,9 @@
+ #ifdef RTCONFIG_QCA_PLC_UTILS
+ #include <plc_utils.h>
+ #endif
++#ifdef RTK3
++#include "k3.h"
++#endif
+ 
+ #define MULTICAST_BIT  0x0001
+ #define UNIQUE_OUI_BIT 0x0002
+@@ -2348,8 +2351,12 @@ int asus_ate_command(const char *command, const char *value, const char *value2)
+ 	else if (!strcmp(command, "Get_WanLanStatus")) {
+ #if defined(RTCONFIG_EXT_RTL8365MB) || defined(RTCONFIG_EXT_RTL8370MB)
+ 		GetPhyStatus(1, NULL);
++#else
++#ifdef RTK3
++		if (!GetPhyStatusk3(1) && nvram_match("ATEMODE", "1")) {
+ #else
+ 		if (!GetPhyStatus(1, NULL) && nvram_match(ATE_FACTORY_MODE_STR(), "1")) {
++#endif
+ 			puts("ATE_ERROR");
+ 		}
+ #endif
+diff --git a/release/src/router/rc/k3.c b/release/src/router/rc/k3.c
+new file mode 100644
+index 0000000000..e1800d0d16
+--- /dev/null
++++ b/release/src/router/rc/k3.c
+@@ -0,0 +1,71 @@
++/*
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of
++ * the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
++ * MA 02111-1307 USA
++ *
++ *
++ */
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++
++#include "rc.h"
++#include <shared.h>
++#include <shutils.h>
++#include <siutils.h>
++#include <auth_common.h>
++#include "k3.h"
++
++int GetPhyStatusk3(int verbose)
++{
++	int port[] = { 3, 1, 0, 2 };
++	int i, ret, lret = 0, mask;
++	char out_buf[20];
++
++	bzero(out_buf, sizeof(out_buf));
++	for (i = 0; i < 4; i++)
++	{
++		mask = 0;
++		mask |= 0x0001 << port[i];
++		if (get_phy_status(mask) == 0)
++		{ /*Disconnect*/
++			if (i == 0)
++				snprintf(out_buf, sizeof(out_buf), "W0=X;");
++			else
++			{
++				snprintf(out_buf, sizeof(out_buf), "%sL%d=X;", out_buf, i);
++			}
++		}
++		else
++		{ /*Connect, keep check speed*/
++			mask = 0;
++			mask |= (0x0003 << (port[i] * 2));
++			ret = get_phy_speed(mask);
++			ret >>= (port[i] * 2);
++			if (i == 0)
++				snprintf(out_buf, sizeof(out_buf), "W0=%s;", (ret & 2) ? "G" : "M");
++			else
++			{
++				lret = 1;
++				snprintf(out_buf, sizeof(out_buf), "%sL%d=%s;", out_buf, i, (ret & 2) ? "G" : "M");
++			}
++		}
++	}
++
++	if (verbose)
++		puts(out_buf);
++
++	return lret;
++}
+diff --git a/release/src/router/rc/k3.h b/release/src/router/rc/k3.h
+new file mode 100644
+index 0000000000..f07c0688d6
+--- /dev/null
++++ b/release/src/router/rc/k3.h
+@@ -0,0 +1,20 @@
++/*
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of
++ * the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
++ * MA 02111-1307 USA
++ *
++ *
++ */
++
++extern int GetPhyStatusk3(int verbose);
+diff --git a/release/src/router/rc/rc.c b/release/src/router/rc/rc.c
+index c76ee83775..c2f950dc74 100644
+--- a/release/src/router/rc/rc.c
++++ b/release/src/router/rc/rc.c
+@@ -34,6 +34,10 @@
+ #include <sys/reboot.h>
+ #endif
+ 
++#ifdef RTK3
++#include "k3.h"
++#endif
++
+ #ifndef ARRAYSIZE
+ #define ARRAYSIZE(a) (sizeof(a) / sizeof(a[0]))
+ #endif /* ARRAYSIZE */
+@@ -288,12 +292,24 @@ static int rctest_main(int argc, char *argv[])
+ 		setup_passwd();
+ 	}
+ #endif
++#ifdef RTK3
++	else if (strcmp(argv[1], "GetPhyStatus")==0) {
++		printf("Get Phy status:%d\n", GetPhyStatusk3(0));
++	}
++	else if (strcmp(argv[1], "Get_PhyStatus")==0) {
++		GetPhyStatusk3(1);
++	}
++	else if (strcmp(argv[1], "GetExtPhyStatus")==0) {
++		printf("Get Ext Phy status:%d\n", GetPhyStatusk3(atoi(argv[2])));
++	}
++#else
+ 	else if (strcmp(argv[1], "GetPhyStatus")==0) {
+ 		printf("Get Phy status:%d\n", GetPhyStatus(0, NULL));
+ 	}
+ 	else if (strcmp(argv[1], "GetExtPhyStatus")==0) {
+ 		printf("Get Ext Phy status:%d\n", GetPhyStatus(atoi(argv[2]), NULL));
+ 	}
++#endif
+ #ifdef CONFIG_BCMWL5
+ #if defined(RTCONFIG_AMAS) && defined(RTCONFIG_BHCOST_OPT)
+ 	else if (strcmp(argv[1], "linkrate")==0) {
+diff --git a/release/src/router/rc/sysdeps/init-broadcom.c b/release/src/router/rc/sysdeps/init-broadcom.c
+index ec21461d34..9242ede7ed 100644
+--- a/release/src/router/rc/sysdeps/init-broadcom.c
++++ b/release/src/router/rc/sysdeps/init-broadcom.c
+@@ -1395,7 +1395,11 @@ void generate_switch_para(void)
+ 			hw_name = "et1";
+ #else	// RTCONFIG_EXT_RTL8365MB
+ 			/* WAN L1 L2 L3 L4 CPU */	/*vision: WAN L1 L2 L3 L4 */
++#ifdef RTK3
++			int ports[SWPORT_COUNT] = { 3, 1, 0, 2, 4, 5 };
++#else
+ 			int ports[SWPORT_COUNT] = { 4, 3, 2, 1, 0, 5 };
++#endif
+ 			hw_name = "et0";
+ #endif
+ 			int wancfg = (!nvram_match("switch_wantag", "none")&&!nvram_match("switch_wantag", "")&&!nvram_match("switch_wantag", "hinet")) ? SWCFG_DEFAULT : cfg;
+diff --git a/release/src/router/rc/watchdog.c b/release/src/router/rc/watchdog.c
+index 4f5665a7ae..4afb77b150 100644
+--- a/release/src/router/rc/watchdog.c
++++ b/release/src/router/rc/watchdog.c
+@@ -104,6 +104,10 @@
+ #endif
+ #include <json.h>
+ 
++#ifdef RTK3
++#include "k3.h"
++#endif
++
+ #define BCM47XX_SOFTWARE_RESET	0x40		/* GPIO 6 */
+ #define RESET_WAIT		2		/* seconds */
+ #define RESET_WAIT_COUNT	RESET_WAIT * 10 /* 10 times a second */
+@@ -5106,8 +5110,12 @@ void fake_etlan_led(void)
+ #if defined(RTAX86U) || defined(RTAX5700)
+ 	phystatus = hnd_get_phy_status("eth5");
+ 	if (!phystatus)
++#else
++#ifdef RTK3
++	phystatus = GetPhyStatusk3(0);
+ #else
+ 	phystatus = GetPhyStatus(0, NULL);
++#endif
+ #if defined(RTCONFIG_EXTPHY_BCM84880)
+ 	if ((nvram_get_int("wans_extwan") && !(phystatus & 0x3e)) || // configure 2.5G port as WAN, need to consider 1G WAN connectivity
+ 			(!nvram_get_int("wans_extwan") && !(phystatus & 0x1e)))  // configure 2.5G port as LAN, ignore 2.5G port
+-- 
+2.25.1
+
