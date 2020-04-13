@@ -1,0 +1,12 @@
+diff a/release/src/router/rc/watchdog.c b/release/src/router/rc/watchdog.c	(rejected hunks)
+@@ -104,6 +104,10 @@
+ #endif
+ #include <json.h>
+ 
++#ifdef RTK3
++#include "k3.h"
++#endif
++
+ #define BCM47XX_SOFTWARE_RESET	0x40		/* GPIO 6 */
+ #define RESET_WAIT		2		/* seconds */
+ #define RESET_WAIT_COUNT	RESET_WAIT * 10 /* 10 times a second */
