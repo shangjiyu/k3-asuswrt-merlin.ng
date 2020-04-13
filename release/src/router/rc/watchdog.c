@@ -109,6 +109,10 @@
 #endif
 #include <json.h>
 
+#ifdef RTK3
+#include "k3.h"
+#endif
+
 #if defined(RTCONFIG_QCA_PLC_UTILS) || defined(RTCONFIG_QCA_PLC2)
 #include <plc_utils.h>
 #endif
@@ -5512,8 +5516,11 @@ void fake_etlan_led(void)
 	phystatus = hnd_get_phy_status("eth5");
 	if (!phystatus)
 #else
+#ifdef RTK3
+	phystatus = GetPhyStatusk3(0);
+#else
 	phystatus = GetPhyStatus(0, NULL);
-
+#endif
 #if defined(RTCONFIG_EXTPHY_BCM84880) && !defined(BCM4912)
 	if ((nvram_get_int("wans_extwan") && !(phystatus & 0x3e)) || // configure 2.5G port as WAN, need to consider 1G WAN connectivity
 			(!nvram_get_int("wans_extwan") && !(phystatus & 0x1e)))  // configure 2.5G port as LAN, ignore 2.5G port
