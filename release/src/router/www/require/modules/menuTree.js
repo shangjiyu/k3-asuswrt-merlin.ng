@@ -8,9 +8,9 @@ define(function(){
 				index: "Assign an index to this menu, it is also used for filtering",
 				tab: [
 					{
-						url: "Put url here", 
+						url: "Put url here",
 						tabName: "
-								Assign a title for this tab, leave this field empty to bypass this tab, 
+								Assign a title for this tab, leave this field empty to bypass this tab,
 								fill in '__HIDE__' to hide the tab switcher,
 								fill in '__INHERIT__' to inhert tab index from referred page.
 						"
@@ -20,19 +20,19 @@ define(function(){
 			*/
 			{
 				menuName: "<#QIS#>",
-				index: "menu_QIS", 
+				index: "menu_QIS",
 				tab: [
 					{url: "QIS_wizard.htm", tabName: "__HIDE__"},
 					{url: "NULL", tabName: "__INHERIT__"}
-				] 
+				]
 			},
 			/* ============================================================================================================ */
 			{
 				menuName: "<#menu5_1_1#>",
-				index: "menu_Split", 
+				index: "menu_Split",
 				tab: [
 					{url: "NULL", tabName: "__HIDE__"}
-				] 
+				]
 			},
 			{
 				menuName: "<#menu1#>",
@@ -41,7 +41,7 @@ define(function(){
 					{url: "<% networkmap_page(); %>", tabName: "__HIDE__"},
 					{url: "NULL", tabName: "__INHERIT__"}
 				]
-			}, 
+			},
 			{
 				menuName: "AiMesh",
 				index: "menu_AiMesh", 
@@ -129,19 +129,19 @@ define(function(){
 					{url: "Main_TrafficMonitor_devmonthly.asp", tabName: "__INHERIT__"},
 					{url: "AdaptiveQoS_TrafficLimiter.asp", tabName: "Traffic Limiter"},
 					{url: "NULL", tabName: "__INHERIT__"}
-				] 
+				]
 			},
 			{
 				menuName: "<#Game_Boost#>",
-				index: "menu_GameBoost", 
+				index: "menu_GameBoost",
 				tab: [
 					{url: "GameBoost.asp", tabName: "<#Game_Boost#>"},
 					{url: "NULL", tabName: "__INHERIT__"}
-				] 
+				]
 			},
 			{
 				menuName: "<#Menu_usb_application#>",
-				index: "menu_APP", 
+				index: "menu_APP",
 				tab: [
 					{url: "APP_Installation.asp", tabName: "__HIDE__"},
 					{url: "aidisk.asp", tabName: "__INHERIT__"},
@@ -154,11 +154,11 @@ define(function(){
 					{url: "Advanced_TimeMachine.asp", tabName: "__INHERIT__"},
 					{url: "fileflex.asp", tabName: "__INHERIT__"},
 					{url: "NULL", tabName: "__INHERIT__"}
-				] 
+				]
 			},
 			{
 				menuName: "<#AiCloud_Title#>",
-				index: "menu_AiCloud", 
+				index: "menu_AiCloud",
 				tab: [
 					{url: "cloud_main.asp", tabName: "AiCloud 2.0"},
 					{url: "cloud_sync.asp", tabName: "<#smart_sync#>"},
@@ -166,16 +166,17 @@ define(function(){
 					{url: "cloud_settings.asp", tabName: "<#Settings#>"},
 					{url: "cloud_syslog.asp", tabName: "<#Log#>"},
 					{url: "NULL", tabName: "__INHERIT__"}
-				] 
+				]
 			},
 			{
 				menuName: "Tools",
 				index: "menu_Tools",
 				tab: [
-					{url: "Tools_Sysinfo.asp", tabName: "Sysinfo"},
-					{url: "Tools_OtherSettings.asp", tabName: "Other Settings"},
+					{url: "Tools_Sysinfo.asp", tabName: "<#Sysinfo#>"},
+					{url: "Tools_OtherSettings.asp", tabName: "<#Other_Settings#>"},
+					{url: "Tools_K3Screen.asp", tabName: "<#K3Screen#>"},
 					{url: "NULL", tabName: "__INHERIT__"}
-				] 
+				]
 			},
 			/* ============================================================================================================ */
 			{
@@ -183,7 +184,7 @@ define(function(){
 				index: "menu_Split",
 				tab: [
 					{url: "NULL", tabName: "__HIDE__"}
-				] 
+				]
 			},
 			{
 				menuName: "<#menu5_1#>",
@@ -199,7 +200,7 @@ define(function(){
 					{url: "Advanced_Roaming_Block_Content.asp", tabName: "<#WiFi_Roaming_Block_List#>"},
 					{url: "Advanced_Wireless_Survey.asp", tabName: "Site Survey"},
 					{url: "NULL", tabName: "__INHERIT__"}
-				] 
+				]
 			},
 			{
 				menuName: "<#menu5_2#>",
@@ -214,7 +215,7 @@ define(function(){
 					{url: "Advanced_IPTV_Content.asp", tabName: "IPTV"},
 					{url: "Advanced_SwitchCtrl_Content.asp", tabName: "<#Switch_itemname#>"},
 					{url: "NULL", tabName: "__INHERIT__"}
-				] 
+				]
 			},
 			{
 				menuName: "<#menu5_3#>",
@@ -254,7 +255,7 @@ define(function(){
 			},
 			{
 				menuName: "VPN",
-				index: "menu_VPN", 
+				index: "menu_VPN",
 				tab: [
 					{url: "Advanced_VPNStatus.asp", tabName: "VPN Status"},
 					{url: "Advanced_VPN_OpenVPN.asp", tabName: "<#BOP_isp_heart_item#>"},
@@ -274,7 +275,7 @@ define(function(){
 					{url: "Advanced_BasicFirewall_Content.asp", tabName: "<#menu5_1_1#>"},
 					{url: "Advanced_URLFilter_Content.asp", tabName: "<#menu5_5_2#>"},
 					{url: "Advanced_KeywordFilter_Content.asp", tabName: "<#menu5_5_5#>"},
-					{url: "Advanced_Firewall_Content.asp", tabName: "<#menu5_5_4#>"},		
+					{url: "Advanced_Firewall_Content.asp", tabName: "<#menu5_5_4#>"},
 					{url: "NULL", tabName: "__INHERIT__"}
 				]
 			},
@@ -370,7 +371,7 @@ define(function(){
 				if(!networkTool_support){
 					retArray.push("menu_NekworkTool");
 				}
-				
+
 				if(!pptpd_support && !openvpnd_support && !vpnc_support){
 					retArray.push("menu_VPN");
 				}
@@ -486,30 +487,30 @@ define(function(){
 				}
 
 				if(!traffic_analyzer_support){
-					retArray.push("TrafficAnalyzer_Statistic.asp");		
+					retArray.push("TrafficAnalyzer_Statistic.asp");
 				}
 
 				if(!traffic_limiter_support){
-					retArray.push("AdaptiveQoS_TrafficLimiter.asp");		
+					retArray.push("AdaptiveQoS_TrafficLimiter.asp");
 				}
 
 				if(downsize_4m_support){
 					retArray.push("Main_ConnStatus_Content.asp");
 					retArray.push("Main_TrafficMonitor_realtime.asp");
 				}
-				
+
 				if(!pptpd_support){
 					retArray.push("Advanced_VPN_PPTP.asp");
 				}
 
 				if(!openvpnd_support){
 					retArray.push("Advanced_VPN_OpenVPN.asp");
-				}	
+				}
 
 				if(!ipsec_srv_support){
 					retArray.push("Advanced_VPN_IPSec.asp");
 				}
-				
+
 				if(!vpnc_support){
 					retArray.push("Advanced_VPNClient_Content.asp");
 				}
@@ -533,7 +534,7 @@ define(function(){
 				if(noftp_support){
 					retArray.push("Advanced_AiDisk_ftp.asp");
 				}
-				
+
 				if(!dualWAN_support){
 					retArray.push("Advanced_WANPort_Content.asp");
 					retArray.push("Advanced_Modem_Content.asp");
@@ -554,7 +555,7 @@ define(function(){
 				}
 
 				if(!SwitchCtrl_support){
-					retArray.push("Advanced_SwitchCtrl_Content.asp");		
+					retArray.push("Advanced_SwitchCtrl_Content.asp");
 				}
 
 				if(!tr069_support){
@@ -572,7 +573,7 @@ define(function(){
 				if(!smart_connect_support){
 					retArray.push("Advanced_Smart_Connect.asp");
 				}
-				
+
 				if(!adBlock_support){
 					retArray.push("AiProtection_AdBlock.asp");
 				}
@@ -591,10 +592,10 @@ define(function(){
 					retArray.push("Main_AdslStatus_Content.asp");
 					retArray.push("Main_Spectrum_Content.asp");
 				}
-				else{					
+				else{
 					retArray.push("Advanced_WAN_Content.asp");
 					retArray.push("Advanced_VDSL_Content.asp");
-					retArray.push("Advanced_OperationMode_Content.asp");					
+					retArray.push("Advanced_OperationMode_Content.asp");
 					if(!spectrum_support)
 						retArray.push("Main_Spectrum_Content.asp");
 				}
@@ -646,7 +647,7 @@ define(function(){
 				if((!Rawifi_support && ! Rtkwifi_support) || !concurrep_support || !isSwMode("re")){
 					retArray.push("Advanced_WProxy_Content.asp");
 				}
-				
+
 				if(!captivePortal_support) {
 					retArray.push("Captive_Portal.asp");
 					retArray.push("Captive_Portal_Advanced.asp");
@@ -710,7 +711,7 @@ define(function(){
 				}
 				else if(isSwMode("ap")){
 					retArray.push("GameBoost.asp");
-					retArray.push("TrafficAnalyzer_Statistic.asp");	
+					retArray.push("TrafficAnalyzer_Statistic.asp");
 					if(!dhcp_override_support){
 						retArray.push("Advanced_DHCP_Content.asp");
 					}
