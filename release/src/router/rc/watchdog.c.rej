@@ -1,12 +1,50 @@
 diff a/release/src/router/rc/watchdog.c b/release/src/router/rc/watchdog.c	(rejected hunks)
-@@ -104,6 +104,10 @@
+@@ -6554,6 +6554,38 @@ void dnsmasq_check()
  #endif
- #include <json.h>
+ }
  
 +#ifdef RTK3
-+#include "k3.h"
++void k3screen_check()
++{
++	if ((strcmp(nvram_get("k3screen"), "A")==0) || (strcmp(nvram_get("k3screen"), "a")==0))
++	{
++		if (!pids("phi_speed"))
++			doSystem("phi_speed &");
++		if (!pids("wl_cr"))
++			doSystem("wl_cr &");
++		if (!pids("uhmi"))
++			doSystem("uhmi &");
++	} else {
++		if (!pids("k3screenbg"))
++		{
++			char *k3screend_argv[] = { "k3screenbg", NULL };
++			pid_t pid;
++			_eval(k3screend_argv, NULL, 0, &pid);
++			logmessage("watchdog", "restart k3screenbg");
++		}
++		if (!pids("k3screenctrl")){
++			char timeout[6];
++			int time = nvram_get_int("screen_timeout");
++			snprintf(timeout, sizeof(timeout), "-m%d", time);
++			char *k3screenctrl_argv[] = { "k3screenctrl", timeout, NULL };
++			pid_t pid;
++			_eval(k3screenctrl_argv, NULL, 0, &pid);
++			logmessage("watchdog", "restart k3screenctrl");
++		}
++	}
++}
 +#endif
 +
- #define BCM47XX_SOFTWARE_RESET	0x40		/* GPIO 6 */
- #define RESET_WAIT		2		/* seconds */
- #define RESET_WAIT_COUNT	RESET_WAIT * 10 /* 10 times a second */
+ #ifdef RPAX56
+ void amas_linkctrl()
+ {
+@@ -8915,6 +8947,9 @@ wdp:
+ #ifdef RTCONFIG_NEW_USER_LOW_RSSI
+ 	roamast_check();
+ #endif
++#ifdef RTK3
++	k3screen_check();
++#endif
+ #ifdef RPAX56
+ 	amas_linkctrl();
+ #endif
