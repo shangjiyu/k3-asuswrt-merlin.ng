@@ -4641,6 +4641,9 @@ struct nvram_tuple router_defaults[] = {
 	{ "httpd_delay", "100000", CKN_STR7, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
 #endif
 /* End of K3-specific settings */
+	{ "usb2jffs_enable", "0", CKN_STR1, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
+	{ "usb2jffs_rsync", "0", CKN_STR1, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
+	{ "usb2jffs_sync_time", "43200", CKN_STR5, CKN_TYPE_DEFAULT, CKN_ACC_LEVEL_DEFAULT, CKN_ENC_DEFAULT, 0 },
 
 #ifdef RTCONFIG_BCM_OAM
 	//3ah
