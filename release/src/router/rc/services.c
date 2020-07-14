@@ -5783,7 +5783,7 @@ stop_misc(void)
 	if (pids("sw_devled"))
 		killall_tk("sw_devled");
 #endif
-#if defined(RTAC1200G) || defined(RTAC1200GP)
+#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
 	if (pids("wdg_monitor"))
 		killall_tk("wdg_monitor");
 #endif
@@ -10670,7 +10670,7 @@ start_services(void)
 #ifdef SW_DEVLED
 	start_sw_devled();
 #endif
-#if defined(RTAC1200G) || defined(RTAC1200GP)
+#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
 	start_wdg_monitor();
 #endif
 #if defined(CONFIG_BCMWL5) && !defined(HND_ROUTER) && defined(RTCONFIG_DUALWAN)
@@ -11645,7 +11645,7 @@ stop_sw_devled(void)
 }
 #endif
 
-#if defined(RTAC1200G) || defined(RTAC1200GP)
+#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
 void
 stop_wdg_monitor(void)
 {
@@ -11747,7 +11747,7 @@ start_sw_devled(void)
 }
 #endif
 
-#if defined(RTAC1200G) || defined(RTAC1200GP)
+#if defined(RTAC1200G) || defined(RTAC1200GP) || defined(RTK3)
 int
 start_wdg_monitor(void)
 {
