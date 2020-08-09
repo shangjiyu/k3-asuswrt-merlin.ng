@@ -21813,7 +21813,7 @@ struct mime_handler mime_handlers[] = {
 	{ "change_lang.cgi*", "text/html", no_cache_IE7, do_lang_post, do_lang_cgi, do_auth },
 	{ "change_location.cgi*", "text/html", no_cache_IE7, do_html_post_and_get, do_change_location_cgi, do_auth },
 #endif //TRANSLATE_ON_FLY
-#if (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2)) || defined(RTCONFIG_UBIFS)
+#if (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2) || defined(RTCONFIG_UBIFS))
 	{ "backup_jffs.tar", "application/force-download", NULL, NULL, do_jffs_file, do_auth },
 	{ "jffsupload.cgi*", "text/html", no_cache_IE7, do_jffsupload_post, do_jffsupload_cgi, do_auth },
 #endif
@@ -32777,7 +32777,7 @@ void write_encoded_crt(char *name, char *value){
 }
 
 
-#if (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2)) || defined(RTCONFIG_UBIFS)
+#if (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2) || defined(RTCONFIG_UBIFS))
 
 #define JFFS_BACKUP_FILE "/tmp/backup_jffs.tar"
 
@@ -32892,4 +32892,48 @@ err:
 
 	fcntl(fileno(stream), F_SETOWN, -ret);
 }
-#endif // (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2)
+#endif // (defined(RTCONFIG_JFFS2) || defined(RTCONFIG_BRCM_NAND_JFFS2 || defined(RTCONFIG_UBIFS))
+
+#ifdef RTCONFIG_DNSPRIVACY
+int
+ej_get_dnsprivacy_presets(int eid, webs_t wp, int argc, char_t **argv)
+{
+	FILE *fp;
+	char buf[256], *type, *datafile, *ptr, *item, *lsep, *fsep;
+	int ret = 0;
+
+	if (ejArgs(argc, argv, "%s", &type) < 1) {
+		websError(wp, 400, "Insufficient args\n");
+		return -1;
+	}
+
+	if (!strcmp(type, "dot"))
+		datafile = "/rom/dot-servers.dat";
+	else {
+		websError(wp, 400, "Invalid argument\n");
+		return -1;
+	}
+
+	if (!(fp = fopen(datafile, "r")))
+		return 0;
+
+	for (lsep = ""; (ptr = fgets(buf, sizeof(buf), fp)) != NULL;) {
+		buf[sizeof(buf) - 1] = '\0';
+		ptr = strsep(&ptr, "#\n");
+		if (*ptr == '\0')
+			continue;
+
+		ret += websWrite(wp, "%s[", lsep);
+		for (fsep = ""; (item = strsep(&ptr, ",")) != NULL;) {
+			ret += websWrite(wp, "%s\"%s\"", fsep, item);
+			fsep = ",";
+		}
+		ret += websWrite(wp, "]");
+		lsep = ",";
+	}
+	fclose(fp);
+
+	return ret;
+}
+#endif
+
