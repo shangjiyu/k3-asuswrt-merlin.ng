@@ -7104,6 +7104,10 @@ void dnsmasq_check()
 #ifdef RTK3
 void k3screen_check()
 {
+	if (nvram_match("screen_enable", "0"))
+	{
+		return;
+	}
 	if (!pids("k3screenbg"))
 	{
 		char *k3screend_argv[] = { "k3screenbg", NULL };
