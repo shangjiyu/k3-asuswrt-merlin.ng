@@ -290,7 +290,7 @@ function update_traffic() {
 		}
 
 		last_rx = current_rx;
-		if(netdev.INTERNET){
+		if(netdev.INTERNET && netdev.INTERNET.rx != 0){
 			current_rx = netdev.INTERNET.rx;
 		}
 		else{
@@ -311,7 +311,7 @@ function update_traffic() {
 		}
 
 		last_tx = current_tx;
-		if(netdev.INTERNET){
+		if(netdev.INTERNET && netdev.INTERNET.tx != 0){
 			current_tx = netdev.INTERNET.tx;
 		}
 		else{
