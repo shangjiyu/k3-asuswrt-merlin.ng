@@ -376,7 +376,7 @@ function gen_custom_select(_location){
 				$selected.click();
 			}
 		);
-		
+
 		$selectItem.appendTo($selectListHide);
 	});
 }
@@ -2231,12 +2231,56 @@ function display_manage_block(){
 						$("#manage_block").find(".manage_lacp #lacp_icon").show();
 					else
 						$("#manage_block").find(".manage_lacp #lacp_icon").hide();
-				}
-				else{
-					$("#manage_block").find(".manage_lacp #lacp_icon").removeClass("hover_pop_hint");
-					$("#manage_block").find(".manage_lacp").find(".hover_pop_hint_bg").remove();
-					$("#manage_block").find(".manage_lacp").hide();
-				}
+				});
+				$("#manage_block").find(".manage_lacp").find(".hover_pop_hint_bg").remove();
+				var hint_parm = {
+					"text": "<#NAT_lacp_note#>",
+					"css": "lacp_icon"
+				};
+				$("#manage_block").find(".manage_lacp #lacp_icon").removeClass("hover_pop_hint").addClass("hover_pop_hint");
+				$("#manage_block").find(".manage_lacp #lacp_icon").after(gen_hint_component(hint_parm));
+				if(lacp.value == "1")
+					$("#manage_block").find(".manage_lacp #lacp_icon").show();
+				else
+					$("#manage_block").find(".manage_lacp #lacp_icon").hide();
+			}
+			else{
+				$("#manage_block").find(".manage_lacp #lacp_icon").removeClass("hover_pop_hint");
+				$("#manage_block").find(".manage_lacp").find(".hover_pop_hint_bg").remove();
+				$("#manage_block").find(".manage_lacp").hide();
+			}
+
+			$("#manage_block").find(".manage_screen").show();
+			$("#manage_block").find(".manage_screen #screen").unbind("click");
+			$("#manage_block").find(".manage_screen #screen").click(function(e){
+				closeAllSelect();
+				e = e || event;
+				e.stopPropagation();
+				var url = "http://" + specific_node_data.ip + "/Tools_K3Screen.asp";
+				var window_width = 780;
+				var window_height = 650;
+				var window_top = screen.availHeight / 2 - window_height / 2;
+				var window_left = screen.availWidth / 2 - window_width / 2;
+				window.open(url, '_new' ,'width=' + window_width + ',height=' + window_height + ', top=' + window_top + ',left=' + window_left + ',menubar=no,scrollbars=yes,toolbar=no,resizable=no,status=no,location=no');
+			});
+
+			if(select_node_capability.usb){
+				$("#manage_block").find(".manage_usb_app").show();
+				$("#manage_block").find(".manage_usb_app #usb_app").unbind("click");
+				$("#manage_block").find(".manage_usb_app #usb_app").click(function(e){
+					closeAllSelect();
+					e = e || event;
+					e.stopPropagation();
+					var url = httpApi.aimesh_get_win_open_url(specific_node_data, "APP_Installation.asp");
+					var window_width = 780;
+					var window_height = 650;
+					var window_top = screen.availHeight / 2 - window_height / 2;
+					var window_left = screen.availWidth / 2 - window_width / 2;
+					window.open(url, '_new' ,'width=' + window_width + ',height=' + window_height + ', top=' + window_top + ',left=' + window_left + ',menubar=no,scrollbars=yes,toolbar=no,resizable=no,status=no,location=no');
+				});
+			}
+			else
+				$("#manage_block").find(".manage_usb_app").hide();
 
 				if(select_node_capability.usb){
 					$("#manage_block").find(".manage_usb_app").show();
@@ -3505,7 +3549,7 @@ function initial_AiMesh(){
 		closeAllSelect(event);
 		closeAllPopup(event);
 	});
-	
+
 	$("#jstree").jstree({
 		"core" : {'data' : get_topology_data()},
 		"plugins" : [ "noclose", "wholerow", "node_customize", "sort"],
@@ -3607,9 +3651,9 @@ function initial_AiMesh(){
 				}
 				else
 					$node_icon.find(".cssload-bellContainer").empty();
-				
+
 				$node_connect_type.css("margin-left", ( (($(el).attr('aria-level')-1)*60) + "px") );//node margin-left
-				
+
 				$(el).addClass("level_" + $(el).attr('aria-level') + "");
 
 				if(node.parent == "#"){//cap
@@ -3750,7 +3794,7 @@ function initial_AiMesh(){
 		$("#aimesh_hint_msg").show();
 		adjust_panel_block_top("aimesh_hint_msg", 100);
 	});
-	
+
 	interval_tree_update = setInterval(function(){
 		interval_tree_update_count++;
 		if(interval_tree_update_count >= interval_tree_update_maxi)//release the memory of browser
@@ -4252,7 +4296,7 @@ $(document).ready(initial_AiMesh);
 			<div class="fronthaul_content"></div>
 		</div>
 	</div>
-	
+
 	<div id="manage_block" class="category_block">
 		<div class="manage_info">
 			<div class="card_block_bg manage_settings_bg manage">
@@ -4316,6 +4360,13 @@ $(document).ready(initial_AiMesh);
 						</div>
 					</div>
 					<div class="manage_sub_item_bg"></div>
+				</div>
+
+				<div class="manage_screen horizontal_line manage_function_item">
+					<div class="manage_common_title manage_common_separate_bg left"><#screen_settings#></div>
+					<div class="manage_common_separate_bg right">
+						<div id="screen" class="arrow_right_icon"></div>
+					</div>
 				</div>
 
 				<div class="manage_usb_app horizontal_line manage_function_item">
