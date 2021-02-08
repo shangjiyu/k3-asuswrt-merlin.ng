@@ -14604,9 +14604,6 @@ int init_nvram(void)
 #endif
 	case MODEL_RTAC88U:
 	case MODEL_RTAC3100:
-#ifdef RTK3
-		k3_init();
-#endif
 		ldo_patch();
 
 		set_tcode_misc();
@@ -18432,6 +18429,10 @@ def_boot_reinit:
 		init_nvram();	//refill nvram parameters after restore	
 	}
 	init_nvram2();
+#ifdef RTK3
+	k3_init();
+#endif
+
 #ifdef RPAX56
 	if(def_boot) {
 		reset_psr_hwaddr();
