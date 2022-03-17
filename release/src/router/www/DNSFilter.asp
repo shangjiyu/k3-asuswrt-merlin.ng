@@ -228,7 +228,6 @@ function applyRule(){
 		    ( document.form.dnsfilter_custom63.value != "" && !validator.isLegal_ipv6(document.form.dnsfilter_custom63)))
 			return false;
 	}
-
 	if (isSupport("hnd"))
 		split_clientlist(dnsfilter_rule_list.replace(/&#62/g, ">"));
 	else
