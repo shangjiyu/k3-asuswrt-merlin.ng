@@ -14,6 +14,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
  * MA 02111-1307 USA
  */
+#ifndef __k3_H__
+#define __K3_H__
 
 void envram_set(char *key, char *val);
 void envram_commit(void);
@@ -25,3 +27,5 @@ extern void start_k3screen(void);
 #ifdef RTCONFIG_UUPLUGIN
 void exec_uu_k3(void);
 #endif
+
+#endif	/* __k3_H__ */

@@ -5420,7 +5420,6 @@ void fake_etlan_led(void)
 	if (!phystatus)
 #else
 	phystatus = GetPhyStatus(0, NULL);
-#endif
 
 #if defined(RTCONFIG_EXTPHY_BCM84880) && !defined(BCM4912)
 	if ((nvram_get_int("wans_extwan") && !(phystatus & 0x3e)) || // configure 2.5G port as WAN, need to consider 1G WAN connectivity
